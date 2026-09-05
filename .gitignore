@@ -62,6 +62,9 @@ data/*.db3
 data/staging/*
 !data/staging/.gitkeep
 
+# Fixtures generados para pruebas e2e
+test/fixtures/*.db3
+
 .claude/
 CLAUDE.md
 
