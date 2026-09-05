@@ -1,9 +1,11 @@
-import { INestApplication, ValidationPipe } from '@nestjs/common';
+import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import helmet from 'helmet';
+import { join } from 'path';
 
-export function configureValidation(app: INestApplication): void {
+export function configureValidation(app: NestExpressApplication): void {
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -16,11 +18,24 @@ export function configureValidation(app: INestApplication): void {
   );
 }
 
-export function configureSecurity(app: INestApplication): void {
-  app.use(helmet());
+export function configureSecurity(app: NestExpressApplication): void {
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+          'upgrade-insecure-requests': null,
+        },
+      },
+    }),
+  );
 }
 
-export function configureCors(app: INestApplication): void {
+export function configureStaticAssets(app: NestExpressApplication): void {
+  app.useStaticAssets(join(__dirname, '..', 'public'));
+}
+
+export function configureCors(app: NestExpressApplication): void {
   const configService = app.get(ConfigService);
   const origins = (configService.get<string>('CORS_ORIGINS') ?? '')
     .split(',')
@@ -33,7 +48,7 @@ export function configureCors(app: INestApplication): void {
   });
 }
 
-export function configureSwagger(app: INestApplication): void {
+export function configureSwagger(app: NestExpressApplication): void {
   const configService = app.get(ConfigService);
   const swaggerPath = configService.get<string>('SWAGGER_PATH') ?? 'docs';
 
@@ -48,10 +63,11 @@ export function configureSwagger(app: INestApplication): void {
   SwaggerModule.setup(swaggerPath, app, document);
 }
 
-export function configureApp(app: INestApplication): void {
+export function configureApp(app: NestExpressApplication): void {
   const configService = app.get(ConfigService);
   const apiPrefix = configService.get<string>('API_PREFIX') ?? 'api/v1';
 
+  configureStaticAssets(app);
   app.setGlobalPrefix(apiPrefix);
 
   configureSecurity(app);
