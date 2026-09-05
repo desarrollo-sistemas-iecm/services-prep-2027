@@ -21,15 +21,11 @@ describe('AppController (e2e)', () => {
     await app.close();
   });
 
-  it('/api/v1 (GET) returns the index envelope pointing to the docs', () => {
+  it('/api/v1 (GET) redirects to the docs', () => {
     return request(app.getHttpServer())
       .get('/api/v1')
-      .expect(200)
-      .expect((res) => {
-        const body = res.body as { ok: boolean; data: { docs: string } };
-        expect(body.ok).toBe(true);
-        expect(body.data.docs).toBe('/docs');
-      });
+      .expect(302)
+      .expect('Location', '/docs');
   });
 
   it('/api/v1/health (GET) reports app health', () => {
