@@ -57,6 +57,13 @@ $ pnpm run test:e2e
 $ pnpm run test:cov
 ```
 
+## Use
+
+- GET / → sirve tu public/index.html ("PREP 2027")
+- GET /docs → 200, Swagger UI
+- GET /docs-json → solo expone health y cortes, sin el índice
+- GET /api/v1 → sigue devolviendo el envelope {"ok":true,"msg":"Hello World!","data":{"docs":"/docs"}}
+
 ## Deployment
 
 When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
