@@ -68,4 +68,6 @@ test/fixtures/*.db3
 .claude/
 CLAUDE.md
 
-docs/*
+public/*.html
+public/*.css
+public/*.js
