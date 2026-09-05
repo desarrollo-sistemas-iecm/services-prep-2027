@@ -59,3 +59,6 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 data/*.db3
 
 .claude/
+CLAUDE.md
+
+docs/*
