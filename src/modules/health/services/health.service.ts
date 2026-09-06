@@ -1,8 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as sqlite3 from 'sqlite3';
+import { CorteReleaseEntity } from '../../cortes/entities/corte-release.entity';
+import { CorteStatus } from '../../cortes/enums/corte-status.enum';
 
 export interface HealthCheckResult {
   ok: boolean;
@@ -14,11 +18,63 @@ export interface HealthCheckResult {
   };
 }
 
+export interface LiveCheckResult {
+  ok: boolean;
+  msg: string;
+  data: { status: 'alive' };
+}
+
+export type ReadyCheckResult =
+  | { ok: boolean; msg: string; data: { status: 'waiting_for_first_cut' } }
+  | {
+      ok: boolean;
+      msg: string;
+      data: {
+        status: 'ready';
+        cutId: string;
+        version: string;
+        activatedAt: string;
+      };
+    };
+
 const INTEGRITY_CHECK_TIMEOUT_MS = 3000;
 
 @Injectable()
 export class HealthService {
-  constructor(private readonly configService: ConfigService) {}
+  constructor(
+    private readonly configService: ConfigService,
+    @InjectRepository(CorteReleaseEntity, 'control')
+    private readonly corteReleaseRepository: Repository<CorteReleaseEntity>,
+  ) {}
+
+  live(): LiveCheckResult {
+    return { ok: true, msg: 'ok', data: { status: 'alive' } };
+  }
+
+  async ready(): Promise<ReadyCheckResult> {
+    const active = await this.corteReleaseRepository.findOne({
+      where: { status: CorteStatus.ACTIVATED },
+    });
+
+    if (!active) {
+      return {
+        ok: true,
+        msg: 'Esperando el primer corte',
+        data: { status: 'waiting_for_first_cut' },
+      };
+    }
+
+    return {
+      ok: true,
+      msg: 'La información se obtuvo correctamente.',
+      data: {
+        status: 'ready',
+        cutId: active.cutId,
+        version: active.version,
+        activatedAt: active.updatedAt.toISOString(),
+      },
+    };
+  }
 
   async check(): Promise<HealthCheckResult> {
     const dbPath = path.resolve(
