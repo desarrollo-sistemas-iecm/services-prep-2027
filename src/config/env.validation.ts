@@ -24,4 +24,10 @@ export const envValidationSchema = Joi.object({
   SWAGGER_PATH: Joi.string().min(1).required(),
 
   CORS_ORIGINS: Joi.string().allow('').required(),
+
+  APP_VERSION: Joi.string().min(1).default('unknown'),
+  GIT_COMMIT_BACKEND: Joi.string().min(1).default('unknown'),
+  GIT_COMMIT_FRONTEND: Joi.string().min(1).default('unknown'),
+  BUILD_DATE: Joi.string().min(1).default('unknown'),
+  IMAGE_DIGEST: Joi.string().min(1).default('unknown'),
 });
