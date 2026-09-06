@@ -47,6 +47,9 @@ importers:
       joi:
         specifier: ^18.2.8
         version: 18.2.8
+      multer:
+        specifier: ^2.2.0
+        version: 2.2.0
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
