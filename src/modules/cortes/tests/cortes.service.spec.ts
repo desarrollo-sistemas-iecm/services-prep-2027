@@ -7,6 +7,7 @@ import { DataSource, Repository } from 'typeorm';
 import { CortesService } from '../services/cortes.service';
 import { ManifestVerificationService } from '../services/manifest-verification.service';
 import { SqliteFileValidationService } from '../services/sqlite-file-validation.service';
+import { ActivationService } from '../services/activation.service';
 import { CorteReleaseEntity } from '../entities/corte-release.entity';
 import { CorteStatus } from '../enums/corte-status.enum';
 import { UploadCorteDto } from '../dto/upload-corte.dto';
@@ -22,6 +23,9 @@ describe('CortesService', () => {
   >;
   let sqliteFileValidationService: jest.Mocked<
     Pick<SqliteFileValidationService, 'validate'>
+  >;
+  let activationService: jest.Mocked<
+    Pick<ActivationService, 'scheduleOrActivate'>
   >;
   let stagedFilePath: string;
 
@@ -60,12 +64,16 @@ describe('CortesService', () => {
     sqliteFileValidationService = {
       validate: jest.fn().mockResolvedValue({ valid: true }),
     };
+    activationService = {
+      scheduleOrActivate: jest.fn().mockResolvedValue(undefined),
+    };
 
     service = new CortesService(
       controlDataSource as unknown as DataSource,
       corteReleaseRepository as unknown as Repository<CorteReleaseEntity>,
       manifestVerificationService as unknown as ManifestVerificationService,
       sqliteFileValidationService as unknown as SqliteFileValidationService,
+      activationService as unknown as ActivationService,
     );
   });
 

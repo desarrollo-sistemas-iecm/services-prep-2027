@@ -4,4 +4,5 @@ export enum CorteStatus {
   VALIDATED = 'validated',
   FAILED = 'failed',
   ACTIVATED = 'activated',
+  ARCHIVED = 'archived',
 }

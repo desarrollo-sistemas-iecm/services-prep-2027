@@ -9,6 +9,7 @@ import { CorteStatus } from '../enums/corte-status.enum';
 import { UploadCorteDto } from '../dto/upload-corte.dto';
 import { ManifestVerificationService } from './manifest-verification.service';
 import { SqliteFileValidationService } from './sqlite-file-validation.service';
+import { ActivationService } from './activation.service';
 
 export interface UploadCorteOutcome {
   cutId: string;
@@ -26,6 +27,7 @@ export class CortesService {
     private readonly corteReleaseRepository: Repository<CorteReleaseEntity>,
     private readonly manifestVerificationService: ManifestVerificationService,
     private readonly sqliteFileValidationService: SqliteFileValidationService,
+    private readonly activationService: ActivationService,
   ) {}
 
   async upload(
@@ -117,9 +119,16 @@ export class CortesService {
       return;
     }
 
-    // TODO: activación automática al llegar `activationAt` (intercambio del
-    // DataSource 'resultados') queda fuera de esta entrega — ver contrato.
     await this.transitionStatus(release, CorteStatus.VALIDATED);
+
+    this.activationService
+      .scheduleOrActivate(release.cutId, release.activationAt)
+      .catch((error: Error) => {
+        this.logger.error(
+          `No se pudo programar la activación de ${release.cutId}`,
+          error.stack,
+        );
+      });
   }
 
   private async transitionStatus(

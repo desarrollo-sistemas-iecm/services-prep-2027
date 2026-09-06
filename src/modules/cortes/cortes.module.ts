@@ -9,6 +9,7 @@ import { JwtDifusorGuard } from './guards/jwt-difusor.guard';
 import { CortesService } from './services/cortes.service';
 import { ManifestVerificationService } from './services/manifest-verification.service';
 import { SqliteFileValidationService } from './services/sqlite-file-validation.service';
+import { ActivationService } from './services/activation.service';
 
 @Module({
   imports: [
@@ -35,7 +36,9 @@ import { SqliteFileValidationService } from './services/sqlite-file-validation.s
     CortesService,
     ManifestVerificationService,
     SqliteFileValidationService,
+    ActivationService,
     JwtDifusorGuard,
   ],
+  exports: [ActivationService],
 })
 export class CortesModule {}
