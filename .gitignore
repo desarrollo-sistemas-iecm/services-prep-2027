@@ -71,5 +71,11 @@ CLAUDE.md
 public/*.html
 public/*.css
 public/*.js
+public/*.txt
+public/*.png
+public/*.ts
+public/*.gif
+public/favicon.ico
+public/assets/
 
 docs/
