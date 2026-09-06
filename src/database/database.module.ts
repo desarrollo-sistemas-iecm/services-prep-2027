@@ -18,7 +18,11 @@ import { RESULTADOS_LEGACY_ENTITIES } from '../modules/resultados-legacy/resulta
         database: configService.getOrThrow<string>('CONTROL_DB_STORAGE'),
         entities: [CorteReleaseEntity, BitacoraEntryEntity],
         migrations: [__dirname + '/migrations/*{.ts,.js}'],
-        migrationsRun: false,
+        // `control.db3` es interno de esta app (no un dataset externo como
+        // `resultados`) — corre migraciones automáticamente al conectar para
+        // que el contenedor arranque solo sobre un volumen vacío, sin un
+        // paso manual de `pnpm run migration:run`.
+        migrationsRun: true,
         synchronize: false,
         logging: configService.get<string>('DB_LOGGING') === 'true',
       }),
