@@ -7,6 +7,7 @@ import { envValidationSchema } from './config/env.validation';
 import { DatabaseModule } from './database/database.module';
 import { HealthModule } from './modules/health/health.module';
 import { ResultadosLegacyModule } from './modules/resultados-legacy/resultados-legacy.module';
+import { ResultadosExplotacionModule } from './modules/resultados-explotacion/resultados-explotacion.module';
 import { CortesModule } from './modules/cortes/cortes.module';
 
 @Module({
@@ -19,6 +20,7 @@ import { CortesModule } from './modules/cortes/cortes.module';
     DatabaseModule,
     HealthModule,
     ResultadosLegacyModule,
+    ResultadosExplotacionModule,
     CortesModule,
   ],
   controllers: [AppController],
