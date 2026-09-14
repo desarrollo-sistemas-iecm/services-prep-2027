@@ -10,6 +10,7 @@ import { HealthModule } from './modules/health/health.module';
 import { ResultadosLegacyModule } from './modules/resultados-legacy/resultados-legacy.module';
 import { ResultadosExplotacionModule } from './modules/resultados-explotacion/resultados-explotacion.module';
 import { CortesModule } from './modules/cortes/cortes.module';
+import { ExportacionIneModule } from './modules/exportacion-ine/exportacion-ine.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { CortesModule } from './modules/cortes/cortes.module';
     ResultadosLegacyModule,
     ResultadosExplotacionModule,
     CortesModule,
+    ExportacionIneModule,
   ],
   controllers: [AppController],
   providers: [
