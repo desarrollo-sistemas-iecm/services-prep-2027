@@ -39,6 +39,6 @@ import { ActivationService } from './services/activation.service';
     ActivationService,
     JwtDifusorGuard,
   ],
-  exports: [ActivationService],
+  exports: [ActivationService, CortesService],
 })
 export class CortesModule {}
