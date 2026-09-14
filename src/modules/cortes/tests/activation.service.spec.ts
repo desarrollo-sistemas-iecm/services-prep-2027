@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
 import { ConfigService } from '@nestjs/config';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { DataSource, Repository } from 'typeorm';
 import { ActivationService } from '../services/activation.service';
 import { CorteReleaseEntity } from '../entities/corte-release.entity';
@@ -20,6 +21,7 @@ describe('ActivationService', () => {
     query: jest.Mock;
   };
   let configService: { getOrThrow: jest.Mock };
+  let eventEmitter: { emit: jest.Mock };
   let dataDir: string;
   let dbStoragePath: string;
   let stagingDir: string;
@@ -77,12 +79,14 @@ describe('ActivationService', () => {
     };
 
     configService = { getOrThrow: jest.fn().mockReturnValue(dbStoragePath) };
+    eventEmitter = { emit: jest.fn() };
 
     service = new ActivationService(
       controlDataSource as unknown as DataSource,
       corteReleaseRepository as unknown as Repository<CorteReleaseEntity>,
       resultadosDataSource as unknown as DataSource,
       configService as unknown as ConfigService,
+      eventEmitter as unknown as EventEmitter2,
     );
   });
 
@@ -104,6 +108,42 @@ describe('ActivationService', () => {
     expect(resultadosDataSource.destroy).toHaveBeenCalled();
     expect(resultadosDataSource.initialize).toHaveBeenCalled();
     expect(controlDataSource.transaction).toHaveBeenCalled();
+  });
+
+  it('should emit corte.activated with the cutId after a successful activation', async () => {
+    const stagedPath = stageFile('contenido nuevo');
+    const release = buildRelease({ stagedFilePath: stagedPath });
+    corteReleaseRepository.findOne
+      .mockResolvedValueOnce(release)
+      .mockResolvedValueOnce(null);
+
+    await service.activate(release.cutId);
+
+    expect(eventEmitter.emit).toHaveBeenCalledWith('corte.activated', {
+      cutId: release.cutId,
+    });
+  });
+
+  it('should not emit corte.activated when the release is marked failed instead of activated', async () => {
+    fs.writeFileSync(dbStoragePath, 'contenido anterior');
+    const stagedPath = stageFile('contenido nuevo');
+    const release = buildRelease({
+      stagedFilePath: stagedPath,
+      version: '1.0',
+    });
+    const previousActive = buildRelease({
+      id: 2,
+      cutId: 'corte-anterior',
+      version: '1.0',
+      status: CorteStatus.ACTIVATED,
+    });
+    corteReleaseRepository.findOne
+      .mockResolvedValueOnce(release)
+      .mockResolvedValueOnce(previousActive);
+
+    await service.activate(release.cutId);
+
+    expect(eventEmitter.emit).not.toHaveBeenCalled();
   });
 
   it('should archive the previous active file when activating a newer version', async () => {

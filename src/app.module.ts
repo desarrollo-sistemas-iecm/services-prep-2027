@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { ConfigModule } from '@nestjs/config';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 import { AppController } from './app.controller';
 import { envValidationSchema } from './config/env.validation';
 import { DatabaseModule } from './database/database.module';
@@ -17,6 +18,7 @@ import { CortesModule } from './modules/cortes/cortes.module';
       validationSchema: envValidationSchema,
     }),
     ThrottlerModule.forRoot([{ name: 'default', ttl: 60000, limit: 100 }]),
+    EventEmitterModule.forRoot(),
     DatabaseModule,
     HealthModule,
     ResultadosLegacyModule,

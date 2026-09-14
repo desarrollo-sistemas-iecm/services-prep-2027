@@ -1,5 +1,6 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import * as fs from 'fs';
@@ -31,6 +32,7 @@ export class ActivationService implements OnModuleInit {
     @InjectDataSource('resultados')
     private readonly resultadosDataSource: DataSource,
     private readonly configService: ConfigService,
+    private readonly eventEmitter: EventEmitter2,
   ) {}
 
   /**
@@ -166,6 +168,8 @@ export class ActivationService implements OnModuleInit {
           }),
         );
       });
+
+      this.eventEmitter.emit('corte.activated', { cutId: release.cutId });
 
       fs.rmSync(path.dirname(release.stagedFilePath), {
         recursive: true,
