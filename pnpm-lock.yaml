@@ -44,6 +44,9 @@ importers:
       helmet:
         specifier: ^8.3.0
         version: 8.3.0
+      iconv-lite:
+        specifier: ^0.7.3
+        version: 0.7.3
       joi:
         specifier: ^18.2.8
         version: 18.2.8
