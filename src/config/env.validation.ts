@@ -17,6 +17,8 @@ export const envValidationSchema = Joi.object({
   CORTES_MANIFEST_HMAC_SECRET: Joi.string().min(16).required(),
   CORTES_MAX_UPLOAD_MB: Joi.number().positive().default(100),
   CORTES_UPLOAD_RATE_LIMIT: Joi.number().positive().default(5),
+  INE_AJUSTE_ESPERADAS_DIP: Joi.number().integer().default(0),
+  INE_AJUSTE_ESPERADAS_ALC: Joi.number().integer().default(0),
 
   SWAGGER_TITLE: Joi.string().min(1).required(),
   SWAGGER_DESCRIPTION: Joi.string().allow('').default(''),
