@@ -7,6 +7,8 @@ import { CortesService } from '../../cortes/services/cortes.service';
 import { ExportDipService } from './export-dip.service';
 import { ExportAlcService } from './export-alc.service';
 import { crearZipBuffer } from '../utils/zip-buffer.util';
+import { CORTE_ACTIVATED_EVENT } from '../../cortes/events/corte-activated.event';
+import type { CorteActivatedPayload } from '../../cortes/events/corte-activated.event';
 
 interface CacheZipIne {
   cutId: string;
@@ -40,8 +42,8 @@ export class ExportacionIneService implements OnModuleInit {
     }
   }
 
-  @OnEvent('corte.activated')
-  async manejarCorteActivado(payload: { cutId: string }): Promise<void> {
+  @OnEvent(CORTE_ACTIVATED_EVENT)
+  async manejarCorteActivado(payload: CorteActivatedPayload): Promise<void> {
     await this.regenerar(payload.cutId);
   }
 

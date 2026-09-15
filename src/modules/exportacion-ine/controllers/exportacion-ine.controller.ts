@@ -1,5 +1,11 @@
-import { Controller, Get, NotFoundException, StreamableFile } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  NotFoundException,
+  StreamableFile,
+} from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Throttle } from '@nestjs/throttler';
 import { ExportacionIneService } from '../services/exportacion-ine.service';
 
 /**
@@ -13,6 +19,7 @@ export class ExportacionIneController {
   constructor(private readonly exportacionIneService: ExportacionIneService) {}
 
   @Get()
+  @Throttle({ default: { limit: 10, ttl: 60000 } })
   @ApiOperation({
     summary:
       'Descarga el ZIP de resultados en formato INE (Diputaciones + Alcaldías) del corte activo',

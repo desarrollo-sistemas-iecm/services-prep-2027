@@ -7,6 +7,7 @@ import { DataSource, Repository } from 'typeorm';
 import { ActivationService } from '../services/activation.service';
 import { CorteReleaseEntity } from '../entities/corte-release.entity';
 import { CorteStatus } from '../enums/corte-status.enum';
+import { CORTE_ACTIVATED_EVENT } from '../events/corte-activated.event';
 
 describe('ActivationService', () => {
   let service: ActivationService;
@@ -119,7 +120,7 @@ describe('ActivationService', () => {
 
     await service.activate(release.cutId);
 
-    expect(eventEmitter.emit).toHaveBeenCalledWith('corte.activated', {
+    expect(eventEmitter.emit).toHaveBeenCalledWith(CORTE_ACTIVATED_EVENT, {
       cutId: release.cutId,
     });
   });

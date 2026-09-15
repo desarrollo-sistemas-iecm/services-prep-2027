@@ -9,6 +9,10 @@ import { CorteReleaseEntity } from '../entities/corte-release.entity';
 import { BitacoraEntryEntity } from '../entities/bitacora-entry.entity';
 import { CorteStatus } from '../enums/corte-status.enum';
 import { RESULTADOS_LEGACY_TABLE_NAMES } from '../../resultados-legacy/resultados-legacy.module';
+import {
+  CORTE_ACTIVATED_EVENT,
+  CorteActivatedPayload,
+} from '../events/corte-activated.event';
 
 const ARCHIVE_RETENTION = 2;
 
@@ -169,7 +173,9 @@ export class ActivationService implements OnModuleInit {
         );
       });
 
-      this.eventEmitter.emit('corte.activated', { cutId: release.cutId });
+      this.eventEmitter.emit(CORTE_ACTIVATED_EVENT, {
+        cutId: release.cutId,
+      } satisfies CorteActivatedPayload);
 
       fs.rmSync(path.dirname(release.stagedFilePath), {
         recursive: true,

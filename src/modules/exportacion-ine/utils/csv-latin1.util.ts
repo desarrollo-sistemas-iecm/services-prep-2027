@@ -14,7 +14,9 @@ function escaparCampoCsv(valor: string): string {
 export function filaCsv(campos: (string | number | null)[]): Buffer {
   const linea = campos
     .map((campo) =>
-      escaparCampoCsv(campo === null || campo === undefined ? '' : String(campo)),
+      escaparCampoCsv(
+        campo === null || campo === undefined ? '' : String(campo),
+      ),
     )
     .join(',');
   return iconv.encode(`${linea}\n`, 'latin1');
