@@ -57,10 +57,15 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 # Databases
 data/*.db3
+data/**/*.db3
 
 # Staging de cortes subidos por el difusor
 data/staging/*
 !data/staging/.gitkeep
+
+# Assets/archivos de trabajo no versionados
+data/assets/
+data/archive/
 
 # Fixtures generados para pruebas e2e
 test/fixtures/*.db3
