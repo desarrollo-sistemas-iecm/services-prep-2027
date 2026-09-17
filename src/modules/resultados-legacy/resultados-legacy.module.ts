@@ -3,8 +3,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CainCatDelegacionEntity } from './entities/cain-cat-delegacion.entity';
 import { CainCatDistDeleEntity } from './entities/cain-cat-dist-dele.entity';
 import { CainCatDistritoEntity } from './entities/cain-cat-distrito.entity';
-import { CatTipoCasillaEntity } from './entities/cat-tipo-casilla.entity';
-import { ConfiguraEntity } from './entities/configura.entity';
 import { CorteLegacyEntity } from './entities/corte-legacy.entity';
 import { DigActasPrepEntity } from './entities/dig-actas-prep.entity';
 import { NourbanasEntity } from './entities/nourbanas.entity';
@@ -21,14 +19,11 @@ import { ScdParticipantesJdelEntity } from './entities/scd-participantes-jdel.en
 import { ScdParticipantesJgobEntity } from './entities/scd-participantes-jgob.entity';
 import { ScdParticipantesMrEntity } from './entities/scd-participantes-mr.entity';
 import { ScdParticipantesRpEntity } from './entities/scd-participantes-rp.entity';
-import { SedimdeEncSeguimientoEntity } from './entities/sedimde-enc-seguimiento.entity';
 
 export const RESULTADOS_LEGACY_ENTITIES = [
   CainCatDelegacionEntity,
   CainCatDistDeleEntity,
   CainCatDistritoEntity,
-  CatTipoCasillaEntity,
-  ConfiguraEntity,
   CorteLegacyEntity,
   DigActasPrepEntity,
   NourbanasEntity,
@@ -45,15 +40,12 @@ export const RESULTADOS_LEGACY_ENTITIES = [
   ScdParticipantesJgobEntity,
   ScdParticipantesMrEntity,
   ScdParticipantesRpEntity,
-  SedimdeEncSeguimientoEntity,
 ];
 
 export const RESULTADOS_LEGACY_TABLE_NAMES = [
   'cain_cat_delegacion',
   'cain_cat_dist_dele',
   'cain_cat_distrito',
-  'cat_tipo_casilla',
-  'configura',
   'corte',
   'dig_actas_prep',
   'nourbanas',
@@ -70,7 +62,6 @@ export const RESULTADOS_LEGACY_TABLE_NAMES = [
   'scd_participantes_jgob',
   'scd_participantes_mr',
   'scd_participantes_rp',
-  'sedimde_enc_seguimiento',
 ];
 
 /**
