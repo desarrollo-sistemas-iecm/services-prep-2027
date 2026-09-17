@@ -1,7 +1,7 @@
 import { calcularObservaciones } from '../utils/observaciones.util';
 
 describe('calcularObservaciones', () => {
-  it('should return the fixed text for a code that does not depend on exede_ln', () => {
+  it('should return the fixed text for a code that does not depend on excede_ln', () => {
     expect(calcularObservaciones(4, null)).toBe('SIN ACTA');
     expect(calcularObservaciones(5, 'T')).toBe('FUERA DE CATALOGO');
     expect(calcularObservaciones(11, null)).toBe(
@@ -9,7 +9,7 @@ describe('calcularObservaciones', () => {
     );
   });
 
-  it('should append the excede lista nominal note for codes 1/2 when exede_ln is T', () => {
+  it('should append the excede lista nominal note for codes 1/2 when excede_ln is T', () => {
     expect(calcularObservaciones(1, 'T')).toBe(
       'EXCEDE LISTA NOMINAL, ALGUN CAMPO ILEGIBLE O SIN DATOS ',
     );
@@ -18,7 +18,7 @@ describe('calcularObservaciones', () => {
     );
   });
 
-  it('should append the excede lista nominal note for codes 6/7 when exede_ln is T', () => {
+  it('should append the excede lista nominal note for codes 6/7 when excede_ln is T', () => {
     expect(calcularObservaciones(6, 'T')).toBe(
       'EXCEDE LISTA NOMINAL, TODOS ILEGIBLES O SIN DATO ',
     );

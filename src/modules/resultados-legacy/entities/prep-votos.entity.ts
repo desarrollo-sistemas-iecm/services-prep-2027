@@ -206,7 +206,7 @@ export class PrepVotosEntity {
   @Column({ name: 'inconsistencia', type: 'int', nullable: true })
   inconsistencia: number | null;
 
-  @Column({ name: 'exede_ln', type: 'text', nullable: true })
+  @Column({ name: 'excede_ln', type: 'text', nullable: true })
   exedeLn: string | null;
 
   @Column({ name: 'contabilizar', type: 'text', nullable: true })

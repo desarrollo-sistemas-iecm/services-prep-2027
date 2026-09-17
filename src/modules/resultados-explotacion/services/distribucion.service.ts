@@ -66,7 +66,7 @@ export class DistribucionService {
     @InjectRepository(PrepVotosEntity, 'resultados')
     private readonly votosRepo: Repository<PrepVotosEntity>,
     private readonly catalogo: TipoEleccionCatalogoService,
-  ) {}
+  ) { }
 
   async obtener(type: TipoEleccion, seleccion: number, seccion: number) {
     const candidatos = await this.catalogo.getCandidatos(type);
@@ -92,7 +92,7 @@ export class DistribucionService {
         V.votos_cand_no_reg, V.votos_nulos, V.votacion_total, V.boletas_sob,
         V.ciudadanos_votaron, V.representantes_votaron, V.total_votaron,
         C.lista_nominal as lista_nominal, V.contabilizar, V.validado,
-        V.inconsistencia, V.exede_ln,
+        V.inconsistencia, V.excede_ln,
         D.${campoImgNombre} as nombre_img, D.${campoImgMd5} as md5_img,
         V.ue_identificador_comprobante, V.ue_circunscripcion_federal, V.ue_id_casilla,
         V.ue_tipo_casilla, V.ue_id_ext_contigua, V.ue_tipo_documento, V.ue_personas_votaron,
@@ -118,7 +118,7 @@ export class DistribucionService {
       ...fila,
       observaciones: calcularObservaciones(
         fila.inconsistencia == null ? null : Number(fila.inconsistencia),
-        fila.exede_ln == null ? null : String(fila.exede_ln),
+        fila.excede_ln == null ? null : String(fila.excede_ln),
       ),
     }));
 
