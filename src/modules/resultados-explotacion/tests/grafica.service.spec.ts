@@ -89,6 +89,17 @@ describe('GraficaService', () => {
         votosPart1: 5,
         votacionTotal: 5,
       },
+      // Distrito 60: casilla normal para distinguir nivel entidad de distrito.
+      {
+        rowid: 8,
+        idDistrito: 60,
+        idTipoEleccion: TipoEleccion.JEFATURA_GOBIERNO,
+        tipoCasilla: 'B01',
+        validado: 'T',
+        contabilizar: 'T',
+        votosPart1: 10,
+        votacionTotal: 10,
+      },
     ]);
 
     catalogo = new TipoEleccionCatalogoService(
@@ -175,6 +186,100 @@ describe('GraficaService', () => {
     expect(agrupado).toHaveLength(3); // candidato + no_registrados + votos_nulos
     expect(agrupado[0]).toMatchObject({ siglas: 'PX', total_votos: 40 });
 
+    expect(dataExtranjero[0]).toMatchObject({ siglas: 'PX', total_votos: 5 });
+  });
+
+  const partidoX = {
+    idParticipante: 1,
+    descripcion: 'Partido X',
+    siglas: 'PX',
+    campoVotos: 'votos_part_1',
+  };
+
+  it('should sum every district when grafica is requested at entity level', async () => {
+    jest.spyOn(catalogo, 'getCandidatos').mockResolvedValueOnce([partidoX]);
+
+    const { resumen, agrupado } = await service.grafica(
+      TipoEleccion.JEFATURA_GOBIERNO,
+      0,
+      0,
+      null,
+    );
+
+    expect(resumen.votacion_total).toBe(55);
+    expect(agrupado[0]).toMatchObject({ siglas: 'PX', total_votos: 55 });
+  });
+
+  it('should filter by district when grafica receives dist_o_alcaldia', async () => {
+    jest.spyOn(catalogo, 'getCandidatos').mockResolvedValueOnce([partidoX]);
+
+    const { resumen } = await service.grafica(
+      TipoEleccion.JEFATURA_GOBIERNO,
+      60,
+      0,
+      null,
+    );
+
+    expect(resumen.votacion_total).toBe(10);
+  });
+
+  it('should mark the single candidate with most votes as ganador', async () => {
+    jest.spyOn(catalogo, 'getCandidatos').mockResolvedValueOnce([
+      partidoX,
+      {
+        ...partidoX,
+        idParticipante: 2,
+        siglas: 'PY',
+        campoVotos: 'votos_part_2',
+      },
+    ]);
+
+    const { agrupado } = await service.grafica(
+      TipoEleccion.JEFATURA_GOBIERNO,
+      0,
+      0,
+      null,
+    );
+
+    expect(agrupado.map(({ siglas, ganador }) => [siglas, ganador])).toEqual([
+      ['PX', true],
+      ['PY', false],
+      ['no_registrados', false],
+      ['votos_nulos', false],
+    ]);
+  });
+
+  it('should not mark any ganador when the top candidates are tied', async () => {
+    jest
+      .spyOn(catalogo, 'getCandidatos')
+      .mockResolvedValueOnce([
+        partidoX,
+        { ...partidoX, idParticipante: 2, siglas: 'PY' },
+      ]);
+
+    const { agrupado } = await service.grafica(
+      TipoEleccion.JEFATURA_GOBIERNO,
+      0,
+      0,
+      null,
+    );
+
+    expect(agrupado.some(({ ganador }) => ganador)).toBe(false);
+  });
+
+  it('should split casillas and extranjero across the whole entity when pruebaDistribucion has no district', async () => {
+    jest.spyOn(catalogo, 'getCandidatos').mockResolvedValueOnce([partidoX]);
+
+    const { datosMSSQL, agrupado, dataExtranjero } =
+      await service.pruebaDistribucion(
+        TipoEleccion.JEFATURA_GOBIERNO,
+        0,
+        0,
+        null,
+      );
+
+    expect(datosMSSQL).toEqual([]);
+    expect(agrupado[0]).toMatchObject({ siglas: 'PX', total_votos: 50 });
     expect(dataExtranjero[0]).toMatchObject({ siglas: 'PX', total_votos: 5 });
   });
 });

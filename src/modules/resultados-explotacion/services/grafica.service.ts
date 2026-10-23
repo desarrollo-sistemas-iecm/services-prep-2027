@@ -55,7 +55,8 @@ export class GraficaService {
   /**
    * Equivalente a `actas_grid_data_todo.php` (docs/CONSULTAS_SQL_PREP2024.md
    * §5): resumen agregado (no por casilla) usado por `grafica`/`moving-cards`
-   * /`resumen-votacion` en el front.
+   * /`resumen-votacion` en el front. Como en el PHP, sin distrito/alcaldía
+   * (`0`) no se filtra por geografía y se suma toda la entidad.
    */
   async grafica(
     type: TipoEleccion,
@@ -85,11 +86,13 @@ export class GraficaService {
       .createQueryBuilder('v')
       .where('v.validado = :validado', { validado: 'T' })
       .andWhere('v.contabilizar = :contabilizar', { contabilizar: 'T' })
-      .andWhere('v.idTipoEleccion = :type', { type })
-      .andWhere(`v.${this.entityColumn(geoColumn)} = :distOAlcaldia`, {
+      .andWhere('v.idTipoEleccion = :type', { type });
+
+    if (distOAlcaldia) {
+      qb.andWhere(`v.${this.entityColumn(geoColumn)} = :distOAlcaldia`, {
         distOAlcaldia,
       });
-
+    }
     if (seccion) qb.andWhere('v.idSeccion = :seccion', { seccion });
     if (casilla) qb.andWhere('v.tipoCasilla = :casilla', { casilla });
 
@@ -122,7 +125,8 @@ export class GraficaService {
    * Empareja cada candidato/partido del catálogo con sus votos en `resumen`
    * (por `campo_votos`) y agrega las filas de `no_registrados`/`votos_nulos`
    * que el front pinta junto a los candidatos (`grafica.component.html`).
-   * `ganador` solo se marca entre candidatos reales, nunca en esas dos filas.
+   * `ganador` solo se marca entre candidatos reales, nunca en esas dos filas,
+   * y como en `ChartJG.vue` de 2024 no hay ganador si el máximo está empatado.
    */
   private construirAgrupado(
     candidatos: CandidatoCatalogo[],
@@ -138,6 +142,9 @@ export class GraficaService {
       (max, c) => Math.max(max, c.total_votos),
       0,
     );
+    const hayGanadorUnico =
+      maxVotos > 0 &&
+      filasCandidatos.filter((c) => c.total_votos === maxVotos).length === 1;
 
     const conPorcentaje = (
       fila: { siglas: string; descripcion: string; total_votos: number },
@@ -145,7 +152,7 @@ export class GraficaService {
     ): CandidatoGraficaFila => ({
       ...fila,
       porcentaje: porcentajeNumerico(fila.total_votos, resumen.votacion_total),
-      ganador: esCandidato && maxVotos > 0 && fila.total_votos === maxVotos,
+      ganador: esCandidato && hayGanadorUnico && fila.total_votos === maxVotos,
     });
 
     return [
@@ -248,7 +255,8 @@ export class GraficaService {
    * `datosMSSQL`. A diferencia del PHP original (que siempre regresaba
    * `error: "Valores no implementados"` incluso en éxito — bug de
    * copy/paste señalado en el propio documento de migración), aquí se usa
-   * un `success: boolean` real.
+   * un `success: boolean` real. Sin distrito/alcaldía (nivel entidad) no se
+   * devuelven filas crudas.
    *
    * Además arma `agrupado`/`dataExtranjero`: los mismos candidatos que
    * `grafica()`, pero separados entre casillas normales y voto en el
@@ -298,10 +306,12 @@ export class GraficaService {
       WHERE ${geoColumn} = ? AND contabilizar = 'T' AND id_tipo_eleccion IN (${placeholders})
     `;
 
-    const datosMSSQL = await this.votosRepo.query<Record<string, unknown>[]>(
-      sql,
-      [distOAlcaldia, ...tiposEleccion],
-    );
+    const datosMSSQL = distOAlcaldia
+      ? await this.votosRepo.query<Record<string, unknown>[]>(sql, [
+          distOAlcaldia,
+          ...tiposEleccion,
+        ])
+      : [];
 
     const candidatos = await this.catalogo.getCandidatos(type);
     const columnas = candidatos.map((c) => asColumnaVotosSegura(c.campoVotos));
@@ -314,9 +324,6 @@ export class GraficaService {
         .where('v.validado = :validado', { validado: 'T' })
         .andWhere('v.contabilizar = :contabilizar', { contabilizar: 'T' })
         .andWhere('v.idTipoEleccion IN (:...tipos)', { tipos: tiposEleccion })
-        .andWhere(`v.${this.entityColumn(geoColumn)} = :distOAlcaldia`, {
-          distOAlcaldia,
-        })
         .andWhere(
           soloExtranjero
             ? 'v.tipoCasilla LIKE :prefijoExtranjero'
@@ -324,6 +331,11 @@ export class GraficaService {
           { prefijoExtranjero: 'M%' },
         );
 
+      if (distOAlcaldia) {
+        qb.andWhere(`v.${this.entityColumn(geoColumn)} = :distOAlcaldia`, {
+          distOAlcaldia,
+        });
+      }
       if (seccion) qb.andWhere('v.idSeccion = :seccion', { seccion });
       if (casilla) qb.andWhere('v.tipoCasilla = :casilla', { casilla });
 
