@@ -10,8 +10,10 @@ import { formatearPorcentaje } from '../utils/porcentaje.util';
 export interface EstadisticaPayload {
   actas: {
     esperadas: number;
+    capturadas: number;
     computadas: number;
     esperadas_por: string;
+    capturadas_por: string;
     computadas_por: string;
   };
   cantidades_urbanas: { urbanas: number; no_urbanas: number };
@@ -30,7 +32,8 @@ export interface EstadisticaPayload {
 
 /**
  * Equivalente a la sección estadística de `api_avance_entidad.php`
- * (docs/CONSULTAS_SQL_PREP2024.md §1.1 "esperadas", §1.2 "computadas") y a
+ * (docs/CONSULTAS_SQL_PREP2024.md §1.1 "esperadas", §1.2 "computadas",
+ * §1.3 "capturadas") y a
  * `test_nourbanas.php`/`urbanasNoUrbanasENTIDAD()` (§1.16/§15, duplicadas en
  * el PHP original — aquí unificadas en un solo método).
  *
@@ -67,7 +70,7 @@ export class EstadisticaService {
       .where("c.estatus = 'T'")
       .getRawOne<{ cuantos: string | number; ln: string | number | null }>();
 
-    const computadasBase = () =>
+    const capturadasBase = () =>
       this.votosRepo
         .createQueryBuilder('p')
         .leftJoin(
@@ -75,12 +78,21 @@ export class EstadisticaService {
           'c',
           'p.idDistrito = c.idDistrito AND p.idDelegacion = c.idDelegacion AND p.idSeccion = c.idSeccion AND p.tipoCasilla = c.tipoCasilla',
         )
-        .where('p.contabilizar = :contabilizar', { contabilizar: 'T' })
-        .andWhere('p.idTipoEleccion = :type', { type });
+        .where('p.idTipoEleccion = :type', { type });
+
+    const computadasBase = () =>
+      capturadasBase().andWhere('p.contabilizar = :contabilizar', {
+        contabilizar: 'T',
+      });
+
+    const capturadas = await capturadasBase()
+      .select('COUNT(c.idDistrito)', 'cuantos')
+      .getRawOne<{ cuantos: string | number }>();
 
     const computadas = await computadasBase()
       .select('COUNT(c.idDistrito)', 'cuantos')
-      .getRawOne<{ cuantos: string | number }>();
+      .addSelect('SUM(c.listaNominal)', 'ln')
+      .getRawOne<{ cuantos: string | number; ln: string | number | null }>();
 
     // `S` = Casilla Especial (ver corrección documentada en la clase).
     const votosEspeciales = await computadasBase()
@@ -120,6 +132,7 @@ export class EstadisticaService {
       .getRawOne<{ cuantos: string | number }>();
 
     const esperadasCuantos = Number(esperadas?.cuantos ?? 0);
+    const capturadasCuantos = Number(capturadas?.cuantos ?? 0);
     const computadasCuantos = Number(computadas?.cuantos ?? 0);
     const total = Number(totalVotos?.total ?? 0);
     const normales = Number(votosNormales?.total ?? 0);
@@ -131,8 +144,13 @@ export class EstadisticaService {
       data: {
         actas: {
           esperadas: esperadasCuantos,
+          capturadas: capturadasCuantos,
           computadas: computadasCuantos,
           esperadas_por: '100.00%',
+          capturadas_por: formatearPorcentaje(
+            capturadasCuantos,
+            esperadasCuantos,
+          ),
           computadas_por: formatearPorcentaje(
             computadasCuantos,
             esperadasCuantos,
@@ -144,7 +162,7 @@ export class EstadisticaService {
         },
         lista_nominal: {
           lista_nominal_oficial: Number(esperadas?.ln ?? 0),
-          actas_contabilizadas: computadasCuantos,
+          actas_contabilizadas: Number(computadas?.ln ?? 0),
         },
         votos: {
           votos_casillas_normales: normales,
