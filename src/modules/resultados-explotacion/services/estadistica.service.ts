@@ -5,7 +5,7 @@ import { PrepVotosEntity } from '../../resultados-legacy/entities/prep-votos.ent
 import { ScdCasillasEntity } from '../../resultados-legacy/entities/scd-casillas.entity';
 import { NourbanasEntity } from '../../resultados-legacy/entities/nourbanas.entity';
 import { TipoEleccion } from '../enums/tipo-eleccion.enum';
-import { formatearPorcentaje } from '../utils/porcentaje.util';
+import { porcentajeNumerico } from '../utils/porcentaje.util';
 
 export interface EstadisticaPayload {
   actas: {
@@ -46,7 +46,7 @@ export interface EstadisticaPayload {
  * TODO: el doc fuente no especifica la fórmula de `esperadas_por` ni la
  * diferencia real entre `total_votos` y `total_votos_query` (el PHP original
  * trae ambos con el mismo valor aparente) — aquí `esperadas_por` se fija en
- * `100.00%` (referencia) y `total_votos_query` se iguala a `total_votos`.
+ * `100.00` (referencia) y `total_votos_query` se iguala a `total_votos`.
  * Confirmar contra un corte real de 2024 antes de usarse en producción.
  */
 @Injectable()
@@ -146,15 +146,15 @@ export class EstadisticaService {
           esperadas: esperadasCuantos,
           capturadas: capturadasCuantos,
           computadas: computadasCuantos,
-          esperadas_por: '100.00%',
-          capturadas_por: formatearPorcentaje(
+          esperadas_por: '100.00',
+          capturadas_por: porcentajeNumerico(
             capturadasCuantos,
             esperadasCuantos,
-          ),
-          computadas_por: formatearPorcentaje(
+          ).toFixed(2),
+          computadas_por: porcentajeNumerico(
             computadasCuantos,
             esperadasCuantos,
-          ),
+          ).toFixed(2),
         },
         cantidades_urbanas: {
           urbanas: Number(urbanas?.cuantos ?? 0),
