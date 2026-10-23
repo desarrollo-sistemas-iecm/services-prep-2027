@@ -10,6 +10,7 @@ import { AvanceService } from './services/avance.service';
 import { MapasService } from './services/mapas.service';
 import { DistribucionService } from './services/distribucion.service';
 import { GraficaService } from './services/grafica.service';
+import { ActasGridService } from './services/actas-grid.service';
 
 /**
  * Rutas de solo lectura ("explotación") sobre el dataset de resultados,
@@ -30,6 +31,7 @@ import { GraficaService } from './services/grafica.service';
     MapasService,
     DistribucionService,
     GraficaService,
+    ActasGridService,
   ],
 })
 export class ResultadosExplotacionModule {}
