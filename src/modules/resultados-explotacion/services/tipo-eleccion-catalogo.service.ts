@@ -148,18 +148,12 @@ export class TipoEleccionCatalogoService {
         );
       case TipoEleccion.REPRESENTACION_PROPORCIONAL:
         // No existe `scd_candidatos_rp` — igual que en el PHP 2024
-        // (`getCandidatos()`), RP no tiene catálogo de candidatos propio.
-        //
-        // TODO (pendiente, documentado a petición explícita): el PHP 2024
-        // (`actas_grid_data_rp.php`, docs/CONSULTAS_SQL_PREP2024.md §6.1/§6.2)
-        // sí arma una grilla de RP a partir de `scd_participantes_rp` +
-        // `prep_votos`, y ahí excluye columnas `votos_part_N` con
-        // `id_participante > 11` (marcado "TEMPORAL" en el código original).
-        // Ningún endpoint consumido hoy por `publicador-prep-2027` expone una
-        // grilla RP dedicada (la RP actual solo llega combinada dentro de
-        // `type=2` en avance/resumen/pruebadistribución), así que ese filtro
-        // no se implementó. Si se agrega una vista RP dedicada, retomar este
-        // filtro y confirmar con el equipo si sigue vigente.
+        // (`getCandidatos()`), RP no tiene catálogo de candidatos propio. La
+        // grilla RP (`ActasModalidadService`) arma sus columnas desde
+        // `getParticipantesDistintos(REPRESENTACION_PROPORCIONAL)`, como
+        // `actas_grid_data_rp.php` (§6.1). El filtro `id_participante > 11`
+        // ("TEMPORAL" en 2024) no se porta: el catálogo vigente solo tiene
+        // ids 1–7 y `_voto_prision_ant.php` tampoco lo aplicaba.
         return [];
     }
   }
@@ -275,6 +269,26 @@ export class TipoEleccionCatalogoService {
         return this.mapParticipantes(await qb.getRawMany());
       }
     }
+  }
+
+  /**
+   * Variante `DISTINCT id_participante` del catálogo de participantes
+   * (§6.1/§8.1 de `actas_grid_data_rp.php`/`_voto_prision_ant.php`), para
+   * grillas que no filtran por distrito/delegación: sin este dedupe, MR/RP/ALC
+   * repiten cada participante una vez por distrito o delegación. Conserva el
+   * orden por `prelacion` de `getParticipantes`.
+   */
+  async getParticipantesDistintos(
+    type: TipoEleccion,
+  ): Promise<ParticipanteCatalogo[]> {
+    const participantes = await this.getParticipantes(type);
+    const porId = new Map<number, ParticipanteCatalogo>();
+    for (const participante of participantes) {
+      if (!porId.has(participante.idParticipante)) {
+        porId.set(participante.idParticipante, participante);
+      }
+    }
+    return [...porId.values()];
   }
 
   private mapParticipantes(

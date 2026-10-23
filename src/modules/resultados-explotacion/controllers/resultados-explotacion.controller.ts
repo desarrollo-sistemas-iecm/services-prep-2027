@@ -6,6 +6,8 @@ import { ComboTerceroDto } from '../dto/combo-tercero.dto';
 import { GraficaQueryDto } from '../dto/grafica-query.dto';
 import { PruebaDistribucionQueryDto } from '../dto/prueba-distribucion-query.dto';
 import { BusquedaSeccionDto } from '../dto/busqueda-seccion.dto';
+import { ActasRpDto } from '../dto/actas-rp.dto';
+import { ActasExtranjeroDto } from '../dto/actas-extranjero.dto';
 import { CombosService } from '../services/combos.service';
 import { BusquedaSeccionService } from '../services/busqueda-seccion.service';
 import { ResumenVotacionService } from '../services/resumen-votacion.service';
@@ -14,6 +16,7 @@ import { AvanceService } from '../services/avance.service';
 import { MapasService } from '../services/mapas.service';
 import { DistribucionService } from '../services/distribucion.service';
 import { GraficaService } from '../services/grafica.service';
+import { ActasModalidadService } from '../services/actas-modalidad.service';
 
 /**
  * Rutas de explotación de resultados consumidas por `publicador-prep-2027`
@@ -35,6 +38,7 @@ export class ResultadosExplotacionController {
     private readonly mapasService: MapasService,
     private readonly distribucionService: DistribucionService,
     private readonly graficaService: GraficaService,
+    private readonly actasModalidadService: ActasModalidadService,
   ) {}
 
   @Post('avance')
@@ -109,6 +113,23 @@ export class ResultadosExplotacionController {
       dto.seleccion,
       dto.seccion,
     );
+  }
+
+  @Post('actas/rp')
+  @ApiOperation({
+    summary:
+      'Actas de Representación Proporcional (casillas especiales), opcionalmente de un distrito',
+  })
+  actasRp(@Body() dto: ActasRpDto) {
+    return this.actasModalidadService.rp(dto.seleccion);
+  }
+
+  @Post('actas/extranjero')
+  @ApiOperation({
+    summary: 'Actas de voto en el extranjero para un tipo de elección',
+  })
+  actasExtranjero(@Body() dto: ActasExtranjeroDto) {
+    return this.actasModalidadService.extranjero(dto.type);
   }
 
   @Post('combos/primero')
