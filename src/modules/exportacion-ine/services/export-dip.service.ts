@@ -116,7 +116,7 @@ SELECT
   ${OBSERVACIONES_INE_SQL},
   CASE WHEN P.contabilizar = 'T' THEN '1' ELSE '0' END AS CONTABILIZADAS,
   'F' AS MECANISMO_TRASLADO,
-  CASE WHEN A.md5_img_dmr IS NULL THEN 'N/A' ELSE A.md5_img_dmr END AS CODIGO_INTEGRIDAD,
+  CASE WHEN A.sha_img_dmr IS NULL THEN 'N/A' ELSE A.sha_img_dmr END AS CODIGO_INTEGRIDAD,
   CASE WHEN P.ue_identificacion = 'INE-UE-IECM' AND A.fechaRecepcion = '' THEN strftime('%d/%m/%Y %H:%M:%S', datetime(P.fecha_alta)) || ' (UTC-6)'
        ELSE strftime('%d/%m/%Y %H:%M:%S', datetime(A.fechaRecepcion)) || ' (UTC-6)' END AS FECHA_HORA_ACOPIO,
   strftime('%d/%m/%Y %H:%M:%S', datetime(P.fecha_alta)) || ' (UTC-6)' AS FECHA_HORA_CAPTURA,

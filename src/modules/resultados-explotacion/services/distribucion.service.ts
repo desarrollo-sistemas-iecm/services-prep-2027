@@ -12,21 +12,21 @@ import { formatearPorcentaje } from '../utils/porcentaje.util';
 
 const CAMPO_IMAGEN_POR_TIPO: Record<
   TipoEleccion,
-  { nombre: string; md5: string }
+  { nombre: string; sha: string }
 > = {
   [TipoEleccion.JEFATURA_GOBIERNO]: {
     nombre: 'img_nombre_jgob',
-    md5: 'md5_img_jgob',
+    sha: 'sha_img_jgob',
   },
   [TipoEleccion.DIPUTACION_MR]: {
     nombre: 'img_nombre_dmr',
-    md5: 'md5_img_dmr',
+    sha: 'sha_img_dmr',
   },
   [TipoEleccion.REPRESENTACION_PROPORCIONAL]: {
     nombre: 'img_nombre_rp',
-    md5: 'md5_img_rp',
+    sha: 'sha_img_rp',
   },
-  [TipoEleccion.ALCALDIA]: { nombre: 'img_nombre_alc', md5: 'md5_img_alc' },
+  [TipoEleccion.ALCALDIA]: { nombre: 'img_nombre_alc', sha: 'sha_img_alc' },
 };
 
 export interface ColumnaGrid {
@@ -75,7 +75,7 @@ export class DistribucionService {
       seleccion,
     );
     const geoColumn = this.catalogo.geoColumn(type);
-    const { nombre: campoImgNombre, md5: campoImgMd5 } =
+    const { nombre: campoImgNombre, sha: campoImgSha } =
       CAMPO_IMAGEN_POR_TIPO[type];
     const columnasVotos = candidatos.map((c) =>
       asColumnaVotosSegura(c.campoVotos),
@@ -93,7 +93,7 @@ export class DistribucionService {
         V.ciudadanos_votaron, V.representantes_votaron, V.total_votaron,
         C.lista_nominal as lista_nominal, V.contabilizar, V.validado,
         V.inconsistencia, V.excede_ln,
-        D.${campoImgNombre} as nombre_img, D.${campoImgMd5} as md5_img,
+        D.${campoImgNombre} as nombre_img, D.${campoImgSha} as sha_img,
         V.ue_identificador_comprobante, V.ue_circunscripcion_federal, V.ue_id_casilla,
         V.ue_tipo_casilla, V.ue_id_ext_contigua, V.ue_tipo_documento, V.ue_personas_votaron,
         V.ue_identificacion, V.ue_votos_partidos, V.ue_version_software, V.ue_fecha_impresion,

@@ -32,17 +32,17 @@ export class DigActasPrepEntity {
   @Column({ name: 'estatus', type: 'int', nullable: true })
   estatus: number | null;
 
-  @Column({ name: 'md5_img_jgob', type: 'text', nullable: true })
-  md5ImgJgob: string | null;
+  @Column({ name: 'sha_img_jgob', type: 'text', nullable: true })
+  shaImgJgob: string | null;
 
-  @Column({ name: 'md5_img_alc', type: 'text', nullable: true })
-  md5ImgAlc: string | null;
+  @Column({ name: 'sha_img_alc', type: 'text', nullable: true })
+  shaImgAlc: string | null;
 
-  @Column({ name: 'md5_img_dmr', type: 'text', nullable: true })
-  md5ImgDmr: string | null;
+  @Column({ name: 'sha_img_dmr', type: 'text', nullable: true })
+  shaImgDmr: string | null;
 
-  @Column({ name: 'md5_img_rp', type: 'text', nullable: true })
-  md5ImgRp: string | null;
+  @Column({ name: 'sha_img_rp', type: 'text', nullable: true })
+  shaImgRp: string | null;
 
   @Column({ name: 'especial', type: 'int', nullable: true })
   especial: number | null;
