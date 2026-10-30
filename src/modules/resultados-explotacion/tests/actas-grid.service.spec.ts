@@ -35,7 +35,7 @@ describe('ActasGridService', () => {
         votosNulos: 4,
         votacionTotal: 62,
       },
-      // Especial no validada y no contabilizada, con inconsistencia.
+      // Especial validada pero no contabilizada, con inconsistencia.
       {
         rowid: 2,
         idDistrito: 26,
@@ -44,7 +44,7 @@ describe('ActasGridService', () => {
         tipoCasilla: 'S01',
         claveMdc: 'S-486-01',
         idTipoEleccion: TipoEleccion.REPRESENTACION_PROPORCIONAL,
-        validado: 'F',
+        validado: 'T',
         contabilizar: 'F',
         votosPart1: 30,
         votacionTotal: 30,
@@ -75,6 +75,18 @@ describe('ActasGridService', () => {
         votosPart1: 7,
         votacionTotal: 7,
       },
+      // Especial no validada: queda fuera mientras SOLO_ACTAS_VALIDADAS sea true.
+      {
+        rowid: 5,
+        idDistrito: 26,
+        idDelegacion: 3,
+        idSeccion: 999,
+        tipoCasilla: 'S01',
+        idTipoEleccion: TipoEleccion.REPRESENTACION_PROPORCIONAL,
+        validado: 'F',
+        contabilizar: 'T',
+        votacionTotal: 50,
+      },
     ]);
 
     await dataSource
@@ -90,12 +102,12 @@ describe('ActasGridService', () => {
     await dataSource.destroy();
   });
 
-  it('should include non validated actas when soloValidadas is false', async () => {
+  it('should exclude non validated actas when SOLO_ACTAS_VALIDADAS is true', async () => {
     const { itemRecords } = await service.obtener({
       type: TipoEleccion.REPRESENTACION_PROPORCIONAL,
       columnasVotos,
       participantes: [],
-      filtros: { soloValidadas: false, prefijoTipoCasilla: 'S' },
+      filtros: { prefijoTipoCasilla: 'S' },
       idGeoValueFields: null,
     });
 
@@ -104,24 +116,12 @@ describe('ActasGridService', () => {
     ]);
   });
 
-  it('should exclude non validated actas when soloValidadas is true', async () => {
-    const { itemRecords } = await service.obtener({
-      type: TipoEleccion.REPRESENTACION_PROPORCIONAL,
-      columnasVotos,
-      participantes: [],
-      filtros: { soloValidadas: true, prefijoTipoCasilla: 'S' },
-      idGeoValueFields: null,
-    });
-
-    expect(itemRecords.data.map(({ id_seccion }) => id_seccion)).toEqual([342]);
-  });
-
   it('should not return básica casillas when filtering by prefix S', async () => {
     const { itemRecords } = await service.obtener({
       type: TipoEleccion.REPRESENTACION_PROPORCIONAL,
       columnasVotos,
       participantes: [],
-      filtros: { soloValidadas: false, prefijoTipoCasilla: 'S' },
+      filtros: { prefijoTipoCasilla: 'S' },
       idGeoValueFields: null,
     });
 
@@ -138,7 +138,6 @@ describe('ActasGridService', () => {
       columnasVotos,
       participantes: [],
       filtros: {
-        soloValidadas: false,
         prefijoTipoCasilla: 'S',
         geo: { columna: 'id_distrito', valor: 26 },
       },
@@ -157,7 +156,7 @@ describe('ActasGridService', () => {
       type: TipoEleccion.REPRESENTACION_PROPORCIONAL,
       columnasVotos,
       participantes: [],
-      filtros: { soloValidadas: false, prefijoTipoCasilla: 'S' },
+      filtros: { prefijoTipoCasilla: 'S' },
       idGeoValueFields: null,
     });
 
@@ -175,7 +174,6 @@ describe('ActasGridService', () => {
       columnasVotos,
       participantes: [],
       filtros: {
-        soloValidadas: false,
         prefijoTipoCasilla: 'S',
         geo: { columna: 'id_distrito', valor: 5 },
       },
@@ -202,7 +200,7 @@ describe('ActasGridService', () => {
       type: TipoEleccion.JEFATURA_GOBIERNO,
       columnasVotos,
       participantes: [],
-      filtros: { soloValidadas: false, prefijoTipoCasilla: 'M' },
+      filtros: { prefijoTipoCasilla: 'M' },
       idGeoValueFields: null,
     });
 
@@ -218,7 +216,7 @@ describe('ActasGridService', () => {
       type: TipoEleccion.ALCALDIA,
       columnasVotos,
       participantes: [],
-      filtros: { soloValidadas: false, prefijoTipoCasilla: 'M' },
+      filtros: { prefijoTipoCasilla: 'M' },
       idGeoValueFields: null,
     });
 
@@ -235,7 +233,7 @@ describe('ActasGridService', () => {
         type: TipoEleccion.REPRESENTACION_PROPORCIONAL,
         columnasVotos: [{ columna: 'votos_part_1; DROP', titulo: 'X' }],
         participantes: [],
-        filtros: { soloValidadas: false, prefijoTipoCasilla: 'S' },
+        filtros: { prefijoTipoCasilla: 'S' },
         idGeoValueFields: null,
       }),
     ).rejects.toThrow('Nombre de columna de votos no reconocido');

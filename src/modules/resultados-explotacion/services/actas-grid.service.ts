@@ -9,6 +9,7 @@ import {
 } from './tipo-eleccion-catalogo.service';
 import { calcularObservaciones } from '../utils/observaciones.util';
 import { formatearPorcentaje } from '../utils/porcentaje.util';
+import { condicionActaValidada } from '../utils/acta-validada.util';
 
 const CAMPO_IMAGEN_POR_TIPO: Record<
   TipoEleccion,
@@ -53,8 +54,6 @@ export interface ColumnaVotos {
 }
 
 export interface FiltrosActasGrid {
-  /** `V.validado = 'T'` — lo exige `actas_grid_data.php`, no `_rp`/`_voto_prision_ant`. */
-  soloValidadas: boolean;
   prefijoTipoCasilla?: PrefijoTipoCasilla;
   geo?: { columna: 'id_distrito' | 'id_delegacion'; valor: number };
   seccion?: number;
@@ -128,9 +127,7 @@ export class ActasGridService {
 
     const condiciones: string[] = [];
     const parametros: (string | number)[] = [];
-    if (filtros.soloValidadas) {
-      condiciones.push("V.validado = 'T'");
-    }
+    condiciones.push(condicionActaValidada('V.validado'));
     condiciones.push('V.id_tipo_eleccion = ?');
     parametros.push(type);
     if (filtros.prefijoTipoCasilla) {

@@ -5,6 +5,7 @@ import { PrepVotosEntity } from '../../resultados-legacy/entities/prep-votos.ent
 import { ScdCasillasEntity } from '../../resultados-legacy/entities/scd-casillas.entity';
 import { TipoEleccion } from '../enums/tipo-eleccion.enum';
 import { formatearPorcentaje } from '../utils/porcentaje.util';
+import { condicionActaValidada } from '../utils/acta-validada.util';
 
 export interface ResumenVotacionPayload {
   votos_acumulados: number;
@@ -72,6 +73,7 @@ export class ResumenVotacionService {
           'p.idDistrito = c.idDistrito AND p.idDelegacion = c.idDelegacion AND p.idSeccion = c.idSeccion AND p.tipoCasilla = c.tipoCasilla',
         )
         .where('p.contabilizar = :contabilizar', { contabilizar: 'T' })
+        .andWhere(condicionActaValidada('p.validado'))
         .andWhere('p.idTipoEleccion = :type', { type });
 
     const totales = await base()

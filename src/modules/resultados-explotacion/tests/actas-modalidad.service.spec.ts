@@ -58,7 +58,7 @@ describe('ActasModalidadService', () => {
         idSeccion: 486,
         tipoCasilla: 'S01',
         idTipoEleccion: TipoEleccion.REPRESENTACION_PROPORCIONAL,
-        validado: 'F',
+        validado: 'T',
         contabilizar: 'F',
         votosPart1: 30,
         votacionTotal: 30,

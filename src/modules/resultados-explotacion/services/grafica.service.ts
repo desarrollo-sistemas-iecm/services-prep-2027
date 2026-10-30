@@ -9,6 +9,7 @@ import {
   TipoEleccionCatalogoService,
 } from './tipo-eleccion-catalogo.service';
 import { porcentajeNumerico } from '../utils/porcentaje.util';
+import { condicionActaValidada } from '../utils/acta-validada.util';
 
 /**
  * Grupos de distritos de coalición para Diputación MR, hardcodeados en el
@@ -84,7 +85,7 @@ export class GraficaService {
 
     const qb = this.votosRepo
       .createQueryBuilder('v')
-      .where('v.validado = :validado', { validado: 'T' })
+      .where(condicionActaValidada('v.validado'))
       .andWhere('v.contabilizar = :contabilizar', { contabilizar: 'T' })
       .andWhere('v.idTipoEleccion = :type', { type });
 
@@ -191,7 +192,7 @@ export class GraficaService {
           sum(votacion_total) as votacion_total
         FROM prep_votos as V
         WHERE V.id_distrito IN (${COALICION_DMR_GRUPO_1.join(',')})
-          AND V.id_tipo_eleccion IN (2) AND V.validado='T' AND V.contabilizar='T'
+          AND V.id_tipo_eleccion IN (2) AND ${condicionActaValidada('V.validado')} AND V.contabilizar='T'
         GROUP BY V.id_distrito
         UNION ALL
         SELECT V.id_distrito as id_distrito,
@@ -203,7 +204,7 @@ export class GraficaService {
           sum(votacion_total) as votacion_total
         FROM prep_votos as V
         WHERE V.id_distrito IN (${COALICION_DMR_GRUPO_2.join(',')})
-          AND V.id_tipo_eleccion IN (2) AND V.validado='T' AND V.contabilizar='T'
+          AND V.id_tipo_eleccion IN (2) AND ${condicionActaValidada('V.validado')} AND V.contabilizar='T'
         GROUP BY V.id_distrito
         UNION ALL
         SELECT V.id_distrito as id_distrito,
@@ -215,7 +216,7 @@ export class GraficaService {
           sum(votacion_total) as votacion_total
         FROM prep_votos as V
         WHERE V.id_distrito IN (${COALICION_DMR_GRUPO_3.join(',')})
-          AND V.id_tipo_eleccion IN (2) AND V.validado='T' AND V.contabilizar='T'
+          AND V.id_tipo_eleccion IN (2) AND ${condicionActaValidada('V.validado')} AND V.contabilizar='T'
         GROUP BY V.id_distrito
       )
       SELECT sum(votos_part_1) as votos_part_1, sum(votos_part_2) as votos_part_2, sum(votos_part_3) as votos_part_3,
@@ -303,7 +304,7 @@ export class GraficaService {
     const sql = `
       SELECT id_distrito, id_delegacion, ${columnasVotos.join(', ')}, ${columnasCc.join(', ')}, votacion_total
       FROM prep_votos
-      WHERE ${geoColumn} = ? AND contabilizar = 'T' AND id_tipo_eleccion IN (${placeholders})
+      WHERE ${geoColumn} = ? AND contabilizar = 'T' AND ${condicionActaValidada('validado')} AND id_tipo_eleccion IN (${placeholders})
     `;
 
     const datosMSSQL = distOAlcaldia
@@ -321,7 +322,7 @@ export class GraficaService {
     ): Promise<ResumenGraficaFila> => {
       const qb = this.votosRepo
         .createQueryBuilder('v')
-        .where('v.validado = :validado', { validado: 'T' })
+        .where(condicionActaValidada('v.validado'))
         .andWhere('v.contabilizar = :contabilizar', { contabilizar: 'T' })
         .andWhere('v.idTipoEleccion IN (:...tipos)', { tipos: tiposEleccion })
         .andWhere(

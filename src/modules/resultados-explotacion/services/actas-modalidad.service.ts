@@ -17,9 +17,10 @@ import {
  * duplicado; aquí comparten `ActasGridService` y solo cambian el prefijo de
  * `tipo_casilla` y el filtro geográfico.
  *
- * A diferencia de `distribucion` (`actas_grid_data.php`), ninguno de los dos
- * PHP exigía `validado = 'T'`, así que se publican también actas no
- * validadas; `resumen` solo suma las de `contabilizar = 'T'`.
+ * Ninguno de los dos PHP exigía `validado = 'T'`; aquí, como en el resto de
+ * los endpoints, lo decide `SOLO_ACTAS_VALIDADAS`
+ * (`utils/acta-validada.util.ts`). `resumen` solo suma las de
+ * `contabilizar = 'T'`.
  */
 @Injectable()
 export class ActasModalidadService {
@@ -55,7 +56,6 @@ export class ActasModalidadService {
       columnasVotos,
       participantes,
       filtros: {
-        soloValidadas: false,
         prefijoTipoCasilla,
         geo:
           seleccion == null

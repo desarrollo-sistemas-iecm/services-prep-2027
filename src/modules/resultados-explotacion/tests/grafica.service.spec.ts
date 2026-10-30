@@ -153,17 +153,28 @@ describe('GraficaService', () => {
     expect(agrupado.every((fila) => fila.ganador === false)).toBe(true);
   });
 
-  it('should return raw rows filtered by contabilizar=T and a success flag instead of the legacy fixed error string', async () => {
+  it('should return validated contabilizar=T raw rows and a success flag instead of the legacy fixed error string', async () => {
     const result = await service.pruebaDistribucion(
+      TipoEleccion.JEFATURA_GOBIERNO,
+      50,
+      0,
+      null,
+    );
+
+    expect(result.success).toBe(true);
+    expect(result.datosMSSQL.map((fila) => fila.votos_part_1)).toEqual([40, 5]);
+  });
+
+  it('should exclude non validated and non contabilizar raw rows when pruebaDistribucion filters a district', async () => {
+    // Distrito 1 de JG: una fila sin validar y otra con contabilizar='F'.
+    const { datosMSSQL } = await service.pruebaDistribucion(
       TipoEleccion.JEFATURA_GOBIERNO,
       1,
       0,
       null,
     );
 
-    expect(result.success).toBe(true);
-    expect(result.datosMSSQL).toHaveLength(1);
-    expect(result.datosMSSQL[0].votos_part_1).toBe(999);
+    expect(datosMSSQL).toEqual([]);
   });
 
   it('should split agrupado/dataExtranjero by tipo_casilla prefix M (voto en el extranjero)', async () => {

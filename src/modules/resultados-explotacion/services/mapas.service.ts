@@ -7,6 +7,7 @@ import {
   asColumnaVotosSegura,
   TipoEleccionCatalogoService,
 } from './tipo-eleccion-catalogo.service';
+import { condicionActaValidada } from '../utils/acta-validada.util';
 
 export interface ParticipanteMapa {
   id_participante: number;
@@ -72,7 +73,7 @@ export class MapasService {
     const sql = `
       SELECT ${geoColumn} as geo, ${sumasSql}
       FROM prep_votos
-      WHERE contabilizar = 'T' AND id_tipo_eleccion IN (${placeholdersTipos}) AND ${geoColumn} > 0
+      WHERE contabilizar = 'T' AND ${condicionActaValidada('validado')} AND id_tipo_eleccion IN (${placeholdersTipos}) AND ${geoColumn} > 0
       GROUP BY ${geoColumn}
     `;
 

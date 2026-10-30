@@ -6,6 +6,7 @@ import { ScdCasillasEntity } from '../../resultados-legacy/entities/scd-casillas
 import { NourbanasEntity } from '../../resultados-legacy/entities/nourbanas.entity';
 import { TipoEleccion } from '../enums/tipo-eleccion.enum';
 import { porcentajeNumerico } from '../utils/porcentaje.util';
+import { condicionActaValidada } from '../utils/acta-validada.util';
 
 export interface EstadisticaPayload {
   actas: {
@@ -81,9 +82,9 @@ export class EstadisticaService {
         .where('p.idTipoEleccion = :type', { type });
 
     const computadasBase = () =>
-      capturadasBase().andWhere('p.contabilizar = :contabilizar', {
-        contabilizar: 'T',
-      });
+      capturadasBase()
+        .andWhere('p.contabilizar = :contabilizar', { contabilizar: 'T' })
+        .andWhere(condicionActaValidada('p.validado'));
 
     const capturadas = await capturadasBase()
       .select('COUNT(c.idDistrito)', 'cuantos')
@@ -118,6 +119,7 @@ export class EstadisticaService {
       .select('COUNT(p.idDistrito)', 'cuantos')
       .where('p.idTipoEleccion = :type', { type })
       .andWhere("p.contabilizar = 'T'")
+      .andWhere(condicionActaValidada('p.validado'))
       .andWhere(`p.claveMdc NOT IN (${clavesNourbanas.getQuery()})`)
       .setParameters(clavesNourbanas.getParameters())
       .getRawOne<{ cuantos: string | number }>();
@@ -127,6 +129,7 @@ export class EstadisticaService {
       .select('COUNT(p.idDistrito)', 'cuantos')
       .where('p.idTipoEleccion = :type', { type })
       .andWhere("p.contabilizar = 'T'")
+      .andWhere(condicionActaValidada('p.validado'))
       .andWhere(`p.claveMdc IN (${clavesNourbanas.getQuery()})`)
       .setParameters(clavesNourbanas.getParameters())
       .getRawOne<{ cuantos: string | number }>();

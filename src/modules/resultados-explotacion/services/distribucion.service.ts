@@ -31,7 +31,6 @@ export class DistribucionService {
       })),
       participantes,
       filtros: {
-        soloValidadas: true,
         geo: { columna: this.catalogo.geoColumn(type), valor: seleccion },
         seccion,
       },

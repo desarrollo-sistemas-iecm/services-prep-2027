@@ -39,6 +39,7 @@ describe('ResumenVotacionService', () => {
         idSeccion: 101,
         tipoCasilla: 'S01',
         idTipoEleccion: TipoEleccion.JEFATURA_GOBIERNO,
+        validado: 'T',
         contabilizar: 'T',
         votosCandNoReg: 5,
         votosNulos: 3,
@@ -51,6 +52,7 @@ describe('ResumenVotacionService', () => {
         idSeccion: 102,
         tipoCasilla: 'M01',
         idTipoEleccion: TipoEleccion.JEFATURA_GOBIERNO,
+        validado: 'T',
         contabilizar: 'T',
         votosCandNoReg: 1,
         votosNulos: 1,
@@ -68,6 +70,20 @@ describe('ResumenVotacionService', () => {
         votosNulos: 999,
         votacionTotal: 999,
       },
+      // Contabilizada pero no validada: excluida por SOLO_ACTAS_VALIDADAS.
+      {
+        rowid: 4,
+        idDistrito: 1,
+        idDelegacion: 2,
+        idSeccion: 101,
+        tipoCasilla: 'S01',
+        idTipoEleccion: TipoEleccion.JEFATURA_GOBIERNO,
+        validado: 'F',
+        contabilizar: 'T',
+        votosCandNoReg: 777,
+        votosNulos: 777,
+        votacionTotal: 777,
+      },
     ]);
 
     service = new ResumenVotacionService(
@@ -79,7 +95,7 @@ describe('ResumenVotacionService', () => {
     await dataSource.destroy();
   });
 
-  it('should aggregate only rows marked as contabilizar=T for the requested tipo de elección', async () => {
+  it('should aggregate only validated rows marked as contabilizar=T when asking for a tipo de elección', async () => {
     const { success, resumen_votacion } = await service.obtener(
       TipoEleccion.JEFATURA_GOBIERNO,
     );
