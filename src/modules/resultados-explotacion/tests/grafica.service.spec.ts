@@ -100,6 +100,58 @@ describe('GraficaService', () => {
         votosPart1: 10,
         votacionTotal: 10,
       },
+      // Tipo 4 (alcaldía), delegación 80: partidos 1-3 más la combinación
+      // `votos_part_10` (integrantes 1&2&3), en territorio y en el extranjero,
+      // para probar la vista "Votos por Partido Político".
+      {
+        rowid: 9,
+        idDistrito: 0,
+        idDelegacion: 80,
+        idTipoEleccion: TipoEleccion.ALCALDIA,
+        tipoCasilla: 'B01',
+        validado: 'T',
+        contabilizar: 'T',
+        votosPart1: 10,
+        votosPart2: 4,
+        votosPart3: 6,
+        votosPart10: 8,
+        votacionTotal: 28,
+      },
+      {
+        rowid: 10,
+        idDistrito: 0,
+        idDelegacion: 80,
+        idTipoEleccion: TipoEleccion.ALCALDIA,
+        tipoCasilla: 'M01',
+        validado: 'T',
+        contabilizar: 'T',
+        votosPart1: 1,
+        votosPart10: 2,
+        votacionTotal: 3,
+      },
+      // Distrito 90 de diputaciones: acta MR con candidatura común
+      // `votos_part_14` (porcentajes de convenio) y acta RP del mismo
+      // distrito, que la vista por partido también suma (2024: tipo IN (2,3)).
+      {
+        rowid: 11,
+        idDistrito: 90,
+        idTipoEleccion: TipoEleccion.DIPUTACION_MR,
+        tipoCasilla: 'B01',
+        validado: 'T',
+        contabilizar: 'T',
+        votosPart14: 100,
+        votacionTotal: 100,
+      },
+      {
+        rowid: 12,
+        idDistrito: 90,
+        idTipoEleccion: TipoEleccion.REPRESENTACION_PROPORCIONAL,
+        tipoCasilla: 'B01',
+        validado: 'T',
+        contabilizar: 'T',
+        votosPart7: 5,
+        votacionTotal: 5,
+      },
     ]);
 
     catalogo = new TipoEleccionCatalogoService(
@@ -292,5 +344,102 @@ describe('GraficaService', () => {
     expect(datosMSSQL).toEqual([]);
     expect(agrupado[0]).toMatchObject({ siglas: 'PX', total_votos: 50 });
     expect(dataExtranjero[0]).toMatchObject({ siglas: 'PX', total_votos: 5 });
+  });
+
+  describe('votos por partido político (es_distribucion)', () => {
+    const catalogoDistribucion = {
+      partidos: [1, 2, 3].map((idParticipante) => ({
+        idParticipante,
+        descripcion: `Partido ${idParticipante}`,
+        siglas: `P${idParticipante}`,
+        campoVotos: `votos_part_${idParticipante}`,
+      })),
+      combinaciones: [{ campoVotos: 'votos_part_10', integrantes: [1, 2, 3] }],
+    };
+
+    beforeEach(() => {
+      jest
+        .spyOn(catalogo, 'getCatalogoDistribucion')
+        .mockResolvedValue(catalogoDistribucion);
+    });
+
+    it('should return one row per party with combination votes split when grafica has es_distribucion', async () => {
+      const { agrupado } = await service.grafica(
+        TipoEleccion.ALCALDIA,
+        80,
+        0,
+        null,
+        true,
+      );
+
+      // Totales: P1=11, P2=4, P3=6, combinación=10 → 3 c/u + residuo 1 a P1.
+      expect(
+        agrupado.map(({ siglas, total_votos, ganador }) => [
+          siglas,
+          total_votos,
+          ganador,
+        ]),
+      ).toEqual([
+        ['P1', 15, true],
+        ['P2', 7, false],
+        ['P3', 9, false],
+        ['no_registrados', 0, false],
+        ['votos_nulos', 0, false],
+      ]);
+    });
+
+    it('should compute territorio as total minus extranjero when pruebaDistribucion has es_distribucion', async () => {
+      const { agrupado, dataExtranjero } = await service.pruebaDistribucion(
+        TipoEleccion.ALCALDIA,
+        80,
+        0,
+        null,
+        true,
+      );
+
+      // Extranjero: P1=1, combinación=2 → 0 c/u + residuo 2 a P1 y P2 (empate P2/P3 → P2).
+      // Territorio = total (15, 7, 9) − extranjero (2, 1, 0).
+      expect(dataExtranjero.slice(0, 3).map((f) => f.total_votos)).toEqual([
+        2, 1, 0,
+      ]);
+      expect(agrupado.slice(0, 3).map((f) => f.total_votos)).toEqual([
+        13, 6, 9,
+      ]);
+    });
+
+    it('should split candidatura común by agreement percentages and include RP actas when diputaciones has es_distribucion', async () => {
+      jest.spyOn(catalogo, 'getCatalogoDistribucion').mockResolvedValueOnce({
+        partidos: [4, 5, 7].map((idParticipante) => ({
+          idParticipante,
+          descripcion: `Partido ${idParticipante}`,
+          siglas: `P${idParticipante}`,
+          campoVotos: `votos_part_${idParticipante}`,
+        })),
+        combinaciones: [
+          {
+            campoVotos: 'votos_part_14',
+            integrantes: [4, 5, 7],
+            porcentajes: [26.67, 20, 53.33],
+          },
+        ],
+      });
+
+      const { agrupado } = await service.grafica(
+        TipoEleccion.DIPUTACION_MR,
+        90,
+        0,
+        null,
+        true,
+      );
+
+      // 100 → 26 / 20 / 53 + residuo 1 a P7; P7 suma además 5 del acta RP.
+      expect(
+        agrupado.slice(0, 3).map((f) => [f.siglas, f.total_votos]),
+      ).toEqual([
+        ['P4', 26],
+        ['P5', 20],
+        ['P7', 59],
+      ]);
+    });
   });
 });

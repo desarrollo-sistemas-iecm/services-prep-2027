@@ -85,6 +85,7 @@ export class ResultadosExplotacionController {
       dto.dist_o_alcaldia ?? 0,
       dto.seccion ?? 0,
       dto.casilla ?? null,
+      dto.es_distribucion ?? false,
     );
     return { success: true, resumen, agrupado };
   }
@@ -100,6 +101,7 @@ export class ResultadosExplotacionController {
       dto.dist_o_alcaldia ?? 0,
       dto.seccion ?? 0,
       dto.casilla ?? null,
+      dto.es_distribucion ?? false,
     );
   }
 

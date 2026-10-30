@@ -9,6 +9,7 @@ import {
   TipoEleccionCatalogoService,
 } from './tipo-eleccion-catalogo.service';
 import { porcentajeNumerico } from '../utils/porcentaje.util';
+import { distribuirVotosCombinaciones } from '../utils/distribucion-votos.util';
 import { condicionActaValidada } from '../utils/acta-validada.util';
 
 /**
@@ -45,6 +46,24 @@ export interface CandidatoGraficaFila {
   ganador: boolean;
 }
 
+/** `solo`: únicamente voto en el extranjero (`tipo_casilla` `M*`); `excluir`: todo lo demás; sin filtro: ambos. */
+type FiltroExtranjero = 'solo' | 'excluir';
+
+interface FiltrosResumen {
+  tiposEleccion: TipoEleccion[];
+  geoColumn: 'id_distrito' | 'id_delegacion';
+  distOAlcaldia: number;
+  seccion: number;
+  casilla: string | null;
+  extranjero?: FiltroExtranjero;
+}
+
+/** Diputación MR se consulta junto con RP (`id_tipo_eleccion IN (2, 3)`), como `api_distribucion_partido.php`/`funciones_grafica.php`. */
+const tiposEleccionConRp = (type: TipoEleccion): TipoEleccion[] =>
+  type === TipoEleccion.DIPUTACION_MR
+    ? [TipoEleccion.DIPUTACION_MR, TipoEleccion.REPRESENTACION_PROPORCIONAL]
+    : [type];
+
 @Injectable()
 export class GraficaService {
   constructor(
@@ -64,11 +83,33 @@ export class GraficaService {
     distOAlcaldia: number,
     seccion: number,
     casilla: string | null,
+    esDistribucion = false,
   ): Promise<{
     resumen: ResumenGraficaFila;
     agrupado: CandidatoGraficaFila[];
     coalicionPendiente: boolean;
   }> {
+    const filtros: FiltrosResumen = {
+      tiposEleccion: [type],
+      geoColumn: this.catalogo.geoColumn(type),
+      distOAlcaldia,
+      seccion,
+      casilla,
+    };
+
+    if (esDistribucion) {
+      // Como `consigueDatosDMR()` de 2024, diputaciones suma también actas RP.
+      const { partidos, resumen } = await this.resumenPorPartido(type, {
+        ...filtros,
+        tiposEleccion: tiposEleccionConRp(type),
+      });
+      return {
+        resumen,
+        agrupado: this.construirAgrupado(partidos, resumen),
+        coalicionPendiente: false,
+      };
+    }
+
     const candidatos = await this.catalogo.getCandidatos(type);
 
     if (type === TipoEleccion.DIPUTACION_MR) {
@@ -80,40 +121,10 @@ export class GraficaService {
       };
     }
 
-    const columnas = candidatos.map((c) => asColumnaVotosSegura(c.campoVotos));
-    const geoColumn = this.catalogo.geoColumn(type);
-
-    const qb = this.votosRepo
-      .createQueryBuilder('v')
-      .where(condicionActaValidada('v.validado'))
-      .andWhere('v.contabilizar = :contabilizar', { contabilizar: 'T' })
-      .andWhere('v.idTipoEleccion = :type', { type });
-
-    if (distOAlcaldia) {
-      qb.andWhere(`v.${this.entityColumn(geoColumn)} = :distOAlcaldia`, {
-        distOAlcaldia,
-      });
-    }
-    if (seccion) qb.andWhere('v.idSeccion = :seccion', { seccion });
-    if (casilla) qb.andWhere('v.tipoCasilla = :casilla', { casilla });
-
-    for (const col of columnas) {
-      qb.addSelect(`SUM(v.${this.entityColumnVotos(col)})`, col);
-    }
-    qb.addSelect('SUM(v.votosCandNoReg)', 'votos_cand_no_reg');
-    qb.addSelect('SUM(v.votosNulos)', 'votos_nulos');
-    qb.addSelect('SUM(v.votacionTotal)', 'votacion_total');
-
-    const fila = await qb.getRawOne<Record<string, string | number | null>>();
-
-    const resumen: ResumenGraficaFila = {
-      votos_cand_no_reg: Number(fila?.votos_cand_no_reg ?? 0),
-      votos_nulos: Number(fila?.votos_nulos ?? 0),
-      votacion_total: Number(fila?.votacion_total ?? 0),
-    };
-    for (const col of columnas) {
-      resumen[col] = Number(fila?.[col] ?? 0);
-    }
+    const resumen = await this.sumarResumen(
+      candidatos.map((c) => asColumnaVotosSegura(c.campoVotos)),
+      filtros,
+    );
 
     return {
       resumen,
@@ -279,16 +290,14 @@ export class GraficaService {
     distOAlcaldia: number,
     seccion: number,
     casilla: string | null,
+    esDistribucion = false,
   ): Promise<{
     datosMSSQL: Record<string, unknown>[];
     agrupado: CandidatoGraficaFila[];
     dataExtranjero: CandidatoGraficaFila[];
     success: boolean;
   }> {
-    const tiposEleccion =
-      type === TipoEleccion.DIPUTACION_MR
-        ? [TipoEleccion.DIPUTACION_MR, TipoEleccion.REPRESENTACION_PROPORCIONAL]
-        : [type];
+    const tiposEleccion = tiposEleccionConRp(type);
     const geoColumn = this.catalogo.geoColumn(type);
     const placeholders = tiposEleccion.map(() => '?').join(', ');
 
@@ -314,54 +323,42 @@ export class GraficaService {
         ])
       : [];
 
+    const filtros: FiltrosResumen = {
+      tiposEleccion,
+      geoColumn,
+      distOAlcaldia,
+      seccion,
+      casilla,
+    };
+
+    if (esDistribucion) {
+      const [total, extranjero] = await Promise.all([
+        this.resumenPorPartido(type, filtros),
+        this.resumenPorPartido(type, { ...filtros, extranjero: 'solo' }),
+      ]);
+      // Como en `Chart.vue` (2024), "En Territorio Estatal" es el total menos
+      // el extranjero: repartir cada subconjunto por separado podría no
+      // cuadrar con el total por el residuo de las combinaciones.
+      return {
+        datosMSSQL,
+        agrupado: this.construirAgrupado(
+          total.partidos,
+          this.restarResumen(total.resumen, extranjero.resumen),
+        ),
+        dataExtranjero: this.construirAgrupado(
+          total.partidos,
+          extranjero.resumen,
+        ),
+        success: true,
+      };
+    }
+
     const candidatos = await this.catalogo.getCandidatos(type);
     const columnas = candidatos.map((c) => asColumnaVotosSegura(c.campoVotos));
 
-    const resumenFiltrado = async (
-      soloExtranjero: boolean,
-    ): Promise<ResumenGraficaFila> => {
-      const qb = this.votosRepo
-        .createQueryBuilder('v')
-        .where(condicionActaValidada('v.validado'))
-        .andWhere('v.contabilizar = :contabilizar', { contabilizar: 'T' })
-        .andWhere('v.idTipoEleccion IN (:...tipos)', { tipos: tiposEleccion })
-        .andWhere(
-          soloExtranjero
-            ? 'v.tipoCasilla LIKE :prefijoExtranjero'
-            : 'v.tipoCasilla NOT LIKE :prefijoExtranjero',
-          { prefijoExtranjero: 'M%' },
-        );
-
-      if (distOAlcaldia) {
-        qb.andWhere(`v.${this.entityColumn(geoColumn)} = :distOAlcaldia`, {
-          distOAlcaldia,
-        });
-      }
-      if (seccion) qb.andWhere('v.idSeccion = :seccion', { seccion });
-      if (casilla) qb.andWhere('v.tipoCasilla = :casilla', { casilla });
-
-      for (const col of columnas) {
-        qb.addSelect(`SUM(v.${this.entityColumnVotos(col)})`, col);
-      }
-      qb.addSelect('SUM(v.votosCandNoReg)', 'votos_cand_no_reg');
-      qb.addSelect('SUM(v.votosNulos)', 'votos_nulos');
-      qb.addSelect('SUM(v.votacionTotal)', 'votacion_total');
-
-      const fila = await qb.getRawOne<Record<string, string | number | null>>();
-      const resumen: ResumenGraficaFila = {
-        votos_cand_no_reg: Number(fila?.votos_cand_no_reg ?? 0),
-        votos_nulos: Number(fila?.votos_nulos ?? 0),
-        votacion_total: Number(fila?.votacion_total ?? 0),
-      };
-      for (const col of columnas) {
-        resumen[col] = Number(fila?.[col] ?? 0);
-      }
-      return resumen;
-    };
-
     const [resumenCasillas, resumenExtranjero] = await Promise.all([
-      resumenFiltrado(false),
-      resumenFiltrado(true),
+      this.sumarResumen(columnas, { ...filtros, extranjero: 'excluir' }),
+      this.sumarResumen(columnas, { ...filtros, extranjero: 'solo' }),
     ]);
 
     return {
@@ -370,6 +367,120 @@ export class GraficaService {
       dataExtranjero: this.construirAgrupado(candidatos, resumenExtranjero),
       success: true,
     };
+  }
+
+  /**
+   * Votos por partido individual (`funciones_grafica.php` de 2024): suma las
+   * columnas de partidos y de combinaciones de coalición, y reparte estas
+   * últimas entre sus integrantes. `resumen` queda indexado por la columna
+   * `votos_part_N` de cada partido, listo para `construirAgrupado()`.
+   */
+  private async resumenPorPartido(
+    type: TipoEleccion,
+    filtros: FiltrosResumen,
+  ): Promise<{ partidos: CandidatoCatalogo[]; resumen: ResumenGraficaFila }> {
+    const { partidos, combinaciones } =
+      await this.catalogo.getCatalogoDistribucion(type);
+    const sumado = await this.sumarResumen(
+      [...partidos, ...combinaciones].map(({ campoVotos }) => campoVotos),
+      filtros,
+    );
+
+    const repartidos = distribuirVotosCombinaciones(
+      new Map(
+        partidos.map(({ idParticipante, campoVotos }) => [
+          idParticipante,
+          Number(sumado[campoVotos] ?? 0),
+        ]),
+      ),
+      combinaciones.map(({ campoVotos, integrantes, porcentajes }) => ({
+        integrantes,
+        votos: Number(sumado[campoVotos] ?? 0),
+        porcentajes,
+      })),
+    );
+
+    const resumen: ResumenGraficaFila = {
+      votos_cand_no_reg: sumado.votos_cand_no_reg,
+      votos_nulos: sumado.votos_nulos,
+      votacion_total: sumado.votacion_total,
+    };
+    for (const { idParticipante, campoVotos } of partidos) {
+      resumen[campoVotos] = repartidos.get(idParticipante) ?? 0;
+    }
+    return { partidos, resumen };
+  }
+
+  private restarResumen(
+    minuendo: ResumenGraficaFila,
+    sustraendo: ResumenGraficaFila,
+  ): ResumenGraficaFila {
+    const resultado: ResumenGraficaFila = {
+      votos_cand_no_reg:
+        minuendo.votos_cand_no_reg - sustraendo.votos_cand_no_reg,
+      votos_nulos: minuendo.votos_nulos - sustraendo.votos_nulos,
+      votacion_total: minuendo.votacion_total - sustraendo.votacion_total,
+    };
+    for (const [columna, valor] of Object.entries(minuendo)) {
+      if (!(columna in resultado)) {
+        resultado[columna] =
+          Number(valor ?? 0) - Number(sustraendo[columna] ?? 0);
+      }
+    }
+    return resultado;
+  }
+
+  /** Suma de `columnas` (ya validadas) más no registrados, nulos y votación total sobre actas validadas y contabilizadas. */
+  private async sumarResumen(
+    columnas: string[],
+    {
+      tiposEleccion,
+      geoColumn,
+      distOAlcaldia,
+      seccion,
+      casilla,
+      extranjero,
+    }: FiltrosResumen,
+  ): Promise<ResumenGraficaFila> {
+    const qb = this.votosRepo
+      .createQueryBuilder('v')
+      .where(condicionActaValidada('v.validado'))
+      .andWhere('v.contabilizar = :contabilizar', { contabilizar: 'T' })
+      .andWhere('v.idTipoEleccion IN (:...tipos)', { tipos: tiposEleccion });
+
+    if (extranjero) {
+      qb.andWhere(
+        extranjero === 'solo'
+          ? 'v.tipoCasilla LIKE :prefijoExtranjero'
+          : 'v.tipoCasilla NOT LIKE :prefijoExtranjero',
+        { prefijoExtranjero: 'M%' },
+      );
+    }
+    if (distOAlcaldia) {
+      qb.andWhere(`v.${this.entityColumn(geoColumn)} = :distOAlcaldia`, {
+        distOAlcaldia,
+      });
+    }
+    if (seccion) qb.andWhere('v.idSeccion = :seccion', { seccion });
+    if (casilla) qb.andWhere('v.tipoCasilla = :casilla', { casilla });
+
+    for (const col of columnas) {
+      qb.addSelect(`SUM(v.${this.entityColumnVotos(col)})`, col);
+    }
+    qb.addSelect('SUM(v.votosCandNoReg)', 'votos_cand_no_reg');
+    qb.addSelect('SUM(v.votosNulos)', 'votos_nulos');
+    qb.addSelect('SUM(v.votacionTotal)', 'votacion_total');
+
+    const fila = await qb.getRawOne<Record<string, string | number | null>>();
+    const resumen: ResumenGraficaFila = {
+      votos_cand_no_reg: Number(fila?.votos_cand_no_reg ?? 0),
+      votos_nulos: Number(fila?.votos_nulos ?? 0),
+      votacion_total: Number(fila?.votacion_total ?? 0),
+    };
+    for (const col of columnas) {
+      resumen[col] = Number(fila?.[col] ?? 0);
+    }
+    return resumen;
   }
 
   /** camelCase de la columna geográfica cruda ('id_distrito'/'id_delegacion') como propiedad de entidad. */

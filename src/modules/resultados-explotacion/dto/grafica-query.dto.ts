@@ -34,4 +34,13 @@ export class GraficaQueryDto extends TipoEleccionDto {
   @IsOptional()
   @IsBoolean()
   mostrar_no_reg_y_nulos?: boolean = false;
+
+  @ApiPropertyOptional({
+    description:
+      'true para "Votos por Partido Político": un renglón por partido, repartiendo entre sus integrantes los votos de las combinaciones de coalición o candidatura común',
+    default: false,
+  })
+  @IsOptional()
+  @IsBoolean()
+  es_distribucion?: boolean = false;
 }
