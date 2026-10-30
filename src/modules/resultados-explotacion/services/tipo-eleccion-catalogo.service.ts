@@ -27,6 +27,24 @@ export interface ParticipanteCatalogo {
   integrantes: string | null;
 }
 
+export interface CombinacionCatalogo {
+  campoVotos: string;
+  integrantes: number[];
+  porcentajes?: number[];
+}
+
+export interface CatalogoDistribucion {
+  partidos: CandidatoCatalogo[];
+  combinaciones: CombinacionCatalogo[];
+}
+
+/** `'4&5&7'` → `[4, 5, 7]`; vacío o nulo → `[]`. */
+const separarLista = (valor: string | null): number[] =>
+  (valor ?? '')
+    .split('&')
+    .filter((elemento) => elemento.trim() !== '')
+    .map(Number);
+
 /**
  * Nombre de la columna que identifica un voto individual (`votos_part_N`) o
  * de candidatura común/coalición (`total_votos_ccN`) en `prep_votos`.
@@ -289,6 +307,103 @@ export class TipoEleccionCatalogoService {
       }
     }
     return [...porId.values()];
+  }
+
+  /**
+   * Catálogo para "Votos por Partido Político" (`consigueCat()` de
+   * `funciones_grafica.php`): los participantes sin `integrantesPartidosCC`
+   * son partidos (o candidaturas sin partido) con columna propia
+   * `votos_part_N`; los que sí lo tienen son combinaciones de coalición o
+   * candidatura común cuyos votos (`votos_part_N`) se reparten entre esos
+   * partidos (por partes iguales, o por `porcentaje` de convenio cuando lo
+   * trae, como la candidatura común en diputaciones y alcaldías). Los
+   * partidos van por id, como las columnas `votos_part_N` de 2024: en MR/ALC
+   * la `prelacion` cambia por distrito/delegación. RP no tiene la columna en
+   * su catálogo y regresa vacío.
+   */
+  async getCatalogoDistribucion(
+    type: TipoEleccion,
+  ): Promise<CatalogoDistribucion> {
+    const repo = this.participantesConCombinacionesRepo(type);
+    if (!repo) {
+      return { partidos: [], combinaciones: [] };
+    }
+
+    const filas = await repo
+      .createQueryBuilder('x')
+      .leftJoin(
+        ScdCatParticipantesEntity,
+        'p',
+        'p.idParticipante = x.idParticipante',
+      )
+      .select('x.idParticipante', 'idParticipante')
+      .addSelect('p.descripcion', 'descripcion')
+      .addSelect('p.siglas', 'siglas')
+      .addSelect('x.integrantesPartidosCC', 'integrantesPartidosCC')
+      .addSelect('x.porcentaje', 'porcentaje')
+      .orderBy('x.idParticipante', 'ASC')
+      .getRawMany<{
+        idParticipante: number;
+        descripcion: string | null;
+        siglas: string | null;
+        integrantesPartidosCC: string | null;
+        porcentaje: string | null;
+      }>();
+
+    const porId = new Map<number, (typeof filas)[number]>();
+    for (const fila of filas) {
+      if (!porId.has(fila.idParticipante)) {
+        porId.set(fila.idParticipante, fila);
+      }
+    }
+
+    const catalogo: CatalogoDistribucion = { partidos: [], combinaciones: [] };
+    for (const {
+      idParticipante,
+      descripcion,
+      siglas,
+      integrantesPartidosCC,
+      porcentaje,
+    } of porId.values()) {
+      const campoVotos = asColumnaVotosSegura(`votos_part_${idParticipante}`);
+      const integrantes = separarLista(integrantesPartidosCC);
+
+      if (integrantes.length === 0) {
+        catalogo.partidos.push({
+          idParticipante,
+          descripcion,
+          siglas,
+          campoVotos,
+        });
+      } else {
+        const porcentajes = separarLista(porcentaje);
+        catalogo.combinaciones.push({
+          campoVotos,
+          integrantes,
+          ...(porcentajes.length > 0 && { porcentajes }),
+        });
+      }
+    }
+    return catalogo;
+  }
+
+  private participantesConCombinacionesRepo(
+    type: TipoEleccion,
+  ): Repository<
+    | ScdParticipantesJgobEntity
+    | ScdParticipantesMrEntity
+    | ScdParticipantesJdelEntity
+  > | null {
+    switch (type) {
+      case TipoEleccion.JEFATURA_GOBIERNO:
+        return this.participantesJgobRepo;
+      case TipoEleccion.DIPUTACION_MR:
+        return this.participantesMrRepo;
+      case TipoEleccion.ALCALDIA:
+        return this.participantesJdelRepo;
+      default:
+        return null;
+    }
   }
 
   private mapParticipantes(
