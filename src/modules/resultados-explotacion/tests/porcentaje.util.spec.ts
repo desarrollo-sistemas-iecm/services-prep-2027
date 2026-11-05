@@ -1,4 +1,7 @@
-import { formatearPorcentaje } from '../utils/porcentaje.util';
+import {
+  formatearPorcentaje,
+  porcentajeCuatroDecimales,
+} from '../utils/porcentaje.util';
 
 describe('formatearPorcentaje', () => {
   it('should format the ratio as a percentage string with two decimals', () => {
@@ -11,5 +14,15 @@ describe('formatearPorcentaje', () => {
 
   it('should round to two decimals', () => {
     expect(formatearPorcentaje(1, 3)).toBe('33.33%');
+  });
+});
+
+describe('porcentajeCuatroDecimales', () => {
+  it('should format the ratio with four decimals and no symbol when the total is positive', () => {
+    expect(porcentajeCuatroDecimales(5257044, 8005817)).toBe('65.6653');
+  });
+
+  it('should return 0.0000 when the total is zero', () => {
+    expect(porcentajeCuatroDecimales(10, 0)).toBe('0.0000');
   });
 });
