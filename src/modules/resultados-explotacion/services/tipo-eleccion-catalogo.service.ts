@@ -27,6 +27,14 @@ export interface ParticipanteCatalogo {
   integrantes: string | null;
 }
 
+export interface CandidaturaDistribucion {
+  idParticipante: number;
+  descripcion: string | null;
+  siglas: string | null;
+  campoVotos: string;
+  integrantes: number[];
+}
+
 export interface CombinacionCatalogo {
   campoVotos: string;
   integrantes: number[];
@@ -435,6 +443,71 @@ export class TipoEleccionCatalogoService {
       }
     }
     return catalogo;
+  }
+
+  /**
+   * Candidaturas de una demarcación con sus integrantes, ordenadas por
+   * `prelacion` (catálogo de `funciones_distribucion.php` de 2024). JG tiene
+   * una sola boleta y no se filtra; RP no tiene candidaturas.
+   */
+  async getCandidaturasDistribucion(
+    type: TipoEleccion,
+    distOAlcaldia: number,
+  ): Promise<CandidaturaDistribucion[]> {
+    const consulta =
+      type === TipoEleccion.JEFATURA_GOBIERNO
+        ? this.candidatosJgobRepo.createQueryBuilder('c')
+        : type === TipoEleccion.DIPUTACION_MR
+          ? this.candidatosMrRepo
+              .createQueryBuilder('c')
+              .where('c.idDistrito = :distOAlcaldia', { distOAlcaldia })
+          : type === TipoEleccion.ALCALDIA
+            ? this.candidatosJdelRepo
+                .createQueryBuilder('c')
+                .where('c.idDelegacion = :distOAlcaldia', { distOAlcaldia })
+            : null;
+    if (!consulta) return [];
+
+    const filas = await consulta
+      .leftJoin(
+        ScdCatParticipantesEntity,
+        'p',
+        'p.idParticipante = c.idParticipante',
+      )
+      .select('c.idParticipante', 'idParticipante')
+      .addSelect('p.descripcion', 'descripcion')
+      .addSelect('p.siglas', 'siglas')
+      .addSelect('c.campoVotos', 'campoVotos')
+      .addSelect('c.integrantes', 'integrantes')
+      .orderBy('c.prelacion', 'ASC')
+      .getRawMany<{
+        idParticipante: number;
+        descripcion: string | null;
+        siglas: string | null;
+        campoVotos: string;
+        integrantes: string | null;
+      }>();
+
+    return filas.map(({ integrantes, campoVotos, ...fila }) => ({
+      ...fila,
+      campoVotos: asColumnaVotosSegura(campoVotos),
+      integrantes: separarLista(integrantes),
+    }));
+  }
+
+  /** Siglas de `scd_cat_participantes` por id de participante. */
+  async getSiglasParticipantes(): Promise<Map<number, string>> {
+    const filas = await this.catParticipantesRepo
+      .createQueryBuilder('p')
+      .select('p.idParticipante', 'idParticipante')
+      .addSelect('p.siglas', 'siglas')
+      .getRawMany<{ idParticipante: number; siglas: string | null }>();
+    return new Map(
+      filas.map(({ idParticipante, siglas }) => [
+        Number(idParticipante),
+        siglas ?? '',
+      ]),
+    );
   }
 
   private participantesConCombinacionesRepo(

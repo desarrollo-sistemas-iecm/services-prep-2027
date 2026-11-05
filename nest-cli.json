@@ -5,7 +5,14 @@
   "compilerOptions": {
     "deleteOutDir": true,
     "assets": [
-      { "include": "modules/exportacion-ine/assets/**/*", "outDir": "dist" }
+      {
+        "include": "modules/exportacion-ine/assets/**/*",
+        "outDir": "dist"
+      },
+      {
+        "include": "modules/resultados-explotacion/assets/**/*",
+        "outDir": "dist"
+      }
     ]
   }
 }

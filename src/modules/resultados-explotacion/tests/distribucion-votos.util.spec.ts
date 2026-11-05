@@ -1,4 +1,7 @@
-import { distribuirVotosCombinaciones } from '../utils/distribucion-votos.util';
+import {
+  distribuirVotosCombinaciones,
+  repartirVotosCombinaciones,
+} from '../utils/distribucion-votos.util';
 
 describe('distribuirVotosCombinaciones', () => {
   it('should split combination votes evenly when they divide exactly', () => {
@@ -135,6 +138,47 @@ describe('distribuirVotosCombinaciones', () => {
     expect([...resultado]).toEqual([
       [4, 2],
       [5, 2],
+    ]);
+  });
+
+  it('should give the remainder to the members with most votes when all porcentajes are equal', () => {
+    const votosPartidos = new Map([
+      [1, 14235],
+      [2, 7873],
+      [3, 3825],
+    ]);
+
+    const resultado = distribuirVotosCombinaciones(votosPartidos, [
+      {
+        integrantes: [1, 2, 3],
+        votos: 1700,
+        porcentajes: [33.3333333, 33.3333333, 33.3333333],
+      },
+    ]);
+
+    expect([...resultado]).toEqual([
+      [1, 14802],
+      [2, 8440],
+      [3, 4391],
+    ]);
+  });
+});
+
+describe('repartirVotosCombinaciones', () => {
+  it('should return the share of each member per combination when several combinations overlap', () => {
+    const votosPartidos = new Map([
+      [1, 10],
+      [2, 5],
+    ]);
+
+    const repartos = repartirVotosCombinaciones(votosPartidos, [
+      { integrantes: [1, 2], votos: 5 },
+      { integrantes: [1, 99], votos: 3 },
+    ]);
+
+    expect(repartos).toEqual([
+      { integrantes: [1, 2], votos: 5, partes: [3, 2] },
+      { integrantes: [1], votos: 3, partes: [3] },
     ]);
   });
 });

@@ -31,7 +31,7 @@ export interface CandidatoGraficaFila {
 /** `solo`: únicamente voto en el extranjero (`tipo_casilla` `M*`); `excluir`: todo lo demás; sin filtro: ambos. */
 type FiltroExtranjero = 'solo' | 'excluir';
 
-interface FiltrosResumen {
+export interface FiltrosResumen {
   tiposEleccion: TipoEleccion[];
   geoColumn: 'id_distrito' | 'id_delegacion';
   distOAlcaldia: number;
@@ -43,7 +43,7 @@ interface FiltrosResumen {
 }
 
 /** Diputación MR se consulta junto con RP (`id_tipo_eleccion IN (2, 3)`), como `api_distribucion_partido.php`/`funciones_grafica.php`. */
-const tiposEleccionConRp = (type: TipoEleccion): TipoEleccion[] =>
+export const tiposEleccionConRp = (type: TipoEleccion): TipoEleccion[] =>
   type === TipoEleccion.DIPUTACION_MR
     ? [TipoEleccion.DIPUTACION_MR, TipoEleccion.REPRESENTACION_PROPORCIONAL]
     : [type];
@@ -339,7 +339,7 @@ export class GraficaService {
   }
 
   /** Suma de `columnas` (ya validadas) más no registrados, nulos y votación total sobre actas validadas y contabilizadas. */
-  private async sumarResumen(
+  async sumarResumen(
     columnas: string[],
     {
       tiposEleccion,

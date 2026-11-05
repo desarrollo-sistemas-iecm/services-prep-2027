@@ -9,6 +9,7 @@ import { EstadisticaService } from './services/estadistica.service';
 import { AvanceService } from './services/avance.service';
 import { MapasService } from './services/mapas.service';
 import { DistribucionService } from './services/distribucion.service';
+import { DistribucionVotosService } from './services/distribucion-votos.service';
 import { GraficaService } from './services/grafica.service';
 import { ActasGridService } from './services/actas-grid.service';
 import { ActasModalidadService } from './services/actas-modalidad.service';
@@ -31,6 +32,7 @@ import { ActasModalidadService } from './services/actas-modalidad.service';
     AvanceService,
     MapasService,
     DistribucionService,
+    DistribucionVotosService,
     GraficaService,
     ActasGridService,
     ActasModalidadService,

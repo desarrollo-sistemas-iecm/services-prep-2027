@@ -16,6 +16,7 @@ import { EstadisticaService } from '../services/estadistica.service';
 import { AvanceService } from '../services/avance.service';
 import { MapasService } from '../services/mapas.service';
 import { DistribucionService } from '../services/distribucion.service';
+import { DistribucionVotosService } from '../services/distribucion-votos.service';
 import { GraficaService } from '../services/grafica.service';
 import { ActasModalidadService } from '../services/actas-modalidad.service';
 
@@ -38,6 +39,7 @@ export class ResultadosExplotacionController {
     private readonly avanceService: AvanceService,
     private readonly mapasService: MapasService,
     private readonly distribucionService: DistribucionService,
+    private readonly distribucionVotosService: DistribucionVotosService,
     private readonly graficaService: GraficaService,
     private readonly actasModalidadService: ActasModalidadService,
   ) {}
@@ -125,6 +127,20 @@ export class ResultadosExplotacionController {
       dto.type,
       dto.seleccion,
       dto.seccion,
+    );
+  }
+
+  @Post('distribucion-votos')
+  @ApiOperation({
+    summary:
+      'Distribución de votos por candidatura y por partido político de un distrito/alcaldía (aportes de cada integrante de coalición o candidatura común)',
+  })
+  distribucionVotos(@Body() dto: FiltroGeograficoDto) {
+    return this.distribucionVotosService.obtener(
+      dto.type,
+      dto.dist_o_alcaldia ?? 0,
+      dto.seccion ?? 0,
+      dto.casilla ?? null,
     );
   }
 
