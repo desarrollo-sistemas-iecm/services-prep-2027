@@ -20,14 +20,15 @@ export class DistribucionService {
   ) {}
 
   async obtener(type: TipoEleccion, seleccion: number, seccion: number) {
-    const candidatos = await this.catalogo.getCandidatos(type);
+    const candidatos = await this.catalogo.getCandidatos(type, seleccion);
     const participantes = await this.catalogo.getParticipantes(type, seleccion);
 
     return this.actasGrid.obtener({
       type,
-      columnasVotos: candidatos.map(({ campoVotos }) => ({
+      // `titulo` son las siglas para que el front pinte el logo del partido o coalición.
+      columnasVotos: candidatos.map(({ campoVotos, siglas }) => ({
         columna: campoVotos,
-        titulo: campoVotos,
+        titulo: siglas ?? campoVotos,
       })),
       participantes,
       filtros: {

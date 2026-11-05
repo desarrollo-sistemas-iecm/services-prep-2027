@@ -113,8 +113,14 @@ export class TipoEleccionCatalogoService {
   /**
    * Catálogo de candidatos (`getCandidatos()` en `funciones.php`, doc §1.15).
    * RP no tiene tabla `scd_candidatos_rp` — regresa vacío, igual que en 2024.
+   * Con `distOAlcaldia` (MR: distrito, ALC: delegación) solo regresa las
+   * candidaturas de esa demarcación; 2024 no filtraba (§1.15) y mostraba las
+   * de toda la entidad en cualquier distrito o alcaldía. JG no se filtra.
    */
-  async getCandidatos(type: TipoEleccion): Promise<CandidatoCatalogo[]> {
+  async getCandidatos(
+    type: TipoEleccion,
+    distOAlcaldia = 0,
+  ): Promise<CandidatoCatalogo[]> {
     switch (type) {
       case TipoEleccion.JEFATURA_GOBIERNO:
         return this.mapCandidatos(
@@ -132,38 +138,42 @@ export class TipoEleccionCatalogoService {
             .addSelect('c.campoVotos', 'campoVotos')
             .getRawMany(),
         );
-      case TipoEleccion.DIPUTACION_MR:
-        return this.mapCandidatos(
-          await this.candidatosMrRepo
-            .createQueryBuilder('c')
-            .leftJoin(
-              ScdCatParticipantesEntity,
-              'p',
-              'p.idParticipante = c.idParticipante',
-            )
-            .distinct(true)
-            .select('c.idParticipante', 'idParticipante')
-            .addSelect('p.descripcion', 'descripcion')
-            .addSelect('p.siglas', 'siglas')
-            .addSelect('c.campoVotos', 'campoVotos')
-            .getRawMany(),
-        );
-      case TipoEleccion.ALCALDIA:
-        return this.mapCandidatos(
-          await this.candidatosJdelRepo
-            .createQueryBuilder('c')
-            .leftJoin(
-              ScdCatParticipantesEntity,
-              'p',
-              'p.idParticipante = c.idParticipante',
-            )
-            .distinct(true)
-            .select('c.idParticipante', 'idParticipante')
-            .addSelect('p.descripcion', 'descripcion')
-            .addSelect('p.siglas', 'siglas')
-            .addSelect('c.campoVotos', 'campoVotos')
-            .getRawMany(),
-        );
+      case TipoEleccion.DIPUTACION_MR: {
+        const qb = this.candidatosMrRepo
+          .createQueryBuilder('c')
+          .leftJoin(
+            ScdCatParticipantesEntity,
+            'p',
+            'p.idParticipante = c.idParticipante',
+          )
+          .distinct(true)
+          .select('c.idParticipante', 'idParticipante')
+          .addSelect('p.descripcion', 'descripcion')
+          .addSelect('p.siglas', 'siglas')
+          .addSelect('c.campoVotos', 'campoVotos');
+        if (distOAlcaldia) {
+          qb.where('c.idDistrito = :distOAlcaldia', { distOAlcaldia });
+        }
+        return this.mapCandidatos(await qb.getRawMany());
+      }
+      case TipoEleccion.ALCALDIA: {
+        const qb = this.candidatosJdelRepo
+          .createQueryBuilder('c')
+          .leftJoin(
+            ScdCatParticipantesEntity,
+            'p',
+            'p.idParticipante = c.idParticipante',
+          )
+          .distinct(true)
+          .select('c.idParticipante', 'idParticipante')
+          .addSelect('p.descripcion', 'descripcion')
+          .addSelect('p.siglas', 'siglas')
+          .addSelect('c.campoVotos', 'campoVotos');
+        if (distOAlcaldia) {
+          qb.where('c.idDelegacion = :distOAlcaldia', { distOAlcaldia });
+        }
+        return this.mapCandidatos(await qb.getRawMany());
+      }
       case TipoEleccion.REPRESENTACION_PROPORCIONAL:
         // No existe `scd_candidatos_rp` — igual que en el PHP 2024
         // (`getCandidatos()`), RP no tiene catálogo de candidatos propio. La
@@ -174,6 +184,46 @@ export class TipoEleccionCatalogoService {
         // ids 1–7 y `_voto_prision_ant.php` tampoco lo aplicaba.
         return [];
     }
+  }
+
+  /**
+   * Para MR y ALC, demarcaciones (distrito o delegación) en las que cada
+   * `campo_votos` es una candidatura según `scd_candidatos_*`. Sustituye los
+   * grupos de coalición fijos de 2024 (§5.4): una columna solo suma votos
+   * donde es candidatura — p. ej. `votos_part_1` (PAN) no cuenta en los
+   * distritos donde PAN compite dentro de `total_votos_cc1`, porque esos
+   * votos ya están en el total de la coalición. JG tiene una sola boleta para
+   * toda la entidad y regresa `null`.
+   */
+  async getAmbitoColumnas(
+    type: TipoEleccion,
+  ): Promise<Map<string, number[]> | null> {
+    const consulta =
+      type === TipoEleccion.DIPUTACION_MR
+        ? this.candidatosMrRepo
+            .createQueryBuilder('c')
+            .select('c.campoVotos', 'campoVotos')
+            .addSelect('c.idDistrito', 'demarcacion')
+        : type === TipoEleccion.ALCALDIA
+          ? this.candidatosJdelRepo
+              .createQueryBuilder('c')
+              .select('c.campoVotos', 'campoVotos')
+              .addSelect('c.idDelegacion', 'demarcacion')
+          : null;
+    if (!consulta) return null;
+
+    const filas = await consulta
+      .distinct(true)
+      .getRawMany<{ campoVotos: string; demarcacion: number }>();
+
+    return filas.reduce(
+      (ambito, { campoVotos, demarcacion }) =>
+        ambito.set(campoVotos, [
+          ...(ambito.get(campoVotos) ?? []),
+          Number(demarcacion),
+        ]),
+      new Map<string, number[]>(),
+    );
   }
 
   private mapCandidatos(

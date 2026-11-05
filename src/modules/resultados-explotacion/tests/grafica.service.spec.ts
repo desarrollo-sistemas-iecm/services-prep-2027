@@ -14,19 +14,21 @@ describe('GraficaService', () => {
     dataSource = await createTestDataSource();
 
     await dataSource.getRepository(PrepVotosEntity).save([
-      // Grupo 1 de coalición (incluye distrito 1)
+      // Distrito 1: PAN compite dentro de `total_votos_cc1`, así que sus
+      // votos sueltos de `votos_part_1` no deben sumarse como candidatura.
       {
         rowid: 1,
         idDistrito: 1,
         idTipoEleccion: TipoEleccion.DIPUTACION_MR,
         validado: 'T',
         contabilizar: 'T',
+        votosPart1: 4,
         votosPart6: 10,
         totalVotosCc1: 20,
         totalVotosCc5: 5,
         votacionTotal: 100,
       },
-      // Grupo 2 de coalición (incluye distrito 7)
+      // Distrito 7: PVEM compite solo; coalición `total_votos_cc1`.
       {
         rowid: 2,
         idDistrito: 7,
@@ -37,7 +39,7 @@ describe('GraficaService', () => {
         totalVotosCc1: 15,
         votacionTotal: 50,
       },
-      // Grupo 3 de coalición (incluye distrito 12)
+      // Distrito 12: PAN compite solo; coalición `total_votos_cc5`.
       {
         rowid: 3,
         idDistrito: 12,
@@ -164,10 +166,10 @@ describe('GraficaService', () => {
       undefined as never,
       undefined as never,
     );
-    // `grafica()` ahora pide el catálogo de candidatos para armar `agrupado`
-    // incluso en la rama de coalición DMR; este spec solo prueba la
-    // agregación de `resumen`, así que se mockea un catálogo vacío.
+    // Por defecto sin candidatos ni ámbito por columna; cada prueba que lo
+    // necesita fija su propio catálogo.
     jest.spyOn(catalogo, 'getCandidatos').mockResolvedValue([]);
+    jest.spyOn(catalogo, 'getAmbitoColumnas').mockResolvedValue(null);
 
     service = new GraficaService(
       dataSource.getRepository(PrepVotosEntity),
@@ -179,30 +181,77 @@ describe('GraficaService', () => {
     await dataSource.destroy();
   });
 
-  it('should combine the 3 hardcoded coalición groups for diputación MR (TODO logic)', async () => {
-    const { resumen, agrupado, coalicionPendiente } = await service.grafica(
+  const candidaturasMr = [
+    ['MC', 'votos_part_6'],
+    ['PAN-PRI-PRD', 'total_votos_cc1'],
+    ['PVEM-PT-MORENA', 'total_votos_cc5'],
+    ['PAN', 'votos_part_1'],
+    ['PVEM', 'votos_part_4'],
+  ].map(([siglas, campoVotos], index) => ({
+    idParticipante: index + 1,
+    descripcion: siglas,
+    siglas,
+    campoVotos,
+  }));
+
+  const ambitoMr = new Map([
+    ['votos_part_6', [1, 7, 12]],
+    ['total_votos_cc1', [1, 7]],
+    ['total_votos_cc5', [1, 12]],
+    ['votos_part_1', [12]],
+    ['votos_part_4', [7]],
+  ]);
+
+  it('should sum each candidatura only in the districts where it runs when diputación MR is requested at entity level', async () => {
+    jest.spyOn(catalogo, 'getCandidatos').mockResolvedValueOnce(candidaturasMr);
+    jest.spyOn(catalogo, 'getAmbitoColumnas').mockResolvedValueOnce(ambitoMr);
+
+    const { resumen, agrupado } = await service.grafica(
       TipoEleccion.DIPUTACION_MR,
       0,
       0,
       null,
     );
 
-    expect(coalicionPendiente).toBe(true);
     expect(resumen.votos_part_1).toBe(3);
     expect(resumen.votos_part_4).toBe(8);
     expect(resumen.votos_part_6).toBe(10);
-    expect(resumen.votos_part_10).toBe(35);
-    expect(resumen.votos_part_14).toBe(12);
-    expect(resumen.votacion_total).toBe(180);
-
-    // Sin candidatos en el catálogo (mockeado vacío), `agrupado` solo trae
-    // las filas de no_registrados/votos_nulos, sin ganador.
-    expect(agrupado).toHaveLength(2);
-    expect(agrupado.map((fila) => fila.siglas)).toEqual([
-      'no_registrados',
-      'votos_nulos',
+    expect(resumen.total_votos_cc1).toBe(35);
+    expect(resumen.total_votos_cc5).toBe(12);
+    expect(
+      agrupado.map(({ siglas, total_votos }) => [siglas, total_votos]),
+    ).toEqual([
+      ['MC', 10],
+      ['PAN-PRI-PRD', 35],
+      ['PVEM-PT-MORENA', 12],
+      ['PAN', 3],
+      ['PVEM', 8],
+      ['no_registrados', 0],
+      ['votos_nulos', 0],
     ]);
-    expect(agrupado.every((fila) => fila.ganador === false)).toBe(true);
+  });
+
+  it('should filter votes and request only the district candidaturas when diputación MR receives dist_o_alcaldia', async () => {
+    const getCandidatos = jest
+      .spyOn(catalogo, 'getCandidatos')
+      .mockResolvedValueOnce(candidaturasMr.slice(0, 3));
+    jest.spyOn(catalogo, 'getAmbitoColumnas').mockResolvedValueOnce(ambitoMr);
+
+    const { resumen } = await service.grafica(
+      TipoEleccion.DIPUTACION_MR,
+      1,
+      0,
+      null,
+    );
+
+    expect(getCandidatos).toHaveBeenLastCalledWith(
+      TipoEleccion.DIPUTACION_MR,
+      1,
+    );
+    expect(resumen.votos_part_6).toBe(10);
+    expect(resumen.total_votos_cc1).toBe(20);
+    expect(resumen.total_votos_cc5).toBe(5);
+    expect(resumen.votacion_total).toBe(100);
   });
 
   it('should return validated contabilizar=T raw rows and a success flag instead of the legacy fixed error string', async () => {
