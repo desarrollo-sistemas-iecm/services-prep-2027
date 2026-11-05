@@ -1,12 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { ObjectLiteral, Repository, SelectQueryBuilder } from 'typeorm';
 import { PrepVotosEntity } from '../../resultados-legacy/entities/prep-votos.entity';
 import { ScdCasillasEntity } from '../../resultados-legacy/entities/scd-casillas.entity';
 import { NourbanasEntity } from '../../resultados-legacy/entities/nourbanas.entity';
 import { TipoEleccion } from '../enums/tipo-eleccion.enum';
 import { porcentajeNumerico } from '../utils/porcentaje.util';
 import { condicionActaValidada } from '../utils/acta-validada.util';
+import {
+  aplicarFiltroGeografico,
+  FiltroGeografico,
+  SIN_FILTRO_GEOGRAFICO,
+} from '../utils/filtro-geografico.util';
+import { TipoEleccionCatalogoService } from './tipo-eleccion-catalogo.service';
 
 export interface EstadisticaPayload {
   actas: {
@@ -36,7 +42,9 @@ export interface EstadisticaPayload {
  * (docs/CONSULTAS_SQL_PREP2024.md §1.1 "esperadas", §1.2 "computadas",
  * §1.3 "capturadas") y a
  * `test_nourbanas.php`/`urbanasNoUrbanasENTIDAD()` (§1.16/§15, duplicadas en
- * el PHP original — aquí unificadas en un solo método).
+ * el PHP original — aquí unificadas en un solo método). Con `filtro` todas
+ * las cifras (incluidas las esperadas) se acotan al distrito/alcaldía,
+ * sección o casilla elegidos.
  *
  * CORRECCIÓN: igual que en `ResumenVotacionService`, `votos_casillas_normales`
  * / `votos_casillas_especiales` invierten la etiqueta que trae el doc fuente
@@ -59,27 +67,40 @@ export class EstadisticaService {
     private readonly casillasRepo: Repository<ScdCasillasEntity>,
     @InjectRepository(NourbanasEntity, 'resultados')
     private readonly nourbanasRepo: Repository<NourbanasEntity>,
+    private readonly catalogo: TipoEleccionCatalogoService,
   ) {}
 
   async obtener(
     type: TipoEleccion,
+    filtro: FiltroGeografico = SIN_FILTRO_GEOGRAFICO,
   ): Promise<{ succes: boolean; msg: string; data: EstadisticaPayload }> {
-    const esperadas = await this.casillasRepo
-      .createQueryBuilder('c')
-      .select('COUNT(c.estatus)', 'cuantos')
-      .addSelect('SUM(c.listaNominal)', 'ln')
-      .where("c.estatus = 'T'")
-      .getRawOne<{ cuantos: string | number; ln: string | number | null }>();
+    const geoColumn = this.catalogo.geoColumn(type);
+    const filtrar = <T extends ObjectLiteral>(
+      qb: SelectQueryBuilder<T>,
+      alias: string,
+    ) => aplicarFiltroGeografico(qb, alias, geoColumn, filtro);
+
+    const esperadas = await filtrar(
+      this.casillasRepo
+        .createQueryBuilder('c')
+        .select('COUNT(c.estatus)', 'cuantos')
+        .addSelect('SUM(c.listaNominal)', 'ln')
+        .where("c.estatus = 'T'"),
+      'c',
+    ).getRawOne<{ cuantos: string | number; ln: string | number | null }>();
 
     const capturadasBase = () =>
-      this.votosRepo
-        .createQueryBuilder('p')
-        .leftJoin(
-          ScdCasillasEntity,
-          'c',
-          'p.idDistrito = c.idDistrito AND p.idDelegacion = c.idDelegacion AND p.idSeccion = c.idSeccion AND p.tipoCasilla = c.tipoCasilla',
-        )
-        .where('p.idTipoEleccion = :type', { type });
+      filtrar(
+        this.votosRepo
+          .createQueryBuilder('p')
+          .leftJoin(
+            ScdCasillasEntity,
+            'c',
+            'p.idDistrito = c.idDistrito AND p.idDelegacion = c.idDelegacion AND p.idSeccion = c.idSeccion AND p.tipoCasilla = c.tipoCasilla',
+          )
+          .where('p.idTipoEleccion = :type', { type }),
+        'p',
+      );
 
     const computadasBase = () =>
       capturadasBase()
@@ -114,25 +135,21 @@ export class EstadisticaService {
       .createQueryBuilder('n')
       .select('n.claveMdc', 'claveMdc');
 
-    const urbanas = await this.votosRepo
-      .createQueryBuilder('p')
-      .select('COUNT(p.idDistrito)', 'cuantos')
-      .where('p.idTipoEleccion = :type', { type })
-      .andWhere("p.contabilizar = 'T'")
-      .andWhere(condicionActaValidada('p.validado'))
-      .andWhere(`p.claveMdc NOT IN (${clavesNourbanas.getQuery()})`)
-      .setParameters(clavesNourbanas.getParameters())
-      .getRawOne<{ cuantos: string | number }>();
+    const contabilizadasPorUbicacion = (operador: 'IN' | 'NOT IN') =>
+      filtrar(
+        this.votosRepo
+          .createQueryBuilder('p')
+          .select('COUNT(p.idDistrito)', 'cuantos')
+          .where('p.idTipoEleccion = :type', { type })
+          .andWhere("p.contabilizar = 'T'")
+          .andWhere(condicionActaValidada('p.validado'))
+          .andWhere(`p.claveMdc ${operador} (${clavesNourbanas.getQuery()})`)
+          .setParameters(clavesNourbanas.getParameters()),
+        'p',
+      ).getRawOne<{ cuantos: string | number }>();
 
-    const noUrbanas = await this.votosRepo
-      .createQueryBuilder('p')
-      .select('COUNT(p.idDistrito)', 'cuantos')
-      .where('p.idTipoEleccion = :type', { type })
-      .andWhere("p.contabilizar = 'T'")
-      .andWhere(condicionActaValidada('p.validado'))
-      .andWhere(`p.claveMdc IN (${clavesNourbanas.getQuery()})`)
-      .setParameters(clavesNourbanas.getParameters())
-      .getRawOne<{ cuantos: string | number }>();
+    const urbanas = await contabilizadasPorUbicacion('NOT IN');
+    const noUrbanas = await contabilizadasPorUbicacion('IN');
 
     const esperadasCuantos = Number(esperadas?.cuantos ?? 0);
     const capturadasCuantos = Number(capturadas?.cuantos ?? 0);

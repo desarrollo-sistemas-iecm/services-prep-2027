@@ -1,32 +1,8 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
-import { IsBoolean, IsInt, IsOptional, IsString } from 'class-validator';
-import { TipoEleccionDto } from './tipo-eleccion.dto';
+import { IsBoolean, IsOptional } from 'class-validator';
+import { FiltroGeograficoDto } from './filtro-geografico.dto';
 
-export class GraficaQueryDto extends TipoEleccionDto {
-  @ApiPropertyOptional({
-    description: 'Id de distrito o delegación a filtrar',
-    default: 0,
-  })
-  @IsOptional()
-  @Type(() => Number)
-  @IsInt()
-  dist_o_alcaldia?: number = 0;
-
-  @ApiPropertyOptional({ description: 'Id de sección a filtrar', default: 0 })
-  @IsOptional()
-  @Type(() => Number)
-  @IsInt()
-  seccion?: number = 0;
-
-  @ApiPropertyOptional({
-    description: 'Tipo de casilla a filtrar',
-    nullable: true,
-  })
-  @IsOptional()
-  @IsString()
-  casilla?: string | null = null;
-
+export class GraficaQueryDto extends FiltroGeograficoDto {
   @ApiPropertyOptional({
     description: 'Incluir candidatos no registrados y votos nulos',
     default: false,
