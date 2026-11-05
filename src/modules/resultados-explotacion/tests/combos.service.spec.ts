@@ -17,10 +17,12 @@ describe('CombosService', () => {
     await dataSource.getRepository(CainCatDistritoEntity).save([
       { rowid: 1, idDistrito: 1 },
       { rowid: 2, idDistrito: 2 },
+      { rowid: 3, idDistrito: 0 },
     ]);
     await dataSource.getRepository(CainCatDelegacionEntity).save([
       { rowid: 1, idDelegacion: 2, nombreDelegacion: 'Álvaro Obregón' },
       { rowid: 2, idDelegacion: 3, nombreDelegacion: 'Azcapotzalco' },
+      { rowid: 3, idDelegacion: 0, nombreDelegacion: '' },
     ]);
     await dataSource.getRepository(ScdCasillasEntity).save([
       {
