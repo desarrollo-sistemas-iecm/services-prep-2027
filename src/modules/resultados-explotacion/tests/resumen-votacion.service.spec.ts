@@ -6,6 +6,13 @@ import { PrepVotosEntity } from '../../resultados-legacy/entities/prep-votos.ent
 import { ScdCasillasEntity } from '../../resultados-legacy/entities/scd-casillas.entity';
 import { TipoEleccion } from '../enums/tipo-eleccion.enum';
 
+// Fija el comportamiento con SOLO_ACTAS_VALIDADAS activo sin depender del valor
+// con el que se publique la bandera.
+jest.mock('../utils/acta-validada.util', () => ({
+  SOLO_ACTAS_VALIDADAS: true,
+  condicionActaValidada: (columna: string) => `${columna} = 'T'`,
+}));
+
 describe('ResumenVotacionService', () => {
   let dataSource: DataSource;
   let service: ResumenVotacionService;

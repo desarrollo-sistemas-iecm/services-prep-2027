@@ -5,6 +5,13 @@ import { PrepVotosEntity } from '../../resultados-legacy/entities/prep-votos.ent
 import { DigActasPrepEntity } from '../../resultados-legacy/entities/dig-actas-prep.entity';
 import { TipoEleccion } from '../enums/tipo-eleccion.enum';
 
+// Fija el comportamiento con SOLO_ACTAS_VALIDADAS activo sin depender del valor
+// con el que se publique la bandera.
+jest.mock('../utils/acta-validada.util', () => ({
+  SOLO_ACTAS_VALIDADAS: true,
+  condicionActaValidada: (columna: string) => `${columna} = 'T'`,
+}));
+
 describe('ActasGridService', () => {
   let dataSource: DataSource;
   let service: ActasGridService;
