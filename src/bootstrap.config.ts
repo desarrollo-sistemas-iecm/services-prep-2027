@@ -4,6 +4,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import helmet from 'helmet';
 import { join } from 'path';
+import { parseTrustProxy } from './config/trust-proxy.config';
 
 export function configureValidation(app: NestExpressApplication): void {
   app.useGlobalPipes(
@@ -28,6 +29,14 @@ export function configureSecurity(app: NestExpressApplication): void {
         },
       },
     }),
+  );
+}
+
+export function configureTrustProxy(app: NestExpressApplication): void {
+  const configService = app.get(ConfigService);
+  app.set(
+    'trust proxy',
+    parseTrustProxy(configService.get<string>('TRUST_PROXY')),
   );
 }
 
@@ -67,6 +76,7 @@ export function configureApp(app: NestExpressApplication): void {
   const configService = app.get(ConfigService);
   const apiPrefix = configService.get<string>('API_PREFIX') ?? 'api/v1';
 
+  configureTrustProxy(app);
   configureStaticAssets(app);
   app.setGlobalPrefix(apiPrefix);
 

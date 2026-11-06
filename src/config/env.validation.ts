@@ -1,10 +1,12 @@
 import * as Joi from 'joi';
+import { DEFAULT_TRUST_PROXY } from './trust-proxy.config';
 
 export const envValidationSchema = Joi.object({
   NODE_ENV: Joi.string()
     .valid('development', 'test', 'production')
     .default('development'),
   PORT: Joi.number().port().default(3000),
+  TRUST_PROXY: Joi.string().allow('').default(DEFAULT_TRUST_PROXY),
   API_PREFIX: Joi.string().min(1).required(),
 
   DB_STORAGE: Joi.string().min(1).required(),
