@@ -12,24 +12,6 @@ import { porcentajeNumerico } from '../utils/porcentaje.util';
 import { distribuirVotosCombinaciones } from '../utils/distribucion-votos.util';
 import { condicionActaValidada } from '../utils/acta-validada.util';
 
-/**
- * Grupos de distritos de coalición para Diputación MR, hardcodeados en el
- * proceso electoral CDMX 2024 (docs/CONSULTAS_SQL_PREP2024.md §5.4).
- *
- * TODO (pendiente, decisión explícita del equipo): esta agrupación es
- * específica del proceso 2024 y NO se ha confirmado como vigente para el
- * proceso actual. Se preserva literal (en vez de omitirla) porque el equipo
- * decidió mantenerla mientras se define su implementación definitiva — antes
- * de usarse en un corte real, mover estos 3 grupos a una tabla de
- * configuración (`coalicion_distrito(distrito_id, grupo)`) en vez de listas
- * fijas en código, tal como recomienda el propio documento fuente.
- */
-const COALICION_DMR_GRUPO_1 = [
-  0, 1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 15, 16, 18, 19, 22, 23, 24, 27, 28, 32, 33,
-];
-const COALICION_DMR_GRUPO_2 = [7, 14, 29, 31];
-const COALICION_DMR_GRUPO_3 = [12, 13, 17, 20, 21, 25, 26, 30];
-
 export interface ResumenGraficaFila {
   [campoVotos: string]: number | string | undefined;
   votos_cand_no_reg: number;
@@ -49,17 +31,19 @@ export interface CandidatoGraficaFila {
 /** `solo`: únicamente voto en el extranjero (`tipo_casilla` `M*`); `excluir`: todo lo demás; sin filtro: ambos. */
 type FiltroExtranjero = 'solo' | 'excluir';
 
-interface FiltrosResumen {
+export interface FiltrosResumen {
   tiposEleccion: TipoEleccion[];
   geoColumn: 'id_distrito' | 'id_delegacion';
   distOAlcaldia: number;
   seccion: number;
   casilla: string | null;
   extranjero?: FiltroExtranjero;
+  /** Demarcaciones donde cada columna es candidatura (`getAmbitoColumnas()`); sin ámbito se suma en todas. */
+  ambito?: Map<string, number[]> | null;
 }
 
 /** Diputación MR se consulta junto con RP (`id_tipo_eleccion IN (2, 3)`), como `api_distribucion_partido.php`/`funciones_grafica.php`. */
-const tiposEleccionConRp = (type: TipoEleccion): TipoEleccion[] =>
+export const tiposEleccionConRp = (type: TipoEleccion): TipoEleccion[] =>
   type === TipoEleccion.DIPUTACION_MR
     ? [TipoEleccion.DIPUTACION_MR, TipoEleccion.REPRESENTACION_PROPORCIONAL]
     : [type];
@@ -87,7 +71,6 @@ export class GraficaService {
   ): Promise<{
     resumen: ResumenGraficaFila;
     agrupado: CandidatoGraficaFila[];
-    coalicionPendiente: boolean;
   }> {
     const filtros: FiltrosResumen = {
       tiposEleccion: [type],
@@ -106,30 +89,21 @@ export class GraficaService {
       return {
         resumen,
         agrupado: this.construirAgrupado(partidos, resumen),
-        coalicionPendiente: false,
       };
     }
 
-    const candidatos = await this.catalogo.getCandidatos(type);
-
-    if (type === TipoEleccion.DIPUTACION_MR) {
-      const resumen = await this.resumenCoalicionDmr();
-      return {
-        resumen,
-        agrupado: this.construirAgrupado(candidatos, resumen),
-        coalicionPendiente: true,
-      };
-    }
-
+    const [candidatos, ambito] = await Promise.all([
+      this.catalogo.getCandidatos(type, distOAlcaldia),
+      this.catalogo.getAmbitoColumnas(type),
+    ]);
     const resumen = await this.sumarResumen(
       candidatos.map((c) => asColumnaVotosSegura(c.campoVotos)),
-      filtros,
+      { ...filtros, ambito },
     );
 
     return {
       resumen,
       agrupado: this.construirAgrupado(candidatos, resumen),
-      coalicionPendiente: false,
     };
   }
 
@@ -186,79 +160,6 @@ export class GraficaService {
         false,
       ),
     ];
-  }
-
-  /**
-   * §5.4: rama exclusiva de Diputación MR — reemplaza por completo la
-   * agregación genérica. Ver TODO de la constante `COALICION_DMR_GRUPO_*`.
-   */
-  private async resumenCoalicionDmr(): Promise<ResumenGraficaFila> {
-    const sql = `
-      WITH suma_votos AS (
-        SELECT V.id_distrito as id_distrito,
-          0 as votos_part_1, 0 as votos_part_2, 0 as votos_part_3, 0 as votos_part_4, 0 as votos_part_5,
-          sum(V.votos_part_6) as votos_part_6, 0 as votos_part_7, sum(V.votos_part_8) as votos_part_8,
-          sum(V.votos_part_9) as votos_part_9, sum(V.total_votos_cc1) as votos_part_10, sum(V.total_votos_cc5) as votos_part_14,
-          sum(votos_cand_no_reg) as votos_cand_no_reg, sum(votos_nulos) as votos_nulos,
-          sum(votacion_total) as votacion_total
-        FROM prep_votos as V
-        WHERE V.id_distrito IN (${COALICION_DMR_GRUPO_1.join(',')})
-          AND V.id_tipo_eleccion IN (2) AND ${condicionActaValidada('V.validado')} AND V.contabilizar='T'
-        GROUP BY V.id_distrito
-        UNION ALL
-        SELECT V.id_distrito as id_distrito,
-          0 as votos_part_1, 0 as votos_part_2, 0 as votos_part_3,
-          sum(V.votos_part_4) as votos_part_4, sum(V.votos_part_5) as votos_part_5, sum(V.votos_part_6) as votos_part_6,
-          sum(V.votos_part_7) as votos_part_7, sum(V.votos_part_8) as votos_part_8, sum(V.votos_part_9) as votos_part_9,
-          sum(V.total_votos_cc1) as votos_part_10, 0 as votos_part_14,
-          sum(votos_cand_no_reg) as votos_cand_no_reg, sum(votos_nulos) as votos_nulos,
-          sum(votacion_total) as votacion_total
-        FROM prep_votos as V
-        WHERE V.id_distrito IN (${COALICION_DMR_GRUPO_2.join(',')})
-          AND V.id_tipo_eleccion IN (2) AND ${condicionActaValidada('V.validado')} AND V.contabilizar='T'
-        GROUP BY V.id_distrito
-        UNION ALL
-        SELECT V.id_distrito as id_distrito,
-          sum(V.votos_part_1) as votos_part_1, sum(V.votos_part_2) as votos_part_2, sum(V.votos_part_3) as votos_part_3,
-          0 as votos_part_4, 0 as votos_part_5, sum(V.votos_part_6) as votos_part_6, 0 as votos_part_7,
-          sum(V.votos_part_8) as votos_part_8, sum(V.votos_part_9) as votos_part_9, 0 as votos_part_10,
-          sum(V.total_votos_cc5) as votos_part_14,
-          sum(votos_cand_no_reg) as votos_cand_no_reg, sum(votos_nulos) as votos_nulos,
-          sum(votacion_total) as votacion_total
-        FROM prep_votos as V
-        WHERE V.id_distrito IN (${COALICION_DMR_GRUPO_3.join(',')})
-          AND V.id_tipo_eleccion IN (2) AND ${condicionActaValidada('V.validado')} AND V.contabilizar='T'
-        GROUP BY V.id_distrito
-      )
-      SELECT sum(votos_part_1) as votos_part_1, sum(votos_part_2) as votos_part_2, sum(votos_part_3) as votos_part_3,
-        sum(votos_part_4) as votos_part_4, sum(votos_part_5) as votos_part_5, sum(votos_part_6) as votos_part_6,
-        sum(votos_part_7) as votos_part_7, sum(votos_part_8) as votos_part_8, sum(votos_part_9) as votos_part_9,
-        sum(votos_part_10) as votos_part_10, sum(votos_part_14) as votos_part_14,
-        sum(votos_cand_no_reg) as votos_cand_no_reg, sum(votos_nulos) as votos_nulos,
-        sum(votacion_total) as votacion_total
-      FROM suma_votos
-    `;
-
-    const rows =
-      await this.votosRepo.query<Record<string, string | number | null>[]>(sql);
-    const fila = rows[0] ?? {};
-
-    return {
-      votos_part_1: Number(fila.votos_part_1 ?? 0),
-      votos_part_2: Number(fila.votos_part_2 ?? 0),
-      votos_part_3: Number(fila.votos_part_3 ?? 0),
-      votos_part_4: Number(fila.votos_part_4 ?? 0),
-      votos_part_5: Number(fila.votos_part_5 ?? 0),
-      votos_part_6: Number(fila.votos_part_6 ?? 0),
-      votos_part_7: Number(fila.votos_part_7 ?? 0),
-      votos_part_8: Number(fila.votos_part_8 ?? 0),
-      votos_part_9: Number(fila.votos_part_9 ?? 0),
-      votos_part_10: Number(fila.votos_part_10 ?? 0),
-      votos_part_14: Number(fila.votos_part_14 ?? 0),
-      votos_cand_no_reg: Number(fila.votos_cand_no_reg ?? 0),
-      votos_nulos: Number(fila.votos_nulos ?? 0),
-      votacion_total: Number(fila.votacion_total ?? 0),
-    };
   }
 
   /**
@@ -353,12 +254,19 @@ export class GraficaService {
       };
     }
 
-    const candidatos = await this.catalogo.getCandidatos(type);
+    const [candidatos, ambito] = await Promise.all([
+      this.catalogo.getCandidatos(type, distOAlcaldia),
+      this.catalogo.getAmbitoColumnas(type),
+    ]);
     const columnas = candidatos.map((c) => asColumnaVotosSegura(c.campoVotos));
 
     const [resumenCasillas, resumenExtranjero] = await Promise.all([
-      this.sumarResumen(columnas, { ...filtros, extranjero: 'excluir' }),
-      this.sumarResumen(columnas, { ...filtros, extranjero: 'solo' }),
+      this.sumarResumen(columnas, {
+        ...filtros,
+        ambito,
+        extranjero: 'excluir',
+      }),
+      this.sumarResumen(columnas, { ...filtros, ambito, extranjero: 'solo' }),
     ]);
 
     return {
@@ -431,7 +339,7 @@ export class GraficaService {
   }
 
   /** Suma de `columnas` (ya validadas) más no registrados, nulos y votación total sobre actas validadas y contabilizadas. */
-  private async sumarResumen(
+  async sumarResumen(
     columnas: string[],
     {
       tiposEleccion,
@@ -440,6 +348,7 @@ export class GraficaService {
       seccion,
       casilla,
       extranjero,
+      ambito,
     }: FiltrosResumen,
   ): Promise<ResumenGraficaFila> {
     const qb = this.votosRepo
@@ -465,7 +374,16 @@ export class GraficaService {
     if (casilla) qb.andWhere('v.tipoCasilla = :casilla', { casilla });
 
     for (const col of columnas) {
-      qb.addSelect(`SUM(v.${this.entityColumnVotos(col)})`, col);
+      const columnaVotos = `v.${this.entityColumnVotos(col)}`;
+      const demarcaciones = ambito?.get(col);
+      if (demarcaciones) {
+        qb.addSelect(
+          `SUM(CASE WHEN v.${this.entityColumn(geoColumn)} IN (:...ambito_${col}) THEN ${columnaVotos} ELSE 0 END)`,
+          col,
+        ).setParameter(`ambito_${col}`, demarcaciones);
+      } else {
+        qb.addSelect(`SUM(${columnaVotos})`, col);
+      }
     }
     qb.addSelect('SUM(v.votosCandNoReg)', 'votos_cand_no_reg');
     qb.addSelect('SUM(v.votosNulos)', 'votos_nulos');

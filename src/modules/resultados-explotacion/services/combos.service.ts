@@ -18,6 +18,8 @@ export interface OpcionCombo {
  * PHP 2024) para servir el catálogo real ya disponible en
  * `cain_cat_distrito`/`cain_cat_delegacion` — decisión tomada explícitamente
  * en vez de replicar el hardcode. Ver `docs/CONSULTAS_SQL_PREP2024.md` §10-12.
+ * Ambos catálogos traen una fila centinela con id 0 (sin nombre, ligada a la
+ * casilla M01 del voto en el extranjero) que no es seleccionable.
  */
 @Injectable()
 export class CombosService {
@@ -36,13 +38,15 @@ export class CombosService {
       const rows = await this.distritoRepo
         .createQueryBuilder('d')
         .select('DISTINCT d.idDistrito', 'idDistrito')
+        .where('d.idDistrito > 0')
         .orderBy('d.idDistrito', 'ASC')
         .getRawMany<{ idDistrito: number }>();
 
       return {
-        categories: rows
-          .filter((r) => r.idDistrito != null)
-          .map((r) => ({ id: r.idDistrito, name: `Distrito ${r.idDistrito}` })),
+        categories: rows.map((r) => ({
+          id: r.idDistrito,
+          name: `Distrito ${r.idDistrito}`,
+        })),
       };
     }
 
@@ -50,16 +54,15 @@ export class CombosService {
       .createQueryBuilder('d')
       .select('d.idDelegacion', 'idDelegacion')
       .addSelect('d.nombreDelegacion', 'nombreDelegacion')
+      .where('d.idDelegacion > 0')
       .orderBy('d.idDelegacion', 'ASC')
       .getRawMany<{ idDelegacion: number; nombreDelegacion: string | null }>();
 
     return {
-      categories: rows
-        .filter((r) => r.idDelegacion != null)
-        .map((r) => ({
-          id: r.idDelegacion,
-          name: r.nombreDelegacion ?? `Alcaldía ${r.idDelegacion}`,
-        })),
+      categories: rows.map((r) => ({
+        id: r.idDelegacion,
+        name: r.nombreDelegacion?.trim() || `Alcaldía ${r.idDelegacion}`,
+      })),
     };
   }
 

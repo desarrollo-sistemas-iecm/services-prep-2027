@@ -18,10 +18,12 @@ export interface ParticipanteMapa {
   ganador: boolean;
 }
 
-export type ResultVotoMapa = Record<string, number> & {
+export interface ResultVotoMapa {
+  [columnaVotos: string]: number | string | null;
   id_distrito: number;
   total: number;
-};
+  siglas_ganador: string | null;
+}
 
 /**
  * Equivalente a `getSQLsum()`/`getSQLsumJoinLN()` en `funciones.php`
@@ -37,6 +39,8 @@ export type ResultVotoMapa = Record<string, number> & {
  * participante con más votos sumados en toda la entidad, y
  * `total_demarcaciones` = número de distritos/delegaciones donde ese
  * participante tiene el mayor conteo. Confirmar contra un corte real.
+ * PREP Coahuila 2026 resalta en cambio al de más demarcaciones obtenidas; ver
+ * `publicador-prep-2027/docs/mapa-ganador-distritos.md`.
  */
 @Injectable()
 export class MapasService {
@@ -89,6 +93,10 @@ export class MapasService {
       columnas.map((c) => [c, 0]),
     );
 
+    const siglasPorColumna = new Map(
+      candidatos.map((c) => [asColumnaVotosSegura(c.campoVotos), c.siglas]),
+    );
+
     const resultVotos: ResultVotoMapa[] = filas.map((fila) => {
       let total = 0;
       let mejorColumna: string | null = null;
@@ -103,16 +111,20 @@ export class MapasService {
           mejorColumna = col;
         }
       }
-      if (mejorColumna) {
+      const columnaGanadoraDemarcacion = mejorValor > 0 ? mejorColumna : null;
+      if (columnaGanadoraDemarcacion) {
         demarcacionesGanadas.set(
-          mejorColumna,
-          (demarcacionesGanadas.get(mejorColumna) ?? 0) + 1,
+          columnaGanadoraDemarcacion,
+          (demarcacionesGanadas.get(columnaGanadoraDemarcacion) ?? 0) + 1,
         );
       }
 
       const fila_result: ResultVotoMapa = {
         id_distrito: Number(fila.geo),
         total,
+        siglas_ganador: columnaGanadoraDemarcacion
+          ? (siglasPorColumna.get(columnaGanadoraDemarcacion) ?? null)
+          : null,
       };
       for (const col of columnas) {
         fila_result[col] = Number(fila[col] ?? 0);

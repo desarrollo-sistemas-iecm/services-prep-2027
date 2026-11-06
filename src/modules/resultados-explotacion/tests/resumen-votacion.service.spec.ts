@@ -1,9 +1,17 @@
 import { DataSource } from 'typeorm';
 import { createTestDataSource } from './helpers/test-data-source';
 import { ResumenVotacionService } from '../services/resumen-votacion.service';
+import { TipoEleccionCatalogoService } from '../services/tipo-eleccion-catalogo.service';
 import { PrepVotosEntity } from '../../resultados-legacy/entities/prep-votos.entity';
 import { ScdCasillasEntity } from '../../resultados-legacy/entities/scd-casillas.entity';
 import { TipoEleccion } from '../enums/tipo-eleccion.enum';
+
+// Fija el comportamiento con SOLO_ACTAS_VALIDADAS activo sin depender del valor
+// con el que se publique la bandera.
+jest.mock('../utils/acta-validada.util', () => ({
+  SOLO_ACTAS_VALIDADAS: true,
+  condicionActaValidada: (columna: string) => `${columna} = 'T'`,
+}));
 
 describe('ResumenVotacionService', () => {
   let dataSource: DataSource;
@@ -86,8 +94,15 @@ describe('ResumenVotacionService', () => {
       },
     ]);
 
+    // Solo se usa `geoColumn()`, que no toca repositorios.
+    const catalogo = new TipoEleccionCatalogoService(
+      ...(Array(8).fill(undefined) as ConstructorParameters<
+        typeof TipoEleccionCatalogoService
+      >),
+    );
     service = new ResumenVotacionService(
       dataSource.getRepository(PrepVotosEntity),
+      catalogo,
     );
   });
 
@@ -120,5 +135,25 @@ describe('ResumenVotacionService', () => {
     expect(resumen_votacion.total).toBe(0);
     expect(resumen_votacion.total_por).toBe('0.00%');
     expect(resumen_votacion.porcentaje_votos_acumulados).toBe('0.00%');
+  });
+
+  it('should aggregate only the selected sección when the filter includes seccion', async () => {
+    const { resumen_votacion } = await service.obtener(
+      TipoEleccion.JEFATURA_GOBIERNO,
+      { distOAlcaldia: 1, seccion: 102, casilla: null },
+    );
+
+    expect(resumen_votacion.total).toBe(20);
+    expect(resumen_votacion.candidatos_no_reg).toBe(1);
+    expect(resumen_votacion.nulos).toBe(1);
+  });
+
+  it('should return zero votes when the selected district has no actas', async () => {
+    const { resumen_votacion } = await service.obtener(
+      TipoEleccion.JEFATURA_GOBIERNO,
+      { distOAlcaldia: 5, seccion: 0, casilla: null },
+    );
+
+    expect(resumen_votacion.total).toBe(0);
   });
 });

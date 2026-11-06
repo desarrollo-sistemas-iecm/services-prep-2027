@@ -4,6 +4,7 @@ import { TipoEleccionDto } from '../dto/tipo-eleccion.dto';
 import { ComboSegundoDto } from '../dto/combo-segundo.dto';
 import { ComboTerceroDto } from '../dto/combo-tercero.dto';
 import { GraficaQueryDto } from '../dto/grafica-query.dto';
+import { FiltroGeograficoDto } from '../dto/filtro-geografico.dto';
 import { PruebaDistribucionQueryDto } from '../dto/prueba-distribucion-query.dto';
 import { BusquedaSeccionDto } from '../dto/busqueda-seccion.dto';
 import { ActasRpDto } from '../dto/actas-rp.dto';
@@ -15,6 +16,7 @@ import { EstadisticaService } from '../services/estadistica.service';
 import { AvanceService } from '../services/avance.service';
 import { MapasService } from '../services/mapas.service';
 import { DistribucionService } from '../services/distribucion.service';
+import { DistribucionVotosService } from '../services/distribucion-votos.service';
 import { GraficaService } from '../services/grafica.service';
 import { ActasModalidadService } from '../services/actas-modalidad.service';
 
@@ -37,6 +39,7 @@ export class ResultadosExplotacionController {
     private readonly avanceService: AvanceService,
     private readonly mapasService: MapasService,
     private readonly distribucionService: DistribucionService,
+    private readonly distribucionVotosService: DistribucionVotosService,
     private readonly graficaService: GraficaService,
     private readonly actasModalidadService: ActasModalidadService,
   ) {}
@@ -52,18 +55,28 @@ export class ResultadosExplotacionController {
 
   @Post('resumenvotacion')
   @ApiOperation({
-    summary: 'Resumen agregado de votación para un tipo de elección',
+    summary:
+      'Resumen agregado de votación para un tipo de elección, opcionalmente de un distrito/alcaldía, sección o casilla',
   })
-  resumenVotacion(@Body() dto: TipoEleccionDto) {
-    return this.resumenVotacionService.obtener(dto.type);
+  resumenVotacion(@Body() dto: FiltroGeograficoDto) {
+    return this.resumenVotacionService.obtener(dto.type, {
+      distOAlcaldia: dto.dist_o_alcaldia ?? 0,
+      seccion: dto.seccion ?? 0,
+      casilla: dto.casilla ?? null,
+    });
   }
 
   @Post('estadistica')
   @ApiOperation({
-    summary: 'Estadística de actas, lista nominal y votos urbanos/no urbanos',
+    summary:
+      'Estadística de actas, lista nominal y votos urbanos/no urbanos, opcionalmente de un distrito/alcaldía, sección o casilla',
   })
-  estadistica(@Body() dto: TipoEleccionDto) {
-    return this.estadisticaService.obtener(dto.type);
+  estadistica(@Body() dto: FiltroGeograficoDto) {
+    return this.estadisticaService.obtener(dto.type, {
+      distOAlcaldia: dto.dist_o_alcaldia ?? 0,
+      seccion: dto.seccion ?? 0,
+      casilla: dto.casilla ?? null,
+    });
   }
 
   @Post('mapas')
@@ -114,6 +127,20 @@ export class ResultadosExplotacionController {
       dto.type,
       dto.seleccion,
       dto.seccion,
+    );
+  }
+
+  @Post('distribucion-votos')
+  @ApiOperation({
+    summary:
+      'Distribución de votos por candidatura y por partido político de un distrito/alcaldía (aportes de cada integrante de coalición o candidatura común)',
+  })
+  distribucionVotos(@Body() dto: FiltroGeograficoDto) {
+    return this.distribucionVotosService.obtener(
+      dto.type,
+      dto.dist_o_alcaldia ?? 0,
+      dto.seccion ?? 0,
+      dto.casilla ?? null,
     );
   }
 

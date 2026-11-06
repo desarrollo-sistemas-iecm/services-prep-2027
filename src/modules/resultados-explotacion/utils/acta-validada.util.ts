@@ -8,7 +8,7 @@
  * todos ellos a la vez (el filtro `contabilizar = 'T'` se mantiene donde ya
  * existía).
  */
-export const SOLO_ACTAS_VALIDADAS = true;
+export const SOLO_ACTAS_VALIDADAS = false;
 
 /**
  * Condición SQL para `SOLO_ACTAS_VALIDADAS`, apta para QueryBuilder o SQL

@@ -6,6 +6,12 @@ import { ScdCasillasEntity } from '../../resultados-legacy/entities/scd-casillas
 import { TipoEleccion } from '../enums/tipo-eleccion.enum';
 import { formatearPorcentaje } from '../utils/porcentaje.util';
 import { condicionActaValidada } from '../utils/acta-validada.util';
+import {
+  aplicarFiltroGeografico,
+  FiltroGeografico,
+  SIN_FILTRO_GEOGRAFICO,
+} from '../utils/filtro-geografico.util';
+import { TipoEleccionCatalogoService } from './tipo-eleccion-catalogo.service';
 
 export interface ResumenVotacionPayload {
   votos_acumulados: number;
@@ -33,7 +39,9 @@ interface AgregadoVotos {
  * Equivalente a `resumen_jg/_alc/_dmr/_rp` de `api_avance_entidad.php`
  * (docs/CONSULTAS_SQL_PREP2024.md §1.2, join `prep_votos`↔`scd_casillas`
  * agrupado por `id_tipo_eleccion`, filtrado por `contabilizar='T'`) más el
- * desglose "sin especiales"/"especiales" de §1.5/§1.6.
+ * desglose "sin especiales"/"especiales" de §1.5/§1.6. Como
+ * `actas_resumen_data.php` (2024, parámetros `item`/`item_2`/`item_3`), se
+ * puede acotar a un distrito/alcaldía, sección o casilla.
  *
  * CORRECCIÓN respecto al doc fuente: §1.5/§1.6 etiquetan `tipo_casilla`
  * empieza con `S` como "casillas normales" y lo demás como "especiales" —
@@ -59,22 +67,29 @@ export class ResumenVotacionService {
   constructor(
     @InjectRepository(PrepVotosEntity, 'resultados')
     private readonly votosRepo: Repository<PrepVotosEntity>,
+    private readonly catalogo: TipoEleccionCatalogoService,
   ) {}
 
   async obtener(
     type: TipoEleccion,
+    filtro: FiltroGeografico = SIN_FILTRO_GEOGRAFICO,
   ): Promise<{ success: boolean; resumen_votacion: ResumenVotacionPayload }> {
     const base = () =>
-      this.votosRepo
-        .createQueryBuilder('p')
-        .leftJoin(
-          ScdCasillasEntity,
-          'c',
-          'p.idDistrito = c.idDistrito AND p.idDelegacion = c.idDelegacion AND p.idSeccion = c.idSeccion AND p.tipoCasilla = c.tipoCasilla',
-        )
-        .where('p.contabilizar = :contabilizar', { contabilizar: 'T' })
-        .andWhere(condicionActaValidada('p.validado'))
-        .andWhere('p.idTipoEleccion = :type', { type });
+      aplicarFiltroGeografico(
+        this.votosRepo
+          .createQueryBuilder('p')
+          .leftJoin(
+            ScdCasillasEntity,
+            'c',
+            'p.idDistrito = c.idDistrito AND p.idDelegacion = c.idDelegacion AND p.idSeccion = c.idSeccion AND p.tipoCasilla = c.tipoCasilla',
+          )
+          .where('p.contabilizar = :contabilizar', { contabilizar: 'T' })
+          .andWhere(condicionActaValidada('p.validado'))
+          .andWhere('p.idTipoEleccion = :type', { type }),
+        'p',
+        this.catalogo.geoColumn(type),
+        filtro,
+      );
 
     const totales = await base()
       .select('SUM(p.votacionTotal)', 'total')

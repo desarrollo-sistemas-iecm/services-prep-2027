@@ -4,10 +4,9 @@ import {
 } from '../utils/acta-validada.util';
 
 describe('condicionActaValidada', () => {
-  it('should require validado = T when SOLO_ACTAS_VALIDADAS is enabled', () => {
+  it('should follow SOLO_ACTAS_VALIDADAS when building the validado condition', () => {
     const condicion = condicionActaValidada('v.validado');
 
-    expect(SOLO_ACTAS_VALIDADAS).toBe(true);
-    expect(condicion).toBe("v.validado = 'T'");
+    expect(condicion).toBe(SOLO_ACTAS_VALIDADAS ? "v.validado = 'T'" : '1 = 1');
   });
 });

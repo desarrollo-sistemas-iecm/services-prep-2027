@@ -5,13 +5,26 @@ export interface CombinacionVotos {
   porcentajes?: number[];
 }
 
+/**
+ * Porcentajes iguales (coalición PAN-PRI-PRD trae `33.3333333` ×3 en la BD
+ * de 2024) equivalen al reparto igualitario y no pasan por aquí: su residuo
+ * va a los integrantes con más votos, no todo al primero.
+ */
 const tienePorcentajesValidos = ({
   integrantes,
   porcentajes,
 }: CombinacionVotos): boolean =>
   porcentajes !== undefined &&
   porcentajes.length === integrantes.length &&
-  porcentajes.every((porcentaje) => Number.isFinite(porcentaje));
+  porcentajes.every((porcentaje) => Number.isFinite(porcentaje)) &&
+  new Set(porcentajes).size > 1;
+
+/** Votos que cada integrante recibe de una combinación, en el orden de `integrantes`. */
+export interface RepartoCombinacion {
+  integrantes: number[];
+  votos: number;
+  partes: number[];
+}
 
 /**
  * Reparte los votos de cada combinación de coalición/candidatura común entre
@@ -29,59 +42,84 @@ const tienePorcentajesValidos = ({
  * diputaciones y alcaldías, `consigueDatosDMR()`/`consigueDatosALC()`) se
  * reparten por esos porcentajes truncados y el residuo va al integrante con
  * mayor porcentaje, como hacía el PHP al sumárselo a MORENA.
+ *
+ * Regresa un reparto por combinación, en el mismo orden; los integrantes que
+ * no están en `votosPartidos` se descartan.
  */
-export function distribuirVotosCombinaciones(
+export function repartirVotosCombinaciones(
   votosPartidos: ReadonlyMap<number, number>,
   combinaciones: CombinacionVotos[],
-): Map<number, number> {
-  const resultado = new Map(votosPartidos);
-  const sumar = (id: number, votos: number) =>
-    resultado.set(id, (resultado.get(id) ?? 0) + votos);
+): RepartoCombinacion[] {
+  const porPorcentaje = (combinacion: CombinacionVotos): boolean =>
+    combinacion.votos > 0 &&
+    tienePorcentajesValidos(combinacion) &&
+    combinacion.integrantes.every((id) => votosPartidos.has(id));
 
-  const conPorcentajes = combinaciones.filter(
-    (combinacion) =>
-      combinacion.votos > 0 &&
-      tienePorcentajesValidos(combinacion) &&
-      combinacion.integrantes.every((id) => votosPartidos.has(id)),
-  );
-  for (const { integrantes, votos, porcentajes = [] } of conPorcentajes) {
-    // Centésimas de punto enteras: `votos * 53.33` en coma flotante puede
-    // quedar en `...99999` y truncar un voto de menos.
-    const partes = porcentajes.map((porcentaje) =>
-      Math.floor((votos * Math.round(porcentaje * 100)) / 10000),
-    );
-    integrantes.forEach((id, indice) => sumar(id, partes[indice]));
-    const residuo = votos - partes.reduce((suma, parte) => suma + parte, 0);
-    sumar(integrantes[porcentajes.indexOf(Math.max(...porcentajes))], residuo);
-  }
-
-  const combinacionesValidas = combinaciones
-    .filter((combinacion) => !conPorcentajes.includes(combinacion))
-    .map(({ integrantes, votos }) => ({
-      integrantes: integrantes.filter((id) => votosPartidos.has(id)),
-      votos,
-    }))
-    .filter(({ integrantes, votos }) => integrantes.length > 0 && votos > 0);
-
-  const repartoIgualitario = new Map(resultado);
-  for (const { integrantes, votos } of combinacionesValidas) {
-    const parte = Math.floor(votos / integrantes.length);
-    for (const id of integrantes) {
-      repartoIgualitario.set(id, (repartoIgualitario.get(id) ?? 0) + parte);
+  const repartos = combinaciones.map((combinacion): RepartoCombinacion => {
+    const { votos, porcentajes = [] } = combinacion;
+    if (porPorcentaje(combinacion)) {
+      const { integrantes } = combinacion;
+      // Centésimas de punto enteras: `votos * 53.33` en coma flotante puede
+      // quedar en `...99999` y truncar un voto de menos.
+      const partes = porcentajes.map((porcentaje) =>
+        Math.floor((votos * Math.round(porcentaje * 100)) / 10000),
+      );
+      const residuo = votos - partes.reduce((suma, parte) => suma + parte, 0);
+      partes[porcentajes.indexOf(Math.max(...porcentajes))] += residuo;
+      return { integrantes, votos, partes };
     }
+
+    const integrantes = combinacion.integrantes.filter((id) =>
+      votosPartidos.has(id),
+    );
+    const parte =
+      votos > 0 && integrantes.length > 0
+        ? Math.floor(votos / integrantes.length)
+        : 0;
+    return { integrantes, votos, partes: integrantes.map(() => parte) };
+  });
+
+  const repartoIgualitario = new Map(votosPartidos);
+  for (const { integrantes, partes } of repartos) {
+    integrantes.forEach((id, indice) =>
+      repartoIgualitario.set(
+        id,
+        (repartoIgualitario.get(id) ?? 0) + partes[indice],
+      ),
+    );
   }
 
-  const conResiduos = new Map(repartoIgualitario);
-  for (const { integrantes, votos } of combinacionesValidas) {
+  combinaciones.forEach((combinacion, indiceCombinacion) => {
+    const { integrantes, votos, partes } = repartos[indiceCombinacion];
+    if (porPorcentaje(combinacion) || votos <= 0 || integrantes.length === 0) {
+      return;
+    }
     const residuo = votos % integrantes.length;
     const ordenadosPorVotos = [...integrantes].sort(
       (a, b) =>
         (repartoIgualitario.get(b) ?? 0) - (repartoIgualitario.get(a) ?? 0),
     );
     for (const id of ordenadosPorVotos.slice(0, residuo)) {
-      conResiduos.set(id, (conResiduos.get(id) ?? 0) + 1);
+      partes[integrantes.indexOf(id)] += 1;
     }
-  }
+  });
 
-  return conResiduos;
+  return repartos;
+}
+
+/** Votos de cada partido más lo que recibe de todas las combinaciones (`repartirVotosCombinaciones`). */
+export function distribuirVotosCombinaciones(
+  votosPartidos: ReadonlyMap<number, number>,
+  combinaciones: CombinacionVotos[],
+): Map<number, number> {
+  const resultado = new Map(votosPartidos);
+  for (const { integrantes, partes } of repartirVotosCombinaciones(
+    votosPartidos,
+    combinaciones,
+  )) {
+    integrantes.forEach((id, indice) =>
+      resultado.set(id, (resultado.get(id) ?? 0) + partes[indice]),
+    );
+  }
+  return resultado;
 }
