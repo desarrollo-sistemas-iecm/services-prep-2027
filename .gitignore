@@ -58,6 +58,8 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 # Databases
 data/*.db3
 data/**/*.db3
+data/**/*.db3-shm
+data/**/*.db3-wal
 
 # Staging de cortes subidos por el difusor
 data/staging/*
