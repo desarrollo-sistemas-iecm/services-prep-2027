@@ -34,7 +34,15 @@ import { DifusorJwtPayload } from '../guards/jwt-difusor.guard';
 
 const MAX_UPLOAD_MB = Number(process.env.CORTES_MAX_UPLOAD_MB ?? 100);
 const UPLOAD_RATE_LIMIT = Number(process.env.CORTES_UPLOAD_RATE_LIMIT ?? 5);
-const STAGING_ROOT = path.resolve(process.cwd(), 'data', 'staging');
+const STAGING_ROOT = path.join(
+  path.dirname(
+    path.resolve(
+      process.cwd(),
+      process.env.DB_STORAGE ?? path.join('data', 'database.db3'),
+    ),
+  ),
+  'staging',
+);
 const API_PREFIX = process.env.API_PREFIX ?? 'api/v1';
 
 @ApiTags('cortes')
