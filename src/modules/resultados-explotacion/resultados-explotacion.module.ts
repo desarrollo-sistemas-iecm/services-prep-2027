@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ResultadosLegacyModule } from '../resultados-legacy/resultados-legacy.module';
+import { CortesModule } from '../cortes/cortes.module';
 import { ResultadosExplotacionController } from './controllers/resultados-explotacion.controller';
 import { TipoEleccionCatalogoService } from './services/tipo-eleccion-catalogo.service';
 import { CombosService } from './services/combos.service';
@@ -20,7 +21,7 @@ import { ActasModalidadService } from './services/actas-modalidad.service';
  * módulo nunca escribe sobre ese dataset.
  */
 @Module({
-  imports: [ResultadosLegacyModule],
+  imports: [ResultadosLegacyModule, CortesModule],
   controllers: [ResultadosExplotacionController],
   providers: [
     TipoEleccionCatalogoService,

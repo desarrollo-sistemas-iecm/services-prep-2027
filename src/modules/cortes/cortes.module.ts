@@ -10,6 +10,8 @@ import { CortesService } from './services/cortes.service';
 import { ManifestVerificationService } from './services/manifest-verification.service';
 import { SqliteFileValidationService } from './services/sqlite-file-validation.service';
 import { ActivationService } from './services/activation.service';
+import { ActiveCutService } from './services/active-cut.service';
+import { ActiveCutGuard } from './guards/active-cut.guard';
 
 @Module({
   imports: [
@@ -37,8 +39,10 @@ import { ActivationService } from './services/activation.service';
     ManifestVerificationService,
     SqliteFileValidationService,
     ActivationService,
+    ActiveCutService,
+    ActiveCutGuard,
     JwtDifusorGuard,
   ],
-  exports: [ActivationService, CortesService],
+  exports: [ActivationService, CortesService, ActiveCutService, ActiveCutGuard],
 })
 export class CortesModule {}

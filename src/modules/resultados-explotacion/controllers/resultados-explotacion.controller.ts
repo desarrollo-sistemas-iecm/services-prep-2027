@@ -1,5 +1,10 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
+import {
+  ApiOperation,
+  ApiServiceUnavailableResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import { ActiveCutGuard } from '../../cortes/guards/active-cut.guard';
 import { TipoEleccionDto } from '../dto/tipo-eleccion.dto';
 import { ComboSegundoDto } from '../dto/combo-segundo.dto';
 import { ComboTerceroDto } from '../dto/combo-tercero.dto';
@@ -27,6 +32,11 @@ import { ActasModalidadService } from '../services/actas-modalidad.service';
  * `.claude/rules/security.md`.
  */
 @ApiTags('resultados')
+@ApiServiceUnavailableResponse({
+  description:
+    'Aún no hay un corte activo (code NO_ACTIVE_CUT); reintentar según Retry-After',
+})
+@UseGuards(ActiveCutGuard)
 @Controller()
 export class ResultadosExplotacionController {
   constructor(
