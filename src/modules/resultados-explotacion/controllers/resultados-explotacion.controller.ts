@@ -11,6 +11,7 @@ import { ComboTerceroDto } from '../dto/combo-tercero.dto';
 import { GraficaQueryDto } from '../dto/grafica-query.dto';
 import { FiltroGeograficoDto } from '../dto/filtro-geografico.dto';
 import { PruebaDistribucionQueryDto } from '../dto/prueba-distribucion-query.dto';
+import { DistribucionQueryDto } from '../dto/distribucion-query.dto';
 import { BusquedaSeccionDto } from '../dto/busqueda-seccion.dto';
 import { ActasRpDto } from '../dto/actas-rp.dto';
 import { ActasExtranjeroDto } from '../dto/actas-extranjero.dto';
@@ -130,9 +131,10 @@ export class ResultadosExplotacionController {
 
   @Post('distribucion')
   @ApiOperation({
-    summary: 'Detalle de votos por casilla de una sección (grilla)',
+    summary:
+      'Detalle de votos por casilla de un distrito/alcaldía, opcionalmente de una sección (grilla)',
   })
-  distribucion(@Body() dto: ComboTerceroDto) {
+  distribucion(@Body() dto: DistribucionQueryDto) {
     return this.distribucionService.obtener(
       dto.type,
       dto.seleccion,
