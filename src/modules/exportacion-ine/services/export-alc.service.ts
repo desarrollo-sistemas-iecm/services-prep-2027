@@ -120,8 +120,8 @@ SELECT
   CASE WHEN P.ue_identificacion = 'INE-UE-IECM' THEN strftime('%d/%m/%Y %H:%M:%S', datetime(P.fecha_alta)) || ' (UTC-6)'
        ELSE strftime('%d/%m/%Y %H:%M:%S', datetime(P.fecha_modif)) || ' (UTC-6)' END AS FECHA_HORA_VERIFICACION,
   CASE WHEN P.capturado_por = 1 THEN 'CATD' WHEN P.capturado_por = 2 THEN 'CATD' WHEN P.capturado_por = 3 THEN 'CASILLA' WHEN P.capturado_por = 4 THEN 'CASILLA' ELSE 'N/A' END AS ORIGEN,
-  CASE WHEN P.capturado_por = 1 THEN CASE WHEN substr(P.tipo_casilla, 1, 1) = 'S' THEN 'MOVIL' ELSE 'ESCANER' END
-       WHEN P.capturado_por = 2 THEN 'ESCANER' WHEN P.capturado_por = 3 THEN 'MOVIL' WHEN P.capturado_por = 4 THEN 'MOVIL' ELSE 'N/A' END AS DIGITALIZACION,
+  CASE WHEN P.capturado_por = 1 THEN 'MOVIL' WHEN P.capturado_por = 2 THEN 'MOVIL'
+       WHEN P.capturado_por = 3 THEN 'ESCANER' WHEN P.capturado_por = 4 THEN 'ESCANER' ELSE 'N/A' END AS DIGITALIZACION,
   CASE WHEN substr(P.tipo_casilla, 1, 1) = 'S' THEN 'ACTA UE' ELSE 'ACTA PREP' END AS TIPO_DOCUMENTO
 FROM scd_casillas AS C
 LEFT JOIN prep_votos P

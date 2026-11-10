@@ -33,7 +33,7 @@ export class CombosService {
     @InjectRepository(ScdCasillasEntity, 'resultados')
     private readonly casillasRepo: Repository<ScdCasillasEntity>,
     private readonly catalogo: TipoEleccionCatalogoService,
-  ) { }
+  ) {}
 
   async primero(type: TipoEleccion): Promise<{ categories: OpcionCombo[] }> {
     if (this.catalogo.geoColumnCombo(type) === 'id_distrito') {

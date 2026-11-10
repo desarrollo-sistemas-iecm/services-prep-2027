@@ -27,6 +27,10 @@ import { RESULTADOS_LEGACY_ENTITIES } from '../modules/resultados-legacy/resulta
         logging: configService.get<string>('DB_LOGGING') === 'true',
       }),
     }),
+    // TODO: el `database.db3` local solo trae el distrito 18 (sección 3188,
+    // casillas B01 y C01) y la alcaldía 10, sin actas de urna electrónica ni
+    // casillas especiales o extraordinarias. Probar con una base completa de
+    // simulacro antes de liberar los cambios de resultados y actas.
     TypeOrmModule.forRootAsync({
       name: 'resultados',
       imports: [ConfigModule],

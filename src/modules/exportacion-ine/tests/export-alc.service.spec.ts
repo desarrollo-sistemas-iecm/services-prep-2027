@@ -165,4 +165,52 @@ describe('ExportAlcService', () => {
     // 1 casilla sembrada -> esperadas sin ajuste sería 1; con -1 (INE_AJUSTE_ESPERADAS_ALC=1) debe ser 0.
     expect(filaStats.split(',')[0]).toBe('0');
   });
+
+  it.each([
+    [1, 'CATD', 'MOVIL'],
+    [2, 'CATD', 'MOVIL'],
+    [3, 'CASILLA', 'ESCANER'],
+    [4, 'CASILLA', 'ESCANER'],
+    [null, 'N/A', 'N/A'],
+    [9, 'N/A', 'N/A'],
+  ])(
+    'should publish ORIGEN %s and DIGITALIZACION like PREP2024 when capturado_por is %s',
+    async (capturadoPor, origen, digitalizacion) => {
+      await dataSource.getRepository(ScdCasillasEntity).save({
+        idDistrito: 1,
+        idDelegacion: 2,
+        idSeccion: 30,
+        tipoCasilla: 'B1',
+        claveMdc: 'CLV30',
+        listaNominal: 300,
+      });
+      await dataSource.getRepository(PrepVotosEntity).save({
+        idDistrito: 1,
+        idDelegacion: 2,
+        idSeccion: 30,
+        tipoCasilla: 'B1',
+        claveMdc: 'CLV30',
+        idTipoEleccion: 4,
+        inconsistencia: null,
+        exedeLn: 'F',
+        contabilizar: 'T',
+        votacionTotal: 50,
+        capturadoPor,
+      });
+
+      const { zipBuffer } = await service.generar('20260910_1530', corte());
+
+      const columnas = iconv
+        .decode(new AdmZip(zipBuffer).readFile('CDMX_ALC_2024.csv')!, 'latin1')
+        .split('\n');
+      const encabezado = columnas
+        .find((linea) => linea.startsWith('CLAVE_CASILLA'))!
+        .split(',');
+      const fila = columnas
+        .find((linea) => linea.startsWith('090030'))!
+        .split(',');
+      expect(fila[encabezado.indexOf('ORIGEN')]).toBe(origen);
+      expect(fila[encabezado.indexOf('DIGITALIZACION')]).toBe(digitalizacion);
+    },
+  );
 });
