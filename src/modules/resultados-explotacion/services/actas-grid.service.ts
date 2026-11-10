@@ -208,11 +208,8 @@ export class ActasGridService {
     });
 
     // Como `actas_grid_data.php`: votación total del acta sobre su lista
-    // nominal, 4 decimales y sin `%` (el front lo agrega).
-    // TODO: se listan todas las actas, contabilizadas o no (criterio PREP2024).
-    // PREP Coahuila 2026 muestra "Sin Acta" y 0.0000% en las no contabilizadas;
-    // reportarlo para confirmar el criterio vigente antes de exponer
-    // `contabilizar` aquí.
+    // nominal, 4 decimales y sin `%` (el front lo agrega), para todas las
+    // actas, contabilizadas o no (criterio PREP2024).
     const participacion = filas.map((fila) => {
       const tipoCasilla = String(fila.tipo_casilla ?? '');
       const totalVotaron = Number(fila.total_votaron ?? 0);
