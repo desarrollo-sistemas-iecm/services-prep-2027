@@ -13,6 +13,14 @@ jest.mock('../utils/acta-validada.util', () => ({
   condicionActaValidada: (columna: string) => `${columna} = 'T'`,
 }));
 
+// Simula un repositorio de imágenes configurado (la constante real aún está vacía).
+jest.mock('../utils/acta-digitalizada.util', () => ({
+  ...jest.requireActual<typeof import('../utils/acta-digitalizada.util')>(
+    '../utils/acta-digitalizada.util',
+  ),
+  URL_REPOSITORIO_ACTAS: 'https://actas.test',
+}));
+
 describe('ActasGridService', () => {
   let dataSource: DataSource;
   let service: ActasGridService;
@@ -43,6 +51,7 @@ describe('ActasGridService', () => {
         votosNulos: 4,
         votacionTotal: 62,
         totalVotaron: 70,
+        capturadoPor: 2,
       },
       // Especial validada pero no contabilizada, con inconsistencia.
       {
@@ -270,6 +279,39 @@ describe('ActasGridService', () => {
       votos_part_2: 12,
       nombre_img: 'rp.jpg',
     });
+  });
+
+  it('should expose the acta image url and its origin when the acta has an image', async () => {
+    const { itemRecords } = await service.obtener({
+      type: TipoEleccion.REPRESENTACION_PROPORCIONAL,
+      columnasVotos,
+      participantes: [],
+      filtros: {
+        prefijoTipoCasilla: 'S',
+        geo: { columna: 'id_distrito', valor: 5 },
+      },
+      idGeoValueFields: 5,
+    });
+
+    expect(itemRecords.data[0]).toMatchObject({
+      url_acta: 'https://actas.test/5/rp.jpg',
+      origen_acta: 'escaner',
+    });
+  });
+
+  it('should leave url_acta empty when the acta has no image', async () => {
+    const { itemRecords } = await service.obtener({
+      type: TipoEleccion.REPRESENTACION_PROPORCIONAL,
+      columnasVotos,
+      participantes: [],
+      filtros: {
+        prefijoTipoCasilla: 'S',
+        geo: { columna: 'id_distrito', valor: 26 },
+      },
+      idGeoValueFields: 26,
+    });
+
+    expect(itemRecords.data[0].url_acta).toBeNull();
   });
 
   it('should return voto en el extranjero actas only for the requested type when filtering by prefix M', async () => {

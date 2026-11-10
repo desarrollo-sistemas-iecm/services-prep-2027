@@ -13,6 +13,12 @@ import {
   porcentajeCuatroDecimales,
 } from '../utils/porcentaje.util';
 import { condicionActaValidada } from '../utils/acta-validada.util';
+import {
+  construirUrlActa,
+  OrigenActa,
+  origenActa,
+  URL_REPOSITORIO_ACTAS,
+} from '../utils/acta-digitalizada.util';
 
 const CAMPO_IMAGEN_POR_TIPO: Record<
   TipoEleccion,
@@ -76,8 +82,15 @@ interface FilaActa {
   [columna: string]: string | number | null;
 }
 
-/** Fila de `itemRecords.data`: la fila cruda más el texto de observaciones. */
-export type FilaActaGrid = FilaActa & { observaciones: string };
+/**
+ * Fila de `itemRecords.data`: la fila cruda más el texto de observaciones, la
+ * URL de la imagen del acta y su origen ("Imagen procedente de").
+ */
+export type FilaActaGrid = FilaActa & {
+  observaciones: string;
+  url_acta: string | null;
+  origen_acta: OrigenActa | null;
+};
 
 /**
  * SELECT de detalle de actas (docs/CONSULTAS_SQL_PREP2024.md §4.2), común a
@@ -152,7 +165,7 @@ export class ActasGridService {
         V.votos_cand_no_reg, V.votos_nulos, V.votacion_total, V.boletas_sob,
         V.ciudadanos_votaron, V.representantes_votaron, V.total_votaron,
         C.lista_nominal as lista_nominal, V.contabilizar, V.validado,
-        V.inconsistencia, V.excede_ln,
+        V.inconsistencia, V.excede_ln, V.capturado_por,
         D.${campoImgNombre} as nombre_img, D.${campoImgSha} as sha_img,
         V.ue_identificador_comprobante, V.ue_circunscripcion_federal, V.ue_id_casilla,
         V.ue_tipo_casilla, V.ue_id_ext_contigua, V.ue_tipo_documento, V.ue_personas_votaron,
@@ -170,13 +183,31 @@ export class ActasGridService {
 
     const filas = await this.votosRepo.query<FilaActa[]>(sql, parametros);
 
-    const data: FilaActaGrid[] = filas.map((fila) => ({
-      ...fila,
-      observaciones: calcularObservaciones(
-        fila.inconsistencia == null ? null : Number(fila.inconsistencia),
-        fila.excede_ln == null ? null : String(fila.excede_ln),
-      ),
-    }));
+    const data: FilaActaGrid[] = filas.map((fila) => {
+      const nombreImg =
+        fila.nombre_img == null ? null : String(fila.nombre_img);
+      return {
+        ...fila,
+        observaciones: calcularObservaciones(
+          fila.inconsistencia == null ? null : Number(fila.inconsistencia),
+          fila.excede_ln == null ? null : String(fila.excede_ln),
+        ),
+        url_acta: construirUrlActa(
+          URL_REPOSITORIO_ACTAS,
+          fila.id_distrito,
+          nombreImg,
+        ),
+        origen_acta: origenActa({
+          capturadoPor:
+            fila.capturado_por == null ? null : Number(fila.capturado_por),
+          tipoCasilla:
+            fila.tipo_casilla == null ? null : String(fila.tipo_casilla),
+          ueQr: fila.ue_qr == null ? null : String(fila.ue_qr),
+          nombreImg,
+          validado: fila.validado == null ? null : String(fila.validado),
+        }),
+      };
+    });
 
     // Como `actas_grid_data.php`: votación total del acta sobre su lista
     // nominal, 4 decimales y sin `%` (el front lo agrega).
