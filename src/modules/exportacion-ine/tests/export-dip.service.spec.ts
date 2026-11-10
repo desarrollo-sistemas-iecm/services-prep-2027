@@ -171,26 +171,30 @@ describe('ExportDipService', () => {
     expect(filaStats.split(',')[0]).toBe('45');
   });
 
-  it('should publish ORIGEN and DIGITALIZACION with the PREP2024 capturado_por criterion', async () => {
-    const casillas = [
-      { idSeccion: 30, tipoCasilla: 'B1', claveMdc: 'CLVCAT', capturadoPor: 2 },
-      { idSeccion: 31, tipoCasilla: 'B1', claveMdc: 'CLVCAS', capturadoPor: 3 },
-    ];
-    for (const { idSeccion, tipoCasilla, claveMdc, capturadoPor } of casillas) {
+  it.each([
+    [1, 'CATD', 'MOVIL'],
+    [2, 'CATD', 'MOVIL'],
+    [3, 'CASILLA', 'ESCANER'],
+    [4, 'CASILLA', 'ESCANER'],
+    [null, 'N/A', 'N/A'],
+    [9, 'N/A', 'N/A'],
+  ])(
+    'should publish ORIGEN %s and DIGITALIZACION like PREP2024 when capturado_por is %s',
+    async (capturadoPor, origen, digitalizacion) => {
       await dataSource.getRepository(ScdCasillasEntity).save({
         idDistrito: 1,
         idDelegacion: 2,
-        idSeccion,
-        tipoCasilla,
-        claveMdc,
+        idSeccion: 30,
+        tipoCasilla: 'B1',
+        claveMdc: 'CLV30',
         listaNominal: 300,
       });
       await dataSource.getRepository(PrepVotosEntity).save({
         idDistrito: 1,
         idDelegacion: 2,
-        idSeccion,
-        tipoCasilla,
-        claveMdc,
+        idSeccion: 30,
+        tipoCasilla: 'B1',
+        claveMdc: 'CLV30',
         idTipoEleccion: 2,
         inconsistencia: null,
         exedeLn: 'F',
@@ -198,17 +202,23 @@ describe('ExportDipService', () => {
         votacionTotal: 50,
         capturadoPor,
       });
-    }
 
-    const { zipBuffer } = await service.generar('20260910_1530', corte());
-    const csvTexto = iconv.decode(
-      new AdmZip(zipBuffer).readFile('CDMX_DIP_LOC_2024.csv')!,
-      'latin1',
-    );
-    const fila = (seccion: string) =>
-      csvTexto.split('\n').find((linea) => linea.startsWith(`09${seccion}`))!;
+      const { zipBuffer } = await service.generar('20260910_1530', corte());
 
-    expect(fila('0030')).toContain(',CATD,MOVIL,');
-    expect(fila('0031')).toContain(',CASILLA,ESCANER,');
-  });
+      const columnas = iconv
+        .decode(
+          new AdmZip(zipBuffer).readFile('CDMX_DIP_LOC_2024.csv')!,
+          'latin1',
+        )
+        .split('\n');
+      const encabezado = columnas
+        .find((linea) => linea.startsWith('CLAVE_CASILLA'))!
+        .split(',');
+      const fila = columnas
+        .find((linea) => linea.startsWith('090030'))!
+        .split(',');
+      expect(fila[encabezado.indexOf('ORIGEN')]).toBe(origen);
+      expect(fila[encabezado.indexOf('DIGITALIZACION')]).toBe(digitalizacion);
+    },
+  );
 });
