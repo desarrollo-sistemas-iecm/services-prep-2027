@@ -158,6 +158,26 @@ describe('ActasGridService', () => {
     });
   });
 
+  it('should sort actas by seccion and tipo_casilla when no seccion is provided', async () => {
+    const { itemRecords } = await service.obtener({
+      type: TipoEleccion.REPRESENTACION_PROPORCIONAL,
+      columnasVotos,
+      participantes: [],
+      filtros: { geo: { columna: 'id_distrito', valor: 5 } },
+      idGeoValueFields: 5,
+    });
+
+    expect(
+      itemRecords.data.map(({ id_seccion, tipo_casilla }) => [
+        id_seccion,
+        tipo_casilla,
+      ]),
+    ).toEqual([
+      [342, 'B01'],
+      [342, 'S01'],
+    ]);
+  });
+
   it('should only add contabilizar=T actas to resumen', async () => {
     const { itemRecords } = await service.obtener({
       type: TipoEleccion.REPRESENTACION_PROPORCIONAL,

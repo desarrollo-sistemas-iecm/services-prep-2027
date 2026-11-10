@@ -162,6 +162,7 @@ export class ActasGridService {
       LEFT JOIN dig_actas_prep D
         ON V.id_distrito = D.id_distrito AND V.clave_mdc = D.acta
       WHERE ${condiciones.join(' AND ')}
+      ORDER BY V.id_seccion, V.tipo_casilla
     `;
 
     const filas = await this.votosRepo.query<FilaActa[]>(sql, parametros);
