@@ -3,6 +3,7 @@ import { createTestDataSource } from './helpers/test-data-source';
 import { ActasGridService } from '../services/actas-grid.service';
 import { PrepVotosEntity } from '../../resultados-legacy/entities/prep-votos.entity';
 import { DigActasPrepEntity } from '../../resultados-legacy/entities/dig-actas-prep.entity';
+import { ScdCasillasEntity } from '../../resultados-legacy/entities/scd-casillas.entity';
 import { TipoEleccion } from '../enums/tipo-eleccion.enum';
 
 // Fija el comportamiento con SOLO_ACTAS_VALIDADAS activo sin depender del valor
@@ -41,6 +42,7 @@ describe('ActasGridService', () => {
         votosCandNoReg: 1,
         votosNulos: 4,
         votacionTotal: 62,
+        totalVotaron: 70,
       },
       // Especial validada pero no contabilizada, con inconsistencia.
       {
@@ -93,6 +95,17 @@ describe('ActasGridService', () => {
         validado: 'F',
         contabilizar: 'T',
         votacionTotal: 50,
+      },
+    ]);
+
+    await dataSource.getRepository(ScdCasillasEntity).save([
+      {
+        rowid: 1,
+        idDistrito: 5,
+        idDelegacion: 2,
+        idSeccion: 342,
+        tipoCasilla: 'S01',
+        listaNominal: 124,
       },
     ]);
 
@@ -176,6 +189,43 @@ describe('ActasGridService', () => {
       [342, 'B01'],
       [342, 'S01'],
     ]);
+  });
+
+  it('should compute participacion from votacion_total over lista nominal with four decimals', async () => {
+    const { itemRecords } = await service.obtener({
+      type: TipoEleccion.REPRESENTACION_PROPORCIONAL,
+      columnasVotos,
+      participantes: [],
+      filtros: {
+        prefijoTipoCasilla: 'S',
+        geo: { columna: 'id_distrito', valor: 5 },
+      },
+      idGeoValueFields: 5,
+    });
+
+    expect(itemRecords.participacion).toEqual([
+      expect.objectContaining({
+        tipo_casilla: 'S01',
+        votacion_total: 62,
+        lista_nominal: 124,
+        participacion: '50.0000',
+      }),
+    ]);
+  });
+
+  it('should return zero participacion when the casilla has no lista nominal', async () => {
+    const { itemRecords } = await service.obtener({
+      type: TipoEleccion.REPRESENTACION_PROPORCIONAL,
+      columnasVotos,
+      participantes: [],
+      filtros: {
+        prefijoTipoCasilla: 'S',
+        geo: { columna: 'id_distrito', valor: 26 },
+      },
+      idGeoValueFields: 26,
+    });
+
+    expect(itemRecords.participacion[0].participacion).toBe('0.0000');
   });
 
   it('should only add contabilizar=T actas to resumen', async () => {

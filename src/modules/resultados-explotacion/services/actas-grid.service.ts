@@ -8,7 +8,10 @@ import {
   ParticipanteCatalogo,
 } from './tipo-eleccion-catalogo.service';
 import { calcularObservaciones } from '../utils/observaciones.util';
-import { formatearPorcentaje } from '../utils/porcentaje.util';
+import {
+  formatearPorcentaje,
+  porcentajeCuatroDecimales,
+} from '../utils/porcentaje.util';
 import { condicionActaValidada } from '../utils/acta-validada.util';
 
 const CAMPO_IMAGEN_POR_TIPO: Record<
@@ -175,10 +178,13 @@ export class ActasGridService {
       ),
     }));
 
+    // Como `actas_grid_data.php`: votación total del acta sobre su lista
+    // nominal, 4 decimales y sin `%` (el front lo agrega).
     const participacion = filas.map((fila) => {
       const tipoCasilla = String(fila.tipo_casilla ?? '');
       const totalVotaron = Number(fila.total_votaron ?? 0);
       const listaNominal = Number(fila.lista_nominal ?? 0);
+      const votacionTotal = Number(fila.votacion_total ?? 0);
       return {
         id_delegacion: fila.id_delegacion,
         id_distrito: fila.id_distrito,
@@ -188,8 +194,8 @@ export class ActasGridService {
         caracter_cas: this.caracterCasilla(tipoCasilla),
         total_votaron: totalVotaron,
         lista_nominal: listaNominal,
-        participacion: formatearPorcentaje(totalVotaron, listaNominal),
-        votacion_total: Number(fila.votacion_total ?? 0),
+        participacion: porcentajeCuatroDecimales(votacionTotal, listaNominal),
+        votacion_total: votacionTotal,
       };
     });
 
