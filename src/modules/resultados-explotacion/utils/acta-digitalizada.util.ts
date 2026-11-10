@@ -29,7 +29,6 @@ export function construirUrlActa(
 
 export interface DatosOrigenActa {
   capturadoPor: number | null;
-  tipoCasilla: string | null;
   ueQr: string | null;
   nombreImg: string | null;
   validado: string | null;
@@ -42,17 +41,13 @@ export interface DatosOrigenActa {
  *   `GridCasillas` de PREP2024 mostraba el ícono de "acta en proceso".
  * - Urna electrónica: el acta trae el QR de la urna (`ue_qr`), igual que
  *   `IconImageView` de PREP2024.
- * - Escáner / Móvil / Móvil CATD: `capturado_por` con el mismo criterio que
- *   ORIGEN y DIGITALIZACION del export INE (`ExportDipService`), para que la
- *   página y la base de datos publiquen lo mismo.
- *
- * TODO: el PHP de PREP2024 (`export_ine_*.php`) mapeaba `capturado_por` 1-2
- * como MOVIL y 3-4 como ESCANER, al revés que el export de 2027; confirmar el
- * catálogo vigente de `capturado_por` y ajustar ambos lugares a la vez.
+ * - Móvil CATD / Escáner: `capturado_por` con el criterio de ORIGEN y
+ *   DIGITALIZACION de `export_ine_*.php` de PREP2024 (1-2: CATD y MOVIL;
+ *   3-4: CASILLA y ESCANER), el mismo que usan `ExportDipService` y
+ *   `ExportAlcService` para que la página y la base de datos publiquen lo mismo.
  */
 export function origenActa({
   capturadoPor,
-  tipoCasilla,
   ueQr,
   nombreImg,
   validado,
@@ -62,14 +57,11 @@ export function origenActa({
 
   switch (Number(capturadoPor)) {
     case 1:
-      return String(tipoCasilla ?? '').startsWith('S')
-        ? 'movil-catd'
-        : 'escaner';
     case 2:
-      return 'escaner';
+      return 'movil-catd';
     case 3:
     case 4:
-      return 'movil';
+      return 'escaner';
     default:
       return null;
   }

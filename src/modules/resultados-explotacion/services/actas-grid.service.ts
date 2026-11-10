@@ -200,8 +200,6 @@ export class ActasGridService {
         origen_acta: origenActa({
           capturadoPor:
             fila.capturado_por == null ? null : Number(fila.capturado_por),
-          tipoCasilla:
-            fila.tipo_casilla == null ? null : String(fila.tipo_casilla),
           ueQr: fila.ue_qr == null ? null : String(fila.ue_qr),
           nombreImg,
           validado: fila.validado == null ? null : String(fila.validado),

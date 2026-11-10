@@ -170,4 +170,45 @@ describe('ExportDipService', () => {
     // 1 casilla sembrada -> esperadas sin ajuste sería 1; con +44 debe ser 45.
     expect(filaStats.split(',')[0]).toBe('45');
   });
+
+  it('should publish ORIGEN and DIGITALIZACION with the PREP2024 capturado_por criterion', async () => {
+    const casillas = [
+      { idSeccion: 30, tipoCasilla: 'B1', claveMdc: 'CLVCAT', capturadoPor: 2 },
+      { idSeccion: 31, tipoCasilla: 'B1', claveMdc: 'CLVCAS', capturadoPor: 3 },
+    ];
+    for (const { idSeccion, tipoCasilla, claveMdc, capturadoPor } of casillas) {
+      await dataSource.getRepository(ScdCasillasEntity).save({
+        idDistrito: 1,
+        idDelegacion: 2,
+        idSeccion,
+        tipoCasilla,
+        claveMdc,
+        listaNominal: 300,
+      });
+      await dataSource.getRepository(PrepVotosEntity).save({
+        idDistrito: 1,
+        idDelegacion: 2,
+        idSeccion,
+        tipoCasilla,
+        claveMdc,
+        idTipoEleccion: 2,
+        inconsistencia: null,
+        exedeLn: 'F',
+        contabilizar: 'T',
+        votacionTotal: 50,
+        capturadoPor,
+      });
+    }
+
+    const { zipBuffer } = await service.generar('20260910_1530', corte());
+    const csvTexto = iconv.decode(
+      new AdmZip(zipBuffer).readFile('CDMX_DIP_LOC_2024.csv')!,
+      'latin1',
+    );
+    const fila = (seccion: string) =>
+      csvTexto.split('\n').find((linea) => linea.startsWith(`09${seccion}`))!;
+
+    expect(fila('0030')).toContain(',CATD,MOVIL,');
+    expect(fila('0031')).toContain(',CASILLA,ESCANER,');
+  });
 });

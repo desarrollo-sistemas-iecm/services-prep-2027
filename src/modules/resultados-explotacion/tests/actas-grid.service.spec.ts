@@ -295,7 +295,7 @@ describe('ActasGridService', () => {
 
     expect(itemRecords.data[0]).toMatchObject({
       url_acta: 'https://actas.test/5/rp.jpg',
-      origen_acta: 'escaner',
+      origen_acta: 'movil-catd',
     });
   });
 

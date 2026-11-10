@@ -33,7 +33,6 @@ describe('construirUrlActa', () => {
 describe('origenActa', () => {
   const acta = (datos: Partial<DatosOrigenActa>): DatosOrigenActa => ({
     capturadoPor: null,
-    tipoCasilla: 'B01',
     ueQr: null,
     nombreImg: 'acta.jpg',
     validado: 'T',
@@ -50,24 +49,18 @@ describe('origenActa', () => {
     expect(origenActa(acta({ ueQr: 'QR', capturadoPor: 3 }))).toBe('urna');
   });
 
-  it('should be escaner when the acta was captured at the CATD by scanner', () => {
+  it('should be movil-catd when capturado_por is 1 or 2, like the PREP2024 export', () => {
     expect([
       origenActa(acta({ capturadoPor: 1 })),
       origenActa(acta({ capturadoPor: 2 })),
-    ]).toEqual(['escaner', 'escaner']);
+    ]).toEqual(['movil-catd', 'movil-catd']);
   });
 
-  it('should be movil-catd when an especial casilla was captured at the CATD', () => {
-    expect(origenActa(acta({ capturadoPor: 1, tipoCasilla: 'S01' }))).toBe(
-      'movil-catd',
-    );
-  });
-
-  it('should be movil when the acta was captured from the casilla', () => {
+  it('should be escaner when capturado_por is 3 or 4, like the PREP2024 export', () => {
     expect([
       origenActa(acta({ capturadoPor: 3 })),
       origenActa(acta({ capturadoPor: 4 })),
-    ]).toEqual(['movil', 'movil']);
+    ]).toEqual(['escaner', 'escaner']);
   });
 
   it('should be null when capturado_por is unknown', () => {

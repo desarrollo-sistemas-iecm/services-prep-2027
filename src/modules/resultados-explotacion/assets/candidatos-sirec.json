@@ -1,1582 +1,1582 @@
 [
-    {
-        "type": 4,
-        "cargo_sirec": 2,
-        "candidatos": [
-            {
-                "id_ambito": 6,
-                "id_coalicion": 0,
-                "id_partido_politico": 2,
-                "tipo_asociacion": "",
-                "partido_csp": "CSP",
-                "nombre_completo": "JOSE RODOLFO  AVILA AYALA",
-                "id_participante": "9"
-            },
-            {
-                "id_ambito": 2,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "LUISA YANIRA ALPIZAR CASTELLANOS",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 4,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "VIRIDIANA PEREZ ROJAS",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 16,
-                "id_coalicion": 958,
-                "id_partido_politico": 4,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PRI, PAN, PRD",
-                "nombre_completo": "MAURICIO TABE ECHARTEA",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 10,
-                "id_coalicion": 1243,
-                "id_partido_politico": 3,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PAN, PRI, PRD",
-                "nombre_completo": "LIA LIMON  GARCIA",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 8,
-                "id_coalicion": 1152,
-                "id_partido_politico": 4,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PRI, PRD, PAN",
-                "nombre_completo": "LUIS GERARDO QUIJANO  MORALES",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 5,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "ARACELI GARCIA RICO",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 14,
-                "id_coalicion": 846,
-                "id_partido_politico": 3,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PAN, PRI, PRD",
-                "nombre_completo": "LUIS ALBERTO MENDOZA ACEVEDO  ",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 12,
-                "id_coalicion": 800,
-                "id_partido_politico": 3,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PAN, PRI, PRD",
-                "nombre_completo": "ALFA ELIANA GONZALEZ MAGALLANES",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 17,
-                "id_coalicion": 1007,
-                "id_partido_politico": 3,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PAN, PRI, PRD",
-                "nombre_completo": "ROCIO BARRERA BADILLO",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 13,
-                "id_coalicion": 908,
-                "id_partido_politico": 4,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PRI, PRD, PAN",
-                "nombre_completo": "GABRIEL DEL MONTE ROSALES",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 15,
-                "id_coalicion": 916,
-                "id_partido_politico": 4,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PRI, PAN, PRD",
-                "nombre_completo": "ALESSANDRA ROJO DE LA VEGA PICCOLO",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 6,
-                "id_coalicion": 1133,
-                "id_partido_politico": 3,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PAN, PRD, PRI",
-                "nombre_completo": "DANIEL ORDO\u00d1EZ HERNANDEZ",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 16,
-                "id_coalicion": 1327,
-                "id_partido_politico": 9,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "PT, MORENA, PVEM",
-                "nombre_completo": "MIGUEL TORRUCO GARZA",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 13,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "ADRIAN CHAVEZ ORTIZ",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 2,
-                "id_coalicion": 1084,
-                "id_partido_politico": 4,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PRI, PAN, PRD",
-                "nombre_completo": "MARGARITA SALDA\u00d1A  HERNANDEZ",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 7,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "ALEX IRAN PICHARDO  GARCIA",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 6,
-                "id_coalicion": 1571,
-                "id_partido_politico": 8,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "PVEM, MORENA, PT",
-                "nombre_completo": "MARIA DE LOURDES  PAZ REYES",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 3,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "SOFIA MARGARITA PROVENCIO O DONOGHUE",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 14,
-                "id_coalicion": 1265,
-                "id_partido_politico": 8,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "PVEM, MORENA, PT",
-                "nombre_completo": "LETICIA ESTHER VARELA MARTINEZ",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 11,
-                "id_coalicion": 0,
-                "id_partido_politico": 6,
-                "tipo_asociacion": "",
-                "partido_csp": "MORENA",
-                "nombre_completo": "ARACELI BERENICE HERNANDEZ CALDERON",
-                "id_participante": "7"
-            },
-            {
-                "id_ambito": 17,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "ZURISHADAY HERNANDEZ HERNANDEZ",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 12,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "MARINA AURORA MARTI MEZA",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 8,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "DANIELA NITZA GARDU\u00d1O ALVARADO",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 7,
-                "id_coalicion": 1262,
-                "id_partido_politico": 6,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "MORENA, PVEM, PT",
-                "nombre_completo": "ALEIDA ALAVEZ RUIZ",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 15,
-                "id_coalicion": 1323,
-                "id_partido_politico": 6,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "MORENA, PVEM, PT",
-                "nombre_completo": "ELDAA CATALINA MONREAL PEREZ",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 3,
-                "id_coalicion": 1344,
-                "id_partido_politico": 6,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "MORENA, PVEM, PT",
-                "nombre_completo": "HANNAH DE LAMADRID TELLEZ",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 12,
-                "id_coalicion": 1473,
-                "id_partido_politico": 9,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "PT, MORENA, PVEM",
-                "nombre_completo": "GABRIELA OSORIO HERNANDEZ",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 2,
-                "id_coalicion": 1318,
-                "id_partido_politico": 8,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "PVEM, MORENA, PT",
-                "nombre_completo": "NANCY MARLENE NU\u00d1EZ RESENDIZ",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 8,
-                "id_coalicion": 1586,
-                "id_partido_politico": 6,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "MORENA, PVEM, PT",
-                "nombre_completo": "JOSE FERNANDO MERCADO GUAIDA",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 10,
-                "id_coalicion": 1371,
-                "id_partido_politico": 6,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "MORENA, PVEM, PT",
-                "nombre_completo": "JAVIER JOAQUIN  LOPEZ  CASARIN ",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 15,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "HERMAN FERNANDO DOMINGUEZ LOZANO",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 9,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "MAGALI ALVARADO ALVAREZ",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 4,
-                "id_coalicion": 1259,
-                "id_partido_politico": 8,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "PVEM, MORENA, PT",
-                "nombre_completo": "GUSTAVO MENDOZA FIGUEROA",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 9,
-                "id_coalicion": 1258,
-                "id_partido_politico": 6,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "MORENA, PVEM, PT",
-                "nombre_completo": "JOSE OCTAVIO RIVERO VILLASE\u00d1OR",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 16,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "ANTONIO CARBIA GUTIERREZ",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 14,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "RODRIGO CORDERA THACKER",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 4,
-                "id_coalicion": 1126,
-                "id_partido_politico": 5,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PRD, PAN, PRI",
-                "nombre_completo": "CARLOS ORVA\u00d1ANOS REA",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 3,
-                "id_coalicion": 1147,
-                "id_partido_politico": 5,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PRD, PAN, PRI",
-                "nombre_completo": "JOSE GIOVANI GUTIERREZ AGUILAR",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 7,
-                "id_coalicion": 1144,
-                "id_partido_politico": 5,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PRD, PRI, PAN",
-                "nombre_completo": "KAREN QUIROGA ANGUIANO",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 17,
-                "id_coalicion": 1416,
-                "id_partido_politico": 6,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "MORENA, PVEM, PT",
-                "nombre_completo": "EVELYN PARRA ALVAREZ",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 9,
-                "id_coalicion": 615,
-                "id_partido_politico": 3,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PAN, PRI, PRD",
-                "nombre_completo": "JORGE ALVARADO GALICIA",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 5,
-                "id_coalicion": 1431,
-                "id_partido_politico": 6,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "MORENA, PT, PVEM",
-                "nombre_completo": "RICARDO JANECARLO LOZANO REYNOSO",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 13,
-                "id_coalicion": 1358,
-                "id_partido_politico": 9,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "PT, MORENA, PVEM",
-                "nombre_completo": "CIRCE CAMACHO BASTIDA",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 11,
-                "id_coalicion": 740,
-                "id_partido_politico": 4,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PRI, PAN, PRD",
-                "nombre_completo": "ANA KAREN YA\u00d1EZ CEDILLO",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 11,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "LESVIA GOMEZ MELGAR",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 11,
-                "id_coalicion": 0,
-                "id_partido_politico": 8,
-                "tipo_asociacion": "",
-                "partido_csp": "PVEM",
-                "nombre_completo": "MARIA GUADALUPE YESSENIA GARCIA AGUILAR",
-                "id_participante": "4"
-            },
-            {
-                "id_ambito": 5,
-                "id_coalicion": 991,
-                "id_partido_politico": 5,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PRD, PAN, PRI",
-                "nombre_completo": "MARICELA GASTELU USERRALDE",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 11,
-                "id_coalicion": 0,
-                "id_partido_politico": 9,
-                "tipo_asociacion": "",
-                "partido_csp": "PT",
-                "nombre_completo": "KARINA ALCALA LOERA",
-                "id_participante": "5"
-            },
-            {
-                "id_ambito": 6,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "JOSE DE JESUS SANCHEZ RUIZ",
-                "id_participante": "6"
-            }
-        ],
-        "fecha_hora_actualizado": "2024-05-31 15:51:38"
-    },
-    {
-        "type": 2,
-        "cargo_sirec": 7,
-        "candidatos": [
-            {
-                "id_ambito": 21,
-                "id_coalicion": 0,
-                "id_partido_politico": 2,
-                "tipo_asociacion": "",
-                "partido_csp": "CSP",
-                "nombre_completo": "EFRAIN  BAUTISTA MEJORADA",
-                "id_participante": "8"
-            },
-            {
-                "id_ambito": 2,
-                "id_coalicion": 659,
-                "id_partido_politico": 3,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PAN, PRI, PRD",
-                "nombre_completo": "DIEGO ORLANDO GARRIDO LOPEZ",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 19,
-                "id_coalicion": 1009,
-                "id_partido_politico": 3,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PAN, PRI, PRD",
-                "nombre_completo": "DANIELA GICELA ALVAREZ CAMACHO",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 25,
-                "id_coalicion": 0,
-                "id_partido_politico": 3,
-                "tipo_asociacion": "",
-                "partido_csp": "PAN",
-                "nombre_completo": "ALEJANDRO GUTIERREZ DE LA CRUZ",
-                "id_participante": "1"
-            },
-            {
-                "id_ambito": 13,
-                "id_coalicion": 0,
-                "id_partido_politico": 3,
-                "tipo_asociacion": "",
-                "partido_csp": "PAN",
-                "nombre_completo": "AMERICA ALEJANDRA RANGEL LORENZANA",
-                "id_participante": "1"
-            },
-            {
-                "id_ambito": 14,
-                "id_coalicion": 827,
-                "id_partido_politico": 3,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PAN, PRI, PRD",
-                "nombre_completo": "LUIS ALBERTO CHAVEZ GARCIA",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 12,
-                "id_coalicion": 0,
-                "id_partido_politico": 3,
-                "tipo_asociacion": "",
-                "partido_csp": "PAN",
-                "nombre_completo": "FRIDA JIMENA GUILLEN ORTIZ",
-                "id_participante": "1"
-            },
-            {
-                "id_ambito": 19,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "ANGEL NOE  MENDOZA  ARZATE ",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 28,
-                "id_coalicion": 1052,
-                "id_partido_politico": 3,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PAN, PRI, PRD",
-                "nombre_completo": "ANIBAL ALEXANDRO CA\u00d1EZ MORALES",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 3,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "LUISA FERNANDA LEDESMA ALPIZAR",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 26,
-                "id_coalicion": 0,
-                "id_partido_politico": 3,
-                "tipo_asociacion": "",
-                "partido_csp": "PAN",
-                "nombre_completo": "ANGEL  LICONA  BECERRA",
-                "id_participante": "1"
-            },
-            {
-                "id_ambito": 5,
-                "id_coalicion": 741,
-                "id_partido_politico": 3,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PAN, PRI, PRD",
-                "nombre_completo": "MARIA GABRIELA SALIDO MAGOS",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 30,
-                "id_coalicion": 0,
-                "id_partido_politico": 3,
-                "tipo_asociacion": "",
-                "partido_csp": "PAN",
-                "nombre_completo": "RICARDO RUBIO TORRES",
-                "id_participante": "1"
-            },
-            {
-                "id_ambito": 11,
-                "id_coalicion": 819,
-                "id_partido_politico": 3,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PAN, PRI, PRD",
-                "nombre_completo": "PEDRO DIAZ REBOLLAR",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 20,
-                "id_coalicion": 0,
-                "id_partido_politico": 3,
-                "tipo_asociacion": "",
-                "partido_csp": "PAN",
-                "nombre_completo": "CLAUDIA SUSANA  PEREZ ROMERO ",
-                "id_participante": "1"
-            },
-            {
-                "id_ambito": 21,
-                "id_coalicion": 0,
-                "id_partido_politico": 3,
-                "tipo_asociacion": "",
-                "partido_csp": "PAN",
-                "nombre_completo": "TERESA DE JESUS CISNEROS RABELL",
-                "id_participante": "1"
-            },
-            {
-                "id_ambito": 23,
-                "id_coalicion": 1025,
-                "id_partido_politico": 3,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PAN, PRI, PRD",
-                "nombre_completo": "CLAUDIA MONTES DE OCA DEL OLMO",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 20,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "EDMUNDO JOSEMARIA  CRUZ  COTERO ",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 23,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "LUCIA ALEJANDRA PUENTE GARCIA",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 32,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "MARINA COLON SALAZAR",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 17,
-                "id_coalicion": 0,
-                "id_partido_politico": 3,
-                "tipo_asociacion": "",
-                "partido_csp": "PAN",
-                "nombre_completo": "FEDERICO CHAVEZ SEMERENA",
-                "id_participante": "1"
-            },
-            {
-                "id_ambito": 4,
-                "id_coalicion": 710,
-                "id_partido_politico": 4,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PRI, PRD, PAN",
-                "nombre_completo": "ANGEL GUTIERREZ JAVIER",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 31,
-                "id_coalicion": 1064,
-                "id_partido_politico": 4,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PRI, PAN, PRD",
-                "nombre_completo": "EFREN SANCHEZ JIMENEZ",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 18,
-                "id_coalicion": 992,
-                "id_partido_politico": 3,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PAN, PRI, PRD",
-                "nombre_completo": "LIZZETTE SALGADO VIRAMONTES",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 3,
-                "id_coalicion": 690,
-                "id_partido_politico": 4,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PRI, PAN, PRD",
-                "nombre_completo": "CITLALI FERNANDA GONZALEZ CASE",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 7,
-                "id_coalicion": 775,
-                "id_partido_politico": 4,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PRI, PRD, PAN",
-                "nombre_completo": "MARIANA MOGUEL ROBLES",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 6,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "ALBERTO  CASTRO ARRONA ",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 12,
-                "id_coalicion": 0,
-                "id_partido_politico": 4,
-                "tipo_asociacion": "",
-                "partido_csp": "PRI",
-                "nombre_completo": "MAXTA IRAIS GONZALEZ CARRILLO",
-                "id_participante": "2"
-            },
-            {
-                "id_ambito": 30,
-                "id_coalicion": 0,
-                "id_partido_politico": 4,
-                "tipo_asociacion": "",
-                "partido_csp": "PRI",
-                "nombre_completo": "JHONATAN  COLMENARES RENTERIA",
-                "id_participante": "2"
-            },
-            {
-                "id_ambito": 17,
-                "id_coalicion": 0,
-                "id_partido_politico": 4,
-                "tipo_asociacion": "",
-                "partido_csp": "PRI",
-                "nombre_completo": "MONICA IRMA ARANA SORIANO",
-                "id_participante": "2"
-            },
-            {
-                "id_ambito": 33,
-                "id_coalicion": 1071,
-                "id_partido_politico": 4,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PRI, PAN, PRD",
-                "nombre_completo": "ERNESTO ALARCON JIMENEZ",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 9,
-                "id_coalicion": 807,
-                "id_partido_politico": 4,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PRI, PAN, PRD",
-                "nombre_completo": "ESTHER SILVIA SANCHEZ BARRIOS",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 27,
-                "id_coalicion": 1044,
-                "id_partido_politico": 3,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PAN, PRI, PRD",
-                "nombre_completo": "NURY DELIA RUIZ  OVANDO",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 13,
-                "id_coalicion": 0,
-                "id_partido_politico": 4,
-                "tipo_asociacion": "",
-                "partido_csp": "PRI",
-                "nombre_completo": "LAURA MERCEDES  CARRERA GARCIA",
-                "id_participante": "2"
-            },
-            {
-                "id_ambito": 29,
-                "id_coalicion": 1058,
-                "id_partido_politico": 3,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PAN, PRI, PRD",
-                "nombre_completo": "MARIA ALEJANDRA  REYES  SHIELDS",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 16,
-                "id_coalicion": 974,
-                "id_partido_politico": 4,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PRI, PAN, PRD",
-                "nombre_completo": "NAYELI  MATA SANCHEZ",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 26,
-                "id_coalicion": 0,
-                "id_partido_politico": 4,
-                "tipo_asociacion": "",
-                "partido_csp": "PRI",
-                "nombre_completo": "SARA MEJIA GIL",
-                "id_participante": "2"
-            },
-            {
-                "id_ambito": 1,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "ELDA ROSA  DUARTE  USCANGA ",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 21,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "SAMUEL CARRILLO AMEZCUA",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 4,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "CRISTIAN URIEL ROMERO GARCIA",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 22,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "ANA LETICIA  SOTO  REYES ",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 28,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "GUADALUPE  TORRES  QUEVEDO",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 8,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "ROBERTO ISAAC  GARCIA  MEJIA ",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 27,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "SONIA  OSORIO VAZQUEZ",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 10,
-                "id_coalicion": 815,
-                "id_partido_politico": 4,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PRI, PAN, PRD",
-                "nombre_completo": "CLAUDIA ELENA RAMOS LOPEZ",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 2,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "KAREN ANDREA GONZALEZ ZAYAS",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 16,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "PEDRO MARTIN GARCIA SILVA",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 30,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "SILVANA CARRANZA NAVARRO",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 26,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "PATRICIA URRIZA ARELLANO",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 9,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "ERICK MICHEL ANGELLO DIEP GOMEZ",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 10,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "LEONARDO CAMACHO AMEZCUA",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 15,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "OSCAR HERNANDEZ FRIAS",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 33,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "ARTURO GUILLEN GONZALEZ",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 15,
-                "id_coalicion": 837,
-                "id_partido_politico": 4,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PRI, PAN, PRD",
-                "nombre_completo": "MARCELINO CASTA\u00d1EDA NAVARRETE",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 20,
-                "id_coalicion": 0,
-                "id_partido_politico": 4,
-                "tipo_asociacion": "",
-                "partido_csp": "PRI",
-                "nombre_completo": "RAFAEL MONTIEL ZEPEDA",
-                "id_participante": "2"
-            },
-            {
-                "id_ambito": 21,
-                "id_coalicion": 0,
-                "id_partido_politico": 5,
-                "tipo_asociacion": "",
-                "partido_csp": "PRD",
-                "nombre_completo": "DAVID ELEAZAR QUIROGA ANGUIANO",
-                "id_participante": "3"
-            },
-            {
-                "id_ambito": 22,
-                "id_coalicion": 1019,
-                "id_partido_politico": 5,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PRD, PAN, PRI",
-                "nombre_completo": "VICTOR HUGO IBARRA CONEJO",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 5,
-                "id_coalicion": 1508,
-                "id_partido_politico": 6,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "MORENA, PVEM, PT",
-                "nombre_completo": "VICTOR HUGO ROMO DE VIVAR GUERRA",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 30,
-                "id_coalicion": 1539,
-                "id_partido_politico": 6,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "MORENA, PVEM, PT",
-                "nombre_completo": "PAULO EMILIO GARCIA GONZALEZ",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 26,
-                "id_coalicion": 1556,
-                "id_partido_politico": 9,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "PT, MORENA, PVEM",
-                "nombre_completo": "GERARDO VILLANUEVA ALBARRAN",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 8,
-                "id_coalicion": 1558,
-                "id_partido_politico": 6,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "MORENA, PVEM, PT",
-                "nombre_completo": "ADRIANA MARIA GUADALUPE ESPINOSA DE LOS MONTEROS GARCIA",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 25,
-                "id_coalicion": 0,
-                "id_partido_politico": 4,
-                "tipo_asociacion": "",
-                "partido_csp": "PRI",
-                "nombre_completo": "ANGELICA CENTENO RESENDIZ",
-                "id_participante": "2"
-            },
-            {
-                "id_ambito": 24,
-                "id_coalicion": 1033,
-                "id_partido_politico": 5,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PRD, PAN, PRI",
-                "nombre_completo": "GABRIELA QUIROGA ANGUIANO",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 18,
-                "id_coalicion": 1526,
-                "id_partido_politico": 6,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "MORENA, PVEM, PT",
-                "nombre_completo": "CAMILA MARTINEZ GUTIERREZ",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 13,
-                "id_coalicion": 1568,
-                "id_partido_politico": 6,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "MORENA, PVEM, PT",
-                "nombre_completo": "CECILIA VADILLO OBREGON",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 23,
-                "id_coalicion": 1549,
-                "id_partido_politico": 6,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "MORENA, PVEM, PT",
-                "nombre_completo": "FERNANDO  ZARATE  SALGADO ",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 7,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "ROSARIO ERICKA GOMEZ ROMERO",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 21,
-                "id_coalicion": 0,
-                "id_partido_politico": 4,
-                "tipo_asociacion": "",
-                "partido_csp": "PRI",
-                "nombre_completo": "XIMENA ALEJANDRA ESPINOSA  PEREZ",
-                "id_participante": "2"
-            },
-            {
-                "id_ambito": 14,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "NANCY NAVA VENEGAS",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 25,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "RIZEL PICCINI GARCINI",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 31,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "VICENTA HUERTA MARTINEZ",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 17,
-                "id_coalicion": 1521,
-                "id_partido_politico": 6,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "MORENA, PVEM, PT",
-                "nombre_completo": "JOSE PABLO HERNANDEZ GONZALEZ",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 13,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "LESLIE FERNANDA ROBLES RODRIGUEZ ",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 8,
-                "id_coalicion": 788,
-                "id_partido_politico": 5,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PRD, PAN, PRI",
-                "nombre_completo": "GRECIA SAMANTHA HERNANDEZ MARTINEZ",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 32,
-                "id_coalicion": 1067,
-                "id_partido_politico": 5,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PRD, PAN, PRI",
-                "nombre_completo": "POLIMNIA ROMANA SIERRA BARCENA",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 20,
-                "id_coalicion": 0,
-                "id_partido_politico": 5,
-                "tipo_asociacion": "",
-                "partido_csp": "PRD",
-                "nombre_completo": "NADIA ELIZABETH MACIAS LEONEL",
-                "id_participante": "3"
-            },
-            {
-                "id_ambito": 12,
-                "id_coalicion": 0,
-                "id_partido_politico": 5,
-                "tipo_asociacion": "",
-                "partido_csp": "PRD",
-                "nombre_completo": "RITA CECILIA CONTRERAS OCAMPO",
-                "id_participante": "3"
-            },
-            {
-                "id_ambito": 1,
-                "id_coalicion": 634,
-                "id_partido_politico": 5,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PRD, PRI, PAN",
-                "nombre_completo": "MARIA DEL CARMEN PACHECO  GAMI\u00d1O",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 26,
-                "id_coalicion": 0,
-                "id_partido_politico": 5,
-                "tipo_asociacion": "",
-                "partido_csp": "PRD",
-                "nombre_completo": "ARMANDO JIMENEZ HERNANDEZ",
-                "id_participante": "3"
-            },
-            {
-                "id_ambito": 13,
-                "id_coalicion": 0,
-                "id_partido_politico": 5,
-                "tipo_asociacion": "",
-                "partido_csp": "PRD",
-                "nombre_completo": "JUAN CARLOS ZAZUETA SEOANE",
-                "id_participante": "3"
-            },
-            {
-                "id_ambito": 6,
-                "id_coalicion": 760,
-                "id_partido_politico": 5,
-                "tipo_asociacion": "Coalici\u00f3n",
-                "partido_csp": "PRD, PAN, PRI",
-                "nombre_completo": "ISAIAS VILLA GONZALEZ",
-                "id_participante": "10"
-            },
-            {
-                "id_ambito": 30,
-                "id_coalicion": 0,
-                "id_partido_politico": 5,
-                "tipo_asociacion": "",
-                "partido_csp": "PRD",
-                "nombre_completo": "ERICK GIOVANNI ESPINOZA VARELA",
-                "id_participante": "3"
-            },
-            {
-                "id_ambito": 17,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "LUIS MANUEL LEON HERNANDEZ",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 12,
-                "id_coalicion": 1566,
-                "id_partido_politico": 6,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "MORENA, PVEM, PT",
-                "nombre_completo": "LEONOR GOMEZ OTEGUI",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 25,
-                "id_coalicion": 0,
-                "id_partido_politico": 5,
-                "tipo_asociacion": "",
-                "partido_csp": "PRD",
-                "nombre_completo": "ELIZABETH ARELI SANTANA ROSALES",
-                "id_participante": "3"
-            },
-            {
-                "id_ambito": 22,
-                "id_coalicion": 1547,
-                "id_partido_politico": 8,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "PVEM, MORENA, PT",
-                "nombre_completo": "JUAN ESTUARDO RUBIO GUALITO",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 28,
-                "id_coalicion": 1536,
-                "id_partido_politico": 9,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "PT, PVEM, MORENA",
-                "nombre_completo": "MARTHA SOLEDAD AVILA  VENTURA",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 20,
-                "id_coalicion": 1535,
-                "id_partido_politico": 6,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "MORENA, PVEM, PT",
-                "nombre_completo": "BRENDA FABIOLA RUIZ AGUILAR",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 11,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "ALEJANDRA ORTIZ PITALUA",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 17,
-                "id_coalicion": 0,
-                "id_partido_politico": 5,
-                "tipo_asociacion": "",
-                "partido_csp": "PRD",
-                "nombre_completo": "KILAUREN PAULINA COBOS LAZARO",
-                "id_participante": "3"
-            },
-            {
-                "id_ambito": 10,
-                "id_coalicion": 1562,
-                "id_partido_politico": 8,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "PVEM, MORENA, PT",
-                "nombre_completo": "ISRAEL MORENO RIVERA",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 12,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "ESTEBAN ALEJANDRO BARRALES MAGDALENO",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 32,
-                "id_coalicion": 1543,
-                "id_partido_politico": 9,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "PT, PVEM, MORENA",
-                "nombre_completo": "MARIA DEL ROSARIO MORALES RAMOS",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 21,
-                "id_coalicion": 1541,
-                "id_partido_politico": 8,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "PVEM, MORENA, PT",
-                "nombre_completo": "MANUEL TALAYERO PARIENTE",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 15,
-                "id_coalicion": 1512,
-                "id_partido_politico": 6,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "MORENA, PVEM, PT",
-                "nombre_completo": "PABLO TREJO PEREZ",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 24,
-                "id_coalicion": 1553,
-                "id_partido_politico": 8,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "PVEM, MORENA, PT",
-                "nombre_completo": "REBECA PERALTA  LEON",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 6,
-                "id_coalicion": 1510,
-                "id_partido_politico": 6,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "MORENA, PVEM, PT",
-                "nombre_completo": "YURIRI AYALA ZU\u00d1IGA",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 11,
-                "id_coalicion": 1564,
-                "id_partido_politico": 8,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "PVEM, MORENA, PT",
-                "nombre_completo": "ELVIA GUADALUPE ESTRADA BARBA",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 1,
-                "id_coalicion": 1500,
-                "id_partido_politico": 6,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "MORENA, PVEM, PT",
-                "nombre_completo": "ALBERTO  MARTINEZ URINCHO",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 25,
-                "id_coalicion": 1519,
-                "id_partido_politico": 9,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "PT, MORENA, PVEM",
-                "nombre_completo": "ERIKA LIZETH ROSALES MEDINA",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 7,
-                "id_coalicion": 0,
-                "id_partido_politico": 6,
-                "tipo_asociacion": "",
-                "partido_csp": "MORENA",
-                "nombre_completo": "JUDITH VANEGAS TAPIA",
-                "id_participante": "7"
-            },
-            {
-                "id_ambito": 29,
-                "id_coalicion": 0,
-                "id_partido_politico": 6,
-                "tipo_asociacion": "",
-                "partido_csp": "MORENA",
-                "nombre_completo": "MIGUEL ANGEL MACEDO ESCARTIN",
-                "id_participante": "7"
-            },
-            {
-                "id_ambito": 31,
-                "id_coalicion": 0,
-                "id_partido_politico": 6,
-                "tipo_asociacion": "",
-                "partido_csp": "MORENA",
-                "nombre_completo": "MIRIAM VALERIA CRUZ FLORES",
-                "id_participante": "7"
-            },
-            {
-                "id_ambito": 9,
-                "id_coalicion": 1560,
-                "id_partido_politico": 8,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "PVEM, MORENA, PT",
-                "nombre_completo": "ILIANA IVON SANCHEZ CHAVEZ",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 3,
-                "id_coalicion": 1551,
-                "id_partido_politico": 9,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "PT, MORENA, PVEM",
-                "nombre_completo": "ALEJANDRO CARBAJAL GONZALEZ",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 31,
-                "id_coalicion": 0,
-                "id_partido_politico": 8,
-                "tipo_asociacion": "",
-                "partido_csp": "PVEM",
-                "nombre_completo": "YOLANDA ALICIA LOPEZ MARTINEZ",
-                "id_participante": "4"
-            },
-            {
-                "id_ambito": 29,
-                "id_coalicion": 0,
-                "id_partido_politico": 8,
-                "tipo_asociacion": "",
-                "partido_csp": "PVEM",
-                "nombre_completo": "MARIBEL FLORES GARCIA",
-                "id_participante": "4"
-            },
-            {
-                "id_ambito": 14,
-                "id_coalicion": 0,
-                "id_partido_politico": 8,
-                "tipo_asociacion": "",
-                "partido_csp": "PVEM",
-                "nombre_completo": "LUCIA CHAVEZ ROMERO",
-                "id_participante": "4"
-            },
-            {
-                "id_ambito": 7,
-                "id_coalicion": 0,
-                "id_partido_politico": 8,
-                "tipo_asociacion": "",
-                "partido_csp": "PVEM",
-                "nombre_completo": "YOLANDA  GARCIA  ORTEGA",
-                "id_participante": "4"
-            },
-            {
-                "id_ambito": 19,
-                "id_coalicion": 1532,
-                "id_partido_politico": 6,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "MORENA, PVEM, PT",
-                "nombre_completo": "JUANA MARIA JUAREZ LOPEZ",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 14,
-                "id_coalicion": 0,
-                "id_partido_politico": 6,
-                "tipo_asociacion": "",
-                "partido_csp": "MORENA",
-                "nombre_completo": "XOCHITL BRAVO ESPINOSA",
-                "id_participante": "7"
-            },
-            {
-                "id_ambito": 27,
-                "id_coalicion": 1531,
-                "id_partido_politico": 8,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "PVEM, MORENA, PT",
-                "nombre_completo": "VICTOR GABRIEL  VARELA LOPEZ",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 31,
-                "id_coalicion": 0,
-                "id_partido_politico": 9,
-                "tipo_asociacion": "",
-                "partido_csp": "PT",
-                "nombre_completo": "MIRIAM SALDA\u00d1A CHAIREZ",
-                "id_participante": "5"
-            },
-            {
-                "id_ambito": 16,
-                "id_coalicion": 1514,
-                "id_partido_politico": 8,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "PVEM, MORENA, PT",
-                "nombre_completo": "PAULA ALEJANDRA PEREZ CORDOVA",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 33,
-                "id_coalicion": 1545,
-                "id_partido_politico": 6,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "MORENA, PVEM, PT",
-                "nombre_completo": "CESAR EMILIO GUIJOSA HERNANDEZ",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 24,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "NATALIA FERNANDA PERALTA FLORES",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 29,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "CAROL STEPHANY LUNA ALVARADO",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 18,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "MARIA DEL CARMEN SANTIAGO VASCONCELOS",
-                "id_participante": "6"
-            },
-            {
-                "id_ambito": 4,
-                "id_coalicion": 1506,
-                "id_partido_politico": 6,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "MORENA, PVEM, PT",
-                "nombre_completo": "ANA LUISA BUENDIA GARCIA",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 7,
-                "id_coalicion": 0,
-                "id_partido_politico": 9,
-                "tipo_asociacion": "",
-                "partido_csp": "PT",
-                "nombre_completo": "ISRAEL ROSEY BERMUDEZ",
-                "id_participante": "5"
-            },
-            {
-                "id_ambito": 14,
-                "id_coalicion": 0,
-                "id_partido_politico": 9,
-                "tipo_asociacion": "",
-                "partido_csp": "PT",
-                "nombre_completo": "MARIA JAZMIN RESENDIZ RAMIREZ",
-                "id_participante": "5"
-            },
-            {
-                "id_ambito": 29,
-                "id_coalicion": 0,
-                "id_partido_politico": 9,
-                "tipo_asociacion": "",
-                "partido_csp": "PT",
-                "nombre_completo": "JULIO MIRANDA VALERIANO",
-                "id_participante": "5"
-            },
-            {
-                "id_ambito": 2,
-                "id_coalicion": 1502,
-                "id_partido_politico": 9,
-                "tipo_asociacion": "Candidatura Com\u00fan",
-                "partido_csp": "PT, MORENA, PVEM",
-                "nombre_completo": "DIANA  BARRAGAN  SANCHEZ ",
-                "id_participante": "14"
-            },
-            {
-                "id_ambito": 5,
-                "id_coalicion": 0,
-                "id_partido_politico": 10,
-                "tipo_asociacion": "",
-                "partido_csp": "MC",
-                "nombre_completo": "JUAN ANTONIO SALINAS ALMAGUER",
-                "id_participante": "6"
-            }
-        ],
-        "fecha_hora_actualizado": "2024-05-31 15:52:11"
-    }
+  {
+    "type": 4,
+    "cargo_sirec": 2,
+    "candidatos": [
+      {
+        "id_ambito": 6,
+        "id_coalicion": 0,
+        "id_partido_politico": 2,
+        "tipo_asociacion": "",
+        "partido_csp": "CSP",
+        "nombre_completo": "JOSE RODOLFO  AVILA AYALA",
+        "id_participante": "9"
+      },
+      {
+        "id_ambito": 2,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "LUISA YANIRA ALPIZAR CASTELLANOS",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 4,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "VIRIDIANA PEREZ ROJAS",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 16,
+        "id_coalicion": 958,
+        "id_partido_politico": 4,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PRI, PAN, PRD",
+        "nombre_completo": "MAURICIO TABE ECHARTEA",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 10,
+        "id_coalicion": 1243,
+        "id_partido_politico": 3,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PAN, PRI, PRD",
+        "nombre_completo": "LIA LIMON  GARCIA",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 8,
+        "id_coalicion": 1152,
+        "id_partido_politico": 4,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PRI, PRD, PAN",
+        "nombre_completo": "LUIS GERARDO QUIJANO  MORALES",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 5,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "ARACELI GARCIA RICO",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 14,
+        "id_coalicion": 846,
+        "id_partido_politico": 3,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PAN, PRI, PRD",
+        "nombre_completo": "LUIS ALBERTO MENDOZA ACEVEDO  ",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 12,
+        "id_coalicion": 800,
+        "id_partido_politico": 3,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PAN, PRI, PRD",
+        "nombre_completo": "ALFA ELIANA GONZALEZ MAGALLANES",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 17,
+        "id_coalicion": 1007,
+        "id_partido_politico": 3,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PAN, PRI, PRD",
+        "nombre_completo": "ROCIO BARRERA BADILLO",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 13,
+        "id_coalicion": 908,
+        "id_partido_politico": 4,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PRI, PRD, PAN",
+        "nombre_completo": "GABRIEL DEL MONTE ROSALES",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 15,
+        "id_coalicion": 916,
+        "id_partido_politico": 4,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PRI, PAN, PRD",
+        "nombre_completo": "ALESSANDRA ROJO DE LA VEGA PICCOLO",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 6,
+        "id_coalicion": 1133,
+        "id_partido_politico": 3,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PAN, PRD, PRI",
+        "nombre_completo": "DANIEL ORDO\u00d1EZ HERNANDEZ",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 16,
+        "id_coalicion": 1327,
+        "id_partido_politico": 9,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "PT, MORENA, PVEM",
+        "nombre_completo": "MIGUEL TORRUCO GARZA",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 13,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "ADRIAN CHAVEZ ORTIZ",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 2,
+        "id_coalicion": 1084,
+        "id_partido_politico": 4,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PRI, PAN, PRD",
+        "nombre_completo": "MARGARITA SALDA\u00d1A  HERNANDEZ",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 7,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "ALEX IRAN PICHARDO  GARCIA",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 6,
+        "id_coalicion": 1571,
+        "id_partido_politico": 8,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "PVEM, MORENA, PT",
+        "nombre_completo": "MARIA DE LOURDES  PAZ REYES",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 3,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "SOFIA MARGARITA PROVENCIO O DONOGHUE",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 14,
+        "id_coalicion": 1265,
+        "id_partido_politico": 8,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "PVEM, MORENA, PT",
+        "nombre_completo": "LETICIA ESTHER VARELA MARTINEZ",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 11,
+        "id_coalicion": 0,
+        "id_partido_politico": 6,
+        "tipo_asociacion": "",
+        "partido_csp": "MORENA",
+        "nombre_completo": "ARACELI BERENICE HERNANDEZ CALDERON",
+        "id_participante": "7"
+      },
+      {
+        "id_ambito": 17,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "ZURISHADAY HERNANDEZ HERNANDEZ",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 12,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "MARINA AURORA MARTI MEZA",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 8,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "DANIELA NITZA GARDU\u00d1O ALVARADO",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 7,
+        "id_coalicion": 1262,
+        "id_partido_politico": 6,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "MORENA, PVEM, PT",
+        "nombre_completo": "ALEIDA ALAVEZ RUIZ",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 15,
+        "id_coalicion": 1323,
+        "id_partido_politico": 6,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "MORENA, PVEM, PT",
+        "nombre_completo": "ELDAA CATALINA MONREAL PEREZ",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 3,
+        "id_coalicion": 1344,
+        "id_partido_politico": 6,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "MORENA, PVEM, PT",
+        "nombre_completo": "HANNAH DE LAMADRID TELLEZ",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 12,
+        "id_coalicion": 1473,
+        "id_partido_politico": 9,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "PT, MORENA, PVEM",
+        "nombre_completo": "GABRIELA OSORIO HERNANDEZ",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 2,
+        "id_coalicion": 1318,
+        "id_partido_politico": 8,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "PVEM, MORENA, PT",
+        "nombre_completo": "NANCY MARLENE NU\u00d1EZ RESENDIZ",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 8,
+        "id_coalicion": 1586,
+        "id_partido_politico": 6,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "MORENA, PVEM, PT",
+        "nombre_completo": "JOSE FERNANDO MERCADO GUAIDA",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 10,
+        "id_coalicion": 1371,
+        "id_partido_politico": 6,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "MORENA, PVEM, PT",
+        "nombre_completo": "JAVIER JOAQUIN  LOPEZ  CASARIN ",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 15,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "HERMAN FERNANDO DOMINGUEZ LOZANO",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 9,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "MAGALI ALVARADO ALVAREZ",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 4,
+        "id_coalicion": 1259,
+        "id_partido_politico": 8,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "PVEM, MORENA, PT",
+        "nombre_completo": "GUSTAVO MENDOZA FIGUEROA",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 9,
+        "id_coalicion": 1258,
+        "id_partido_politico": 6,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "MORENA, PVEM, PT",
+        "nombre_completo": "JOSE OCTAVIO RIVERO VILLASE\u00d1OR",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 16,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "ANTONIO CARBIA GUTIERREZ",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 14,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "RODRIGO CORDERA THACKER",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 4,
+        "id_coalicion": 1126,
+        "id_partido_politico": 5,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PRD, PAN, PRI",
+        "nombre_completo": "CARLOS ORVA\u00d1ANOS REA",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 3,
+        "id_coalicion": 1147,
+        "id_partido_politico": 5,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PRD, PAN, PRI",
+        "nombre_completo": "JOSE GIOVANI GUTIERREZ AGUILAR",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 7,
+        "id_coalicion": 1144,
+        "id_partido_politico": 5,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PRD, PRI, PAN",
+        "nombre_completo": "KAREN QUIROGA ANGUIANO",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 17,
+        "id_coalicion": 1416,
+        "id_partido_politico": 6,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "MORENA, PVEM, PT",
+        "nombre_completo": "EVELYN PARRA ALVAREZ",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 9,
+        "id_coalicion": 615,
+        "id_partido_politico": 3,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PAN, PRI, PRD",
+        "nombre_completo": "JORGE ALVARADO GALICIA",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 5,
+        "id_coalicion": 1431,
+        "id_partido_politico": 6,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "MORENA, PT, PVEM",
+        "nombre_completo": "RICARDO JANECARLO LOZANO REYNOSO",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 13,
+        "id_coalicion": 1358,
+        "id_partido_politico": 9,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "PT, MORENA, PVEM",
+        "nombre_completo": "CIRCE CAMACHO BASTIDA",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 11,
+        "id_coalicion": 740,
+        "id_partido_politico": 4,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PRI, PAN, PRD",
+        "nombre_completo": "ANA KAREN YA\u00d1EZ CEDILLO",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 11,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "LESVIA GOMEZ MELGAR",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 11,
+        "id_coalicion": 0,
+        "id_partido_politico": 8,
+        "tipo_asociacion": "",
+        "partido_csp": "PVEM",
+        "nombre_completo": "MARIA GUADALUPE YESSENIA GARCIA AGUILAR",
+        "id_participante": "4"
+      },
+      {
+        "id_ambito": 5,
+        "id_coalicion": 991,
+        "id_partido_politico": 5,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PRD, PAN, PRI",
+        "nombre_completo": "MARICELA GASTELU USERRALDE",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 11,
+        "id_coalicion": 0,
+        "id_partido_politico": 9,
+        "tipo_asociacion": "",
+        "partido_csp": "PT",
+        "nombre_completo": "KARINA ALCALA LOERA",
+        "id_participante": "5"
+      },
+      {
+        "id_ambito": 6,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "JOSE DE JESUS SANCHEZ RUIZ",
+        "id_participante": "6"
+      }
+    ],
+    "fecha_hora_actualizado": "2024-05-31 15:51:38"
+  },
+  {
+    "type": 2,
+    "cargo_sirec": 7,
+    "candidatos": [
+      {
+        "id_ambito": 21,
+        "id_coalicion": 0,
+        "id_partido_politico": 2,
+        "tipo_asociacion": "",
+        "partido_csp": "CSP",
+        "nombre_completo": "EFRAIN  BAUTISTA MEJORADA",
+        "id_participante": "8"
+      },
+      {
+        "id_ambito": 2,
+        "id_coalicion": 659,
+        "id_partido_politico": 3,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PAN, PRI, PRD",
+        "nombre_completo": "DIEGO ORLANDO GARRIDO LOPEZ",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 19,
+        "id_coalicion": 1009,
+        "id_partido_politico": 3,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PAN, PRI, PRD",
+        "nombre_completo": "DANIELA GICELA ALVAREZ CAMACHO",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 25,
+        "id_coalicion": 0,
+        "id_partido_politico": 3,
+        "tipo_asociacion": "",
+        "partido_csp": "PAN",
+        "nombre_completo": "ALEJANDRO GUTIERREZ DE LA CRUZ",
+        "id_participante": "1"
+      },
+      {
+        "id_ambito": 13,
+        "id_coalicion": 0,
+        "id_partido_politico": 3,
+        "tipo_asociacion": "",
+        "partido_csp": "PAN",
+        "nombre_completo": "AMERICA ALEJANDRA RANGEL LORENZANA",
+        "id_participante": "1"
+      },
+      {
+        "id_ambito": 14,
+        "id_coalicion": 827,
+        "id_partido_politico": 3,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PAN, PRI, PRD",
+        "nombre_completo": "LUIS ALBERTO CHAVEZ GARCIA",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 12,
+        "id_coalicion": 0,
+        "id_partido_politico": 3,
+        "tipo_asociacion": "",
+        "partido_csp": "PAN",
+        "nombre_completo": "FRIDA JIMENA GUILLEN ORTIZ",
+        "id_participante": "1"
+      },
+      {
+        "id_ambito": 19,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "ANGEL NOE  MENDOZA  ARZATE ",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 28,
+        "id_coalicion": 1052,
+        "id_partido_politico": 3,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PAN, PRI, PRD",
+        "nombre_completo": "ANIBAL ALEXANDRO CA\u00d1EZ MORALES",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 3,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "LUISA FERNANDA LEDESMA ALPIZAR",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 26,
+        "id_coalicion": 0,
+        "id_partido_politico": 3,
+        "tipo_asociacion": "",
+        "partido_csp": "PAN",
+        "nombre_completo": "ANGEL  LICONA  BECERRA",
+        "id_participante": "1"
+      },
+      {
+        "id_ambito": 5,
+        "id_coalicion": 741,
+        "id_partido_politico": 3,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PAN, PRI, PRD",
+        "nombre_completo": "MARIA GABRIELA SALIDO MAGOS",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 30,
+        "id_coalicion": 0,
+        "id_partido_politico": 3,
+        "tipo_asociacion": "",
+        "partido_csp": "PAN",
+        "nombre_completo": "RICARDO RUBIO TORRES",
+        "id_participante": "1"
+      },
+      {
+        "id_ambito": 11,
+        "id_coalicion": 819,
+        "id_partido_politico": 3,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PAN, PRI, PRD",
+        "nombre_completo": "PEDRO DIAZ REBOLLAR",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 20,
+        "id_coalicion": 0,
+        "id_partido_politico": 3,
+        "tipo_asociacion": "",
+        "partido_csp": "PAN",
+        "nombre_completo": "CLAUDIA SUSANA  PEREZ ROMERO ",
+        "id_participante": "1"
+      },
+      {
+        "id_ambito": 21,
+        "id_coalicion": 0,
+        "id_partido_politico": 3,
+        "tipo_asociacion": "",
+        "partido_csp": "PAN",
+        "nombre_completo": "TERESA DE JESUS CISNEROS RABELL",
+        "id_participante": "1"
+      },
+      {
+        "id_ambito": 23,
+        "id_coalicion": 1025,
+        "id_partido_politico": 3,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PAN, PRI, PRD",
+        "nombre_completo": "CLAUDIA MONTES DE OCA DEL OLMO",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 20,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "EDMUNDO JOSEMARIA  CRUZ  COTERO ",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 23,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "LUCIA ALEJANDRA PUENTE GARCIA",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 32,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "MARINA COLON SALAZAR",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 17,
+        "id_coalicion": 0,
+        "id_partido_politico": 3,
+        "tipo_asociacion": "",
+        "partido_csp": "PAN",
+        "nombre_completo": "FEDERICO CHAVEZ SEMERENA",
+        "id_participante": "1"
+      },
+      {
+        "id_ambito": 4,
+        "id_coalicion": 710,
+        "id_partido_politico": 4,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PRI, PRD, PAN",
+        "nombre_completo": "ANGEL GUTIERREZ JAVIER",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 31,
+        "id_coalicion": 1064,
+        "id_partido_politico": 4,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PRI, PAN, PRD",
+        "nombre_completo": "EFREN SANCHEZ JIMENEZ",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 18,
+        "id_coalicion": 992,
+        "id_partido_politico": 3,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PAN, PRI, PRD",
+        "nombre_completo": "LIZZETTE SALGADO VIRAMONTES",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 3,
+        "id_coalicion": 690,
+        "id_partido_politico": 4,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PRI, PAN, PRD",
+        "nombre_completo": "CITLALI FERNANDA GONZALEZ CASE",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 7,
+        "id_coalicion": 775,
+        "id_partido_politico": 4,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PRI, PRD, PAN",
+        "nombre_completo": "MARIANA MOGUEL ROBLES",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 6,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "ALBERTO  CASTRO ARRONA ",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 12,
+        "id_coalicion": 0,
+        "id_partido_politico": 4,
+        "tipo_asociacion": "",
+        "partido_csp": "PRI",
+        "nombre_completo": "MAXTA IRAIS GONZALEZ CARRILLO",
+        "id_participante": "2"
+      },
+      {
+        "id_ambito": 30,
+        "id_coalicion": 0,
+        "id_partido_politico": 4,
+        "tipo_asociacion": "",
+        "partido_csp": "PRI",
+        "nombre_completo": "JHONATAN  COLMENARES RENTERIA",
+        "id_participante": "2"
+      },
+      {
+        "id_ambito": 17,
+        "id_coalicion": 0,
+        "id_partido_politico": 4,
+        "tipo_asociacion": "",
+        "partido_csp": "PRI",
+        "nombre_completo": "MONICA IRMA ARANA SORIANO",
+        "id_participante": "2"
+      },
+      {
+        "id_ambito": 33,
+        "id_coalicion": 1071,
+        "id_partido_politico": 4,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PRI, PAN, PRD",
+        "nombre_completo": "ERNESTO ALARCON JIMENEZ",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 9,
+        "id_coalicion": 807,
+        "id_partido_politico": 4,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PRI, PAN, PRD",
+        "nombre_completo": "ESTHER SILVIA SANCHEZ BARRIOS",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 27,
+        "id_coalicion": 1044,
+        "id_partido_politico": 3,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PAN, PRI, PRD",
+        "nombre_completo": "NURY DELIA RUIZ  OVANDO",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 13,
+        "id_coalicion": 0,
+        "id_partido_politico": 4,
+        "tipo_asociacion": "",
+        "partido_csp": "PRI",
+        "nombre_completo": "LAURA MERCEDES  CARRERA GARCIA",
+        "id_participante": "2"
+      },
+      {
+        "id_ambito": 29,
+        "id_coalicion": 1058,
+        "id_partido_politico": 3,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PAN, PRI, PRD",
+        "nombre_completo": "MARIA ALEJANDRA  REYES  SHIELDS",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 16,
+        "id_coalicion": 974,
+        "id_partido_politico": 4,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PRI, PAN, PRD",
+        "nombre_completo": "NAYELI  MATA SANCHEZ",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 26,
+        "id_coalicion": 0,
+        "id_partido_politico": 4,
+        "tipo_asociacion": "",
+        "partido_csp": "PRI",
+        "nombre_completo": "SARA MEJIA GIL",
+        "id_participante": "2"
+      },
+      {
+        "id_ambito": 1,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "ELDA ROSA  DUARTE  USCANGA ",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 21,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "SAMUEL CARRILLO AMEZCUA",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 4,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "CRISTIAN URIEL ROMERO GARCIA",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 22,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "ANA LETICIA  SOTO  REYES ",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 28,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "GUADALUPE  TORRES  QUEVEDO",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 8,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "ROBERTO ISAAC  GARCIA  MEJIA ",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 27,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "SONIA  OSORIO VAZQUEZ",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 10,
+        "id_coalicion": 815,
+        "id_partido_politico": 4,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PRI, PAN, PRD",
+        "nombre_completo": "CLAUDIA ELENA RAMOS LOPEZ",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 2,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "KAREN ANDREA GONZALEZ ZAYAS",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 16,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "PEDRO MARTIN GARCIA SILVA",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 30,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "SILVANA CARRANZA NAVARRO",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 26,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "PATRICIA URRIZA ARELLANO",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 9,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "ERICK MICHEL ANGELLO DIEP GOMEZ",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 10,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "LEONARDO CAMACHO AMEZCUA",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 15,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "OSCAR HERNANDEZ FRIAS",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 33,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "ARTURO GUILLEN GONZALEZ",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 15,
+        "id_coalicion": 837,
+        "id_partido_politico": 4,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PRI, PAN, PRD",
+        "nombre_completo": "MARCELINO CASTA\u00d1EDA NAVARRETE",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 20,
+        "id_coalicion": 0,
+        "id_partido_politico": 4,
+        "tipo_asociacion": "",
+        "partido_csp": "PRI",
+        "nombre_completo": "RAFAEL MONTIEL ZEPEDA",
+        "id_participante": "2"
+      },
+      {
+        "id_ambito": 21,
+        "id_coalicion": 0,
+        "id_partido_politico": 5,
+        "tipo_asociacion": "",
+        "partido_csp": "PRD",
+        "nombre_completo": "DAVID ELEAZAR QUIROGA ANGUIANO",
+        "id_participante": "3"
+      },
+      {
+        "id_ambito": 22,
+        "id_coalicion": 1019,
+        "id_partido_politico": 5,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PRD, PAN, PRI",
+        "nombre_completo": "VICTOR HUGO IBARRA CONEJO",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 5,
+        "id_coalicion": 1508,
+        "id_partido_politico": 6,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "MORENA, PVEM, PT",
+        "nombre_completo": "VICTOR HUGO ROMO DE VIVAR GUERRA",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 30,
+        "id_coalicion": 1539,
+        "id_partido_politico": 6,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "MORENA, PVEM, PT",
+        "nombre_completo": "PAULO EMILIO GARCIA GONZALEZ",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 26,
+        "id_coalicion": 1556,
+        "id_partido_politico": 9,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "PT, MORENA, PVEM",
+        "nombre_completo": "GERARDO VILLANUEVA ALBARRAN",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 8,
+        "id_coalicion": 1558,
+        "id_partido_politico": 6,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "MORENA, PVEM, PT",
+        "nombre_completo": "ADRIANA MARIA GUADALUPE ESPINOSA DE LOS MONTEROS GARCIA",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 25,
+        "id_coalicion": 0,
+        "id_partido_politico": 4,
+        "tipo_asociacion": "",
+        "partido_csp": "PRI",
+        "nombre_completo": "ANGELICA CENTENO RESENDIZ",
+        "id_participante": "2"
+      },
+      {
+        "id_ambito": 24,
+        "id_coalicion": 1033,
+        "id_partido_politico": 5,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PRD, PAN, PRI",
+        "nombre_completo": "GABRIELA QUIROGA ANGUIANO",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 18,
+        "id_coalicion": 1526,
+        "id_partido_politico": 6,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "MORENA, PVEM, PT",
+        "nombre_completo": "CAMILA MARTINEZ GUTIERREZ",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 13,
+        "id_coalicion": 1568,
+        "id_partido_politico": 6,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "MORENA, PVEM, PT",
+        "nombre_completo": "CECILIA VADILLO OBREGON",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 23,
+        "id_coalicion": 1549,
+        "id_partido_politico": 6,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "MORENA, PVEM, PT",
+        "nombre_completo": "FERNANDO  ZARATE  SALGADO ",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 7,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "ROSARIO ERICKA GOMEZ ROMERO",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 21,
+        "id_coalicion": 0,
+        "id_partido_politico": 4,
+        "tipo_asociacion": "",
+        "partido_csp": "PRI",
+        "nombre_completo": "XIMENA ALEJANDRA ESPINOSA  PEREZ",
+        "id_participante": "2"
+      },
+      {
+        "id_ambito": 14,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "NANCY NAVA VENEGAS",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 25,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "RIZEL PICCINI GARCINI",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 31,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "VICENTA HUERTA MARTINEZ",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 17,
+        "id_coalicion": 1521,
+        "id_partido_politico": 6,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "MORENA, PVEM, PT",
+        "nombre_completo": "JOSE PABLO HERNANDEZ GONZALEZ",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 13,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "LESLIE FERNANDA ROBLES RODRIGUEZ ",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 8,
+        "id_coalicion": 788,
+        "id_partido_politico": 5,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PRD, PAN, PRI",
+        "nombre_completo": "GRECIA SAMANTHA HERNANDEZ MARTINEZ",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 32,
+        "id_coalicion": 1067,
+        "id_partido_politico": 5,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PRD, PAN, PRI",
+        "nombre_completo": "POLIMNIA ROMANA SIERRA BARCENA",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 20,
+        "id_coalicion": 0,
+        "id_partido_politico": 5,
+        "tipo_asociacion": "",
+        "partido_csp": "PRD",
+        "nombre_completo": "NADIA ELIZABETH MACIAS LEONEL",
+        "id_participante": "3"
+      },
+      {
+        "id_ambito": 12,
+        "id_coalicion": 0,
+        "id_partido_politico": 5,
+        "tipo_asociacion": "",
+        "partido_csp": "PRD",
+        "nombre_completo": "RITA CECILIA CONTRERAS OCAMPO",
+        "id_participante": "3"
+      },
+      {
+        "id_ambito": 1,
+        "id_coalicion": 634,
+        "id_partido_politico": 5,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PRD, PRI, PAN",
+        "nombre_completo": "MARIA DEL CARMEN PACHECO  GAMI\u00d1O",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 26,
+        "id_coalicion": 0,
+        "id_partido_politico": 5,
+        "tipo_asociacion": "",
+        "partido_csp": "PRD",
+        "nombre_completo": "ARMANDO JIMENEZ HERNANDEZ",
+        "id_participante": "3"
+      },
+      {
+        "id_ambito": 13,
+        "id_coalicion": 0,
+        "id_partido_politico": 5,
+        "tipo_asociacion": "",
+        "partido_csp": "PRD",
+        "nombre_completo": "JUAN CARLOS ZAZUETA SEOANE",
+        "id_participante": "3"
+      },
+      {
+        "id_ambito": 6,
+        "id_coalicion": 760,
+        "id_partido_politico": 5,
+        "tipo_asociacion": "Coalici\u00f3n",
+        "partido_csp": "PRD, PAN, PRI",
+        "nombre_completo": "ISAIAS VILLA GONZALEZ",
+        "id_participante": "10"
+      },
+      {
+        "id_ambito": 30,
+        "id_coalicion": 0,
+        "id_partido_politico": 5,
+        "tipo_asociacion": "",
+        "partido_csp": "PRD",
+        "nombre_completo": "ERICK GIOVANNI ESPINOZA VARELA",
+        "id_participante": "3"
+      },
+      {
+        "id_ambito": 17,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "LUIS MANUEL LEON HERNANDEZ",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 12,
+        "id_coalicion": 1566,
+        "id_partido_politico": 6,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "MORENA, PVEM, PT",
+        "nombre_completo": "LEONOR GOMEZ OTEGUI",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 25,
+        "id_coalicion": 0,
+        "id_partido_politico": 5,
+        "tipo_asociacion": "",
+        "partido_csp": "PRD",
+        "nombre_completo": "ELIZABETH ARELI SANTANA ROSALES",
+        "id_participante": "3"
+      },
+      {
+        "id_ambito": 22,
+        "id_coalicion": 1547,
+        "id_partido_politico": 8,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "PVEM, MORENA, PT",
+        "nombre_completo": "JUAN ESTUARDO RUBIO GUALITO",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 28,
+        "id_coalicion": 1536,
+        "id_partido_politico": 9,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "PT, PVEM, MORENA",
+        "nombre_completo": "MARTHA SOLEDAD AVILA  VENTURA",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 20,
+        "id_coalicion": 1535,
+        "id_partido_politico": 6,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "MORENA, PVEM, PT",
+        "nombre_completo": "BRENDA FABIOLA RUIZ AGUILAR",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 11,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "ALEJANDRA ORTIZ PITALUA",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 17,
+        "id_coalicion": 0,
+        "id_partido_politico": 5,
+        "tipo_asociacion": "",
+        "partido_csp": "PRD",
+        "nombre_completo": "KILAUREN PAULINA COBOS LAZARO",
+        "id_participante": "3"
+      },
+      {
+        "id_ambito": 10,
+        "id_coalicion": 1562,
+        "id_partido_politico": 8,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "PVEM, MORENA, PT",
+        "nombre_completo": "ISRAEL MORENO RIVERA",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 12,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "ESTEBAN ALEJANDRO BARRALES MAGDALENO",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 32,
+        "id_coalicion": 1543,
+        "id_partido_politico": 9,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "PT, PVEM, MORENA",
+        "nombre_completo": "MARIA DEL ROSARIO MORALES RAMOS",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 21,
+        "id_coalicion": 1541,
+        "id_partido_politico": 8,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "PVEM, MORENA, PT",
+        "nombre_completo": "MANUEL TALAYERO PARIENTE",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 15,
+        "id_coalicion": 1512,
+        "id_partido_politico": 6,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "MORENA, PVEM, PT",
+        "nombre_completo": "PABLO TREJO PEREZ",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 24,
+        "id_coalicion": 1553,
+        "id_partido_politico": 8,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "PVEM, MORENA, PT",
+        "nombre_completo": "REBECA PERALTA  LEON",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 6,
+        "id_coalicion": 1510,
+        "id_partido_politico": 6,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "MORENA, PVEM, PT",
+        "nombre_completo": "YURIRI AYALA ZU\u00d1IGA",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 11,
+        "id_coalicion": 1564,
+        "id_partido_politico": 8,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "PVEM, MORENA, PT",
+        "nombre_completo": "ELVIA GUADALUPE ESTRADA BARBA",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 1,
+        "id_coalicion": 1500,
+        "id_partido_politico": 6,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "MORENA, PVEM, PT",
+        "nombre_completo": "ALBERTO  MARTINEZ URINCHO",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 25,
+        "id_coalicion": 1519,
+        "id_partido_politico": 9,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "PT, MORENA, PVEM",
+        "nombre_completo": "ERIKA LIZETH ROSALES MEDINA",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 7,
+        "id_coalicion": 0,
+        "id_partido_politico": 6,
+        "tipo_asociacion": "",
+        "partido_csp": "MORENA",
+        "nombre_completo": "JUDITH VANEGAS TAPIA",
+        "id_participante": "7"
+      },
+      {
+        "id_ambito": 29,
+        "id_coalicion": 0,
+        "id_partido_politico": 6,
+        "tipo_asociacion": "",
+        "partido_csp": "MORENA",
+        "nombre_completo": "MIGUEL ANGEL MACEDO ESCARTIN",
+        "id_participante": "7"
+      },
+      {
+        "id_ambito": 31,
+        "id_coalicion": 0,
+        "id_partido_politico": 6,
+        "tipo_asociacion": "",
+        "partido_csp": "MORENA",
+        "nombre_completo": "MIRIAM VALERIA CRUZ FLORES",
+        "id_participante": "7"
+      },
+      {
+        "id_ambito": 9,
+        "id_coalicion": 1560,
+        "id_partido_politico": 8,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "PVEM, MORENA, PT",
+        "nombre_completo": "ILIANA IVON SANCHEZ CHAVEZ",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 3,
+        "id_coalicion": 1551,
+        "id_partido_politico": 9,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "PT, MORENA, PVEM",
+        "nombre_completo": "ALEJANDRO CARBAJAL GONZALEZ",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 31,
+        "id_coalicion": 0,
+        "id_partido_politico": 8,
+        "tipo_asociacion": "",
+        "partido_csp": "PVEM",
+        "nombre_completo": "YOLANDA ALICIA LOPEZ MARTINEZ",
+        "id_participante": "4"
+      },
+      {
+        "id_ambito": 29,
+        "id_coalicion": 0,
+        "id_partido_politico": 8,
+        "tipo_asociacion": "",
+        "partido_csp": "PVEM",
+        "nombre_completo": "MARIBEL FLORES GARCIA",
+        "id_participante": "4"
+      },
+      {
+        "id_ambito": 14,
+        "id_coalicion": 0,
+        "id_partido_politico": 8,
+        "tipo_asociacion": "",
+        "partido_csp": "PVEM",
+        "nombre_completo": "LUCIA CHAVEZ ROMERO",
+        "id_participante": "4"
+      },
+      {
+        "id_ambito": 7,
+        "id_coalicion": 0,
+        "id_partido_politico": 8,
+        "tipo_asociacion": "",
+        "partido_csp": "PVEM",
+        "nombre_completo": "YOLANDA  GARCIA  ORTEGA",
+        "id_participante": "4"
+      },
+      {
+        "id_ambito": 19,
+        "id_coalicion": 1532,
+        "id_partido_politico": 6,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "MORENA, PVEM, PT",
+        "nombre_completo": "JUANA MARIA JUAREZ LOPEZ",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 14,
+        "id_coalicion": 0,
+        "id_partido_politico": 6,
+        "tipo_asociacion": "",
+        "partido_csp": "MORENA",
+        "nombre_completo": "XOCHITL BRAVO ESPINOSA",
+        "id_participante": "7"
+      },
+      {
+        "id_ambito": 27,
+        "id_coalicion": 1531,
+        "id_partido_politico": 8,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "PVEM, MORENA, PT",
+        "nombre_completo": "VICTOR GABRIEL  VARELA LOPEZ",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 31,
+        "id_coalicion": 0,
+        "id_partido_politico": 9,
+        "tipo_asociacion": "",
+        "partido_csp": "PT",
+        "nombre_completo": "MIRIAM SALDA\u00d1A CHAIREZ",
+        "id_participante": "5"
+      },
+      {
+        "id_ambito": 16,
+        "id_coalicion": 1514,
+        "id_partido_politico": 8,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "PVEM, MORENA, PT",
+        "nombre_completo": "PAULA ALEJANDRA PEREZ CORDOVA",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 33,
+        "id_coalicion": 1545,
+        "id_partido_politico": 6,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "MORENA, PVEM, PT",
+        "nombre_completo": "CESAR EMILIO GUIJOSA HERNANDEZ",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 24,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "NATALIA FERNANDA PERALTA FLORES",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 29,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "CAROL STEPHANY LUNA ALVARADO",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 18,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "MARIA DEL CARMEN SANTIAGO VASCONCELOS",
+        "id_participante": "6"
+      },
+      {
+        "id_ambito": 4,
+        "id_coalicion": 1506,
+        "id_partido_politico": 6,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "MORENA, PVEM, PT",
+        "nombre_completo": "ANA LUISA BUENDIA GARCIA",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 7,
+        "id_coalicion": 0,
+        "id_partido_politico": 9,
+        "tipo_asociacion": "",
+        "partido_csp": "PT",
+        "nombre_completo": "ISRAEL ROSEY BERMUDEZ",
+        "id_participante": "5"
+      },
+      {
+        "id_ambito": 14,
+        "id_coalicion": 0,
+        "id_partido_politico": 9,
+        "tipo_asociacion": "",
+        "partido_csp": "PT",
+        "nombre_completo": "MARIA JAZMIN RESENDIZ RAMIREZ",
+        "id_participante": "5"
+      },
+      {
+        "id_ambito": 29,
+        "id_coalicion": 0,
+        "id_partido_politico": 9,
+        "tipo_asociacion": "",
+        "partido_csp": "PT",
+        "nombre_completo": "JULIO MIRANDA VALERIANO",
+        "id_participante": "5"
+      },
+      {
+        "id_ambito": 2,
+        "id_coalicion": 1502,
+        "id_partido_politico": 9,
+        "tipo_asociacion": "Candidatura Com\u00fan",
+        "partido_csp": "PT, MORENA, PVEM",
+        "nombre_completo": "DIANA  BARRAGAN  SANCHEZ ",
+        "id_participante": "14"
+      },
+      {
+        "id_ambito": 5,
+        "id_coalicion": 0,
+        "id_partido_politico": 10,
+        "tipo_asociacion": "",
+        "partido_csp": "MC",
+        "nombre_completo": "JUAN ANTONIO SALINAS ALMAGUER",
+        "id_participante": "6"
+      }
+    ],
+    "fecha_hora_actualizado": "2024-05-31 15:52:11"
+  }
 ]
