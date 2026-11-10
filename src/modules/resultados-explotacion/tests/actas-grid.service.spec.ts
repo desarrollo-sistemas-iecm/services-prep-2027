@@ -3,6 +3,7 @@ import { createTestDataSource } from './helpers/test-data-source';
 import { ActasGridService } from '../services/actas-grid.service';
 import { PrepVotosEntity } from '../../resultados-legacy/entities/prep-votos.entity';
 import { DigActasPrepEntity } from '../../resultados-legacy/entities/dig-actas-prep.entity';
+import { ScdCasillasEntity } from '../../resultados-legacy/entities/scd-casillas.entity';
 import { TipoEleccion } from '../enums/tipo-eleccion.enum';
 
 // Fija el comportamiento con SOLO_ACTAS_VALIDADAS activo sin depender del valor
@@ -10,6 +11,14 @@ import { TipoEleccion } from '../enums/tipo-eleccion.enum';
 jest.mock('../utils/acta-validada.util', () => ({
   SOLO_ACTAS_VALIDADAS: true,
   condicionActaValidada: (columna: string) => `${columna} = 'T'`,
+}));
+
+// Simula un repositorio de imágenes configurado (la constante real aún está vacía).
+jest.mock('../utils/acta-digitalizada.util', () => ({
+  ...jest.requireActual<typeof import('../utils/acta-digitalizada.util')>(
+    '../utils/acta-digitalizada.util',
+  ),
+  URL_REPOSITORIO_ACTAS: 'https://actas.test',
 }));
 
 describe('ActasGridService', () => {
@@ -41,6 +50,8 @@ describe('ActasGridService', () => {
         votosCandNoReg: 1,
         votosNulos: 4,
         votacionTotal: 62,
+        totalVotaron: 70,
+        capturadoPor: 2,
       },
       // Especial validada pero no contabilizada, con inconsistencia.
       {
@@ -93,6 +104,17 @@ describe('ActasGridService', () => {
         validado: 'F',
         contabilizar: 'T',
         votacionTotal: 50,
+      },
+    ]);
+
+    await dataSource.getRepository(ScdCasillasEntity).save([
+      {
+        rowid: 1,
+        idDistrito: 5,
+        idDelegacion: 2,
+        idSeccion: 342,
+        tipoCasilla: 'S01',
+        listaNominal: 124,
       },
     ]);
 
@@ -158,6 +180,63 @@ describe('ActasGridService', () => {
     });
   });
 
+  it('should sort actas by seccion and tipo_casilla when no seccion is provided', async () => {
+    const { itemRecords } = await service.obtener({
+      type: TipoEleccion.REPRESENTACION_PROPORCIONAL,
+      columnasVotos,
+      participantes: [],
+      filtros: { geo: { columna: 'id_distrito', valor: 5 } },
+      idGeoValueFields: 5,
+    });
+
+    expect(
+      itemRecords.data.map(({ id_seccion, tipo_casilla }) => [
+        id_seccion,
+        tipo_casilla,
+      ]),
+    ).toEqual([
+      [342, 'B01'],
+      [342, 'S01'],
+    ]);
+  });
+
+  it('should compute participacion from votacion_total over lista nominal with four decimals', async () => {
+    const { itemRecords } = await service.obtener({
+      type: TipoEleccion.REPRESENTACION_PROPORCIONAL,
+      columnasVotos,
+      participantes: [],
+      filtros: {
+        prefijoTipoCasilla: 'S',
+        geo: { columna: 'id_distrito', valor: 5 },
+      },
+      idGeoValueFields: 5,
+    });
+
+    expect(itemRecords.participacion).toEqual([
+      expect.objectContaining({
+        tipo_casilla: 'S01',
+        votacion_total: 62,
+        lista_nominal: 124,
+        participacion: '50.0000',
+      }),
+    ]);
+  });
+
+  it('should return zero participacion when the casilla has no lista nominal', async () => {
+    const { itemRecords } = await service.obtener({
+      type: TipoEleccion.REPRESENTACION_PROPORCIONAL,
+      columnasVotos,
+      participantes: [],
+      filtros: {
+        prefijoTipoCasilla: 'S',
+        geo: { columna: 'id_distrito', valor: 26 },
+      },
+      idGeoValueFields: 26,
+    });
+
+    expect(itemRecords.participacion[0].participacion).toBe('0.0000');
+  });
+
   it('should only add contabilizar=T actas to resumen', async () => {
     const { itemRecords } = await service.obtener({
       type: TipoEleccion.REPRESENTACION_PROPORCIONAL,
@@ -200,6 +279,39 @@ describe('ActasGridService', () => {
       votos_part_2: 12,
       nombre_img: 'rp.jpg',
     });
+  });
+
+  it('should expose the acta image url and its origin when the acta has an image', async () => {
+    const { itemRecords } = await service.obtener({
+      type: TipoEleccion.REPRESENTACION_PROPORCIONAL,
+      columnasVotos,
+      participantes: [],
+      filtros: {
+        prefijoTipoCasilla: 'S',
+        geo: { columna: 'id_distrito', valor: 5 },
+      },
+      idGeoValueFields: 5,
+    });
+
+    expect(itemRecords.data[0]).toMatchObject({
+      url_acta: 'https://actas.test/5/rp.jpg',
+      origen_acta: 'escaner',
+    });
+  });
+
+  it('should leave url_acta empty when the acta has no image', async () => {
+    const { itemRecords } = await service.obtener({
+      type: TipoEleccion.REPRESENTACION_PROPORCIONAL,
+      columnasVotos,
+      participantes: [],
+      filtros: {
+        prefijoTipoCasilla: 'S',
+        geo: { columna: 'id_distrito', valor: 26 },
+      },
+      idGeoValueFields: 26,
+    });
+
+    expect(itemRecords.data[0].url_acta).toBeNull();
   });
 
   it('should return voto en el extranjero actas only for the requested type when filtering by prefix M', async () => {

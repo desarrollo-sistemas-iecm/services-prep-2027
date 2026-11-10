@@ -12,6 +12,8 @@ export interface OpcionCombo {
   name: number | string;
 }
 
+// TODO: Validar por qué salen distritos 0 y 34
+
 /**
  * Combos en cascada del sidebar (distrito/alcaldía → sección → tipo de
  * casilla). Migrados desde `api_categories.php` (catálogo hardcodeado en el
@@ -31,7 +33,7 @@ export class CombosService {
     @InjectRepository(ScdCasillasEntity, 'resultados')
     private readonly casillasRepo: Repository<ScdCasillasEntity>,
     private readonly catalogo: TipoEleccionCatalogoService,
-  ) {}
+  ) { }
 
   async primero(type: TipoEleccion): Promise<{ categories: OpcionCombo[] }> {
     if (this.catalogo.geoColumnCombo(type) === 'id_distrito') {
@@ -39,6 +41,7 @@ export class CombosService {
         .createQueryBuilder('d')
         .select('DISTINCT d.idDistrito', 'idDistrito')
         .where('d.idDistrito > 0')
+        .andWhere('d.idDistrito < 34')
         .orderBy('d.idDistrito', 'ASC')
         .getRawMany<{ idDistrito: number }>();
 

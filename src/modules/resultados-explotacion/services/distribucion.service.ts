@@ -5,7 +5,8 @@ import { ActasGridService } from './actas-grid.service';
 
 /**
  * Equivalente a `actas_grid_data.php` (docs/CONSULTAS_SQL_PREP2024.md §4),
- * filtrado únicamente por distrito/delegación + sección — `ApiPrepService
+ * filtrado por distrito/delegación y, si viene, por sección (`item_2`
+ * opcional en el PHP: sin ella regresa todo el distrito) — `ApiPrepService
  * .obtenederDetalleVotosCasilla` no envía `casilla` (item_3) en el body pese
  * a aceptarlo como parámetro, así que ese filtro no se replica aquí.
  *
@@ -19,7 +20,7 @@ export class DistribucionService {
     private readonly actasGrid: ActasGridService,
   ) {}
 
-  async obtener(type: TipoEleccion, seleccion: number, seccion: number) {
+  async obtener(type: TipoEleccion, seleccion: number, seccion?: number) {
     const candidatos = await this.catalogo.getCandidatos(type, seleccion);
     const participantes = await this.catalogo.getParticipantes(type, seleccion);
 

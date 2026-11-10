@@ -8,8 +8,17 @@ import {
   ParticipanteCatalogo,
 } from './tipo-eleccion-catalogo.service';
 import { calcularObservaciones } from '../utils/observaciones.util';
-import { formatearPorcentaje } from '../utils/porcentaje.util';
+import {
+  formatearPorcentaje,
+  porcentajeCuatroDecimales,
+} from '../utils/porcentaje.util';
 import { condicionActaValidada } from '../utils/acta-validada.util';
+import {
+  construirUrlActa,
+  OrigenActa,
+  origenActa,
+  URL_REPOSITORIO_ACTAS,
+} from '../utils/acta-digitalizada.util';
 
 const CAMPO_IMAGEN_POR_TIPO: Record<
   TipoEleccion,
@@ -73,8 +82,15 @@ interface FilaActa {
   [columna: string]: string | number | null;
 }
 
-/** Fila de `itemRecords.data`: la fila cruda más el texto de observaciones. */
-export type FilaActaGrid = FilaActa & { observaciones: string };
+/**
+ * Fila de `itemRecords.data`: la fila cruda más el texto de observaciones, la
+ * URL de la imagen del acta y su origen ("Imagen procedente de").
+ */
+export type FilaActaGrid = FilaActa & {
+  observaciones: string;
+  url_acta: string | null;
+  origen_acta: OrigenActa | null;
+};
 
 /**
  * SELECT de detalle de actas (docs/CONSULTAS_SQL_PREP2024.md §4.2), común a
@@ -149,7 +165,7 @@ export class ActasGridService {
         V.votos_cand_no_reg, V.votos_nulos, V.votacion_total, V.boletas_sob,
         V.ciudadanos_votaron, V.representantes_votaron, V.total_votaron,
         C.lista_nominal as lista_nominal, V.contabilizar, V.validado,
-        V.inconsistencia, V.excede_ln,
+        V.inconsistencia, V.excede_ln, V.capturado_por,
         D.${campoImgNombre} as nombre_img, D.${campoImgSha} as sha_img,
         V.ue_identificador_comprobante, V.ue_circunscripcion_federal, V.ue_id_casilla,
         V.ue_tipo_casilla, V.ue_id_ext_contigua, V.ue_tipo_documento, V.ue_personas_votaron,
@@ -162,22 +178,48 @@ export class ActasGridService {
       LEFT JOIN dig_actas_prep D
         ON V.id_distrito = D.id_distrito AND V.clave_mdc = D.acta
       WHERE ${condiciones.join(' AND ')}
+      ORDER BY V.id_seccion, V.tipo_casilla
     `;
 
     const filas = await this.votosRepo.query<FilaActa[]>(sql, parametros);
 
-    const data: FilaActaGrid[] = filas.map((fila) => ({
-      ...fila,
-      observaciones: calcularObservaciones(
-        fila.inconsistencia == null ? null : Number(fila.inconsistencia),
-        fila.excede_ln == null ? null : String(fila.excede_ln),
-      ),
-    }));
+    const data: FilaActaGrid[] = filas.map((fila) => {
+      const nombreImg =
+        fila.nombre_img == null ? null : String(fila.nombre_img);
+      return {
+        ...fila,
+        observaciones: calcularObservaciones(
+          fila.inconsistencia == null ? null : Number(fila.inconsistencia),
+          fila.excede_ln == null ? null : String(fila.excede_ln),
+        ),
+        url_acta: construirUrlActa(
+          URL_REPOSITORIO_ACTAS,
+          fila.id_distrito,
+          nombreImg,
+        ),
+        origen_acta: origenActa({
+          capturadoPor:
+            fila.capturado_por == null ? null : Number(fila.capturado_por),
+          tipoCasilla:
+            fila.tipo_casilla == null ? null : String(fila.tipo_casilla),
+          ueQr: fila.ue_qr == null ? null : String(fila.ue_qr),
+          nombreImg,
+          validado: fila.validado == null ? null : String(fila.validado),
+        }),
+      };
+    });
 
+    // Como `actas_grid_data.php`: votación total del acta sobre su lista
+    // nominal, 4 decimales y sin `%` (el front lo agrega).
+    // TODO: se listan todas las actas, contabilizadas o no (criterio PREP2024).
+    // PREP Coahuila 2026 muestra "Sin Acta" y 0.0000% en las no contabilizadas;
+    // reportarlo para confirmar el criterio vigente antes de exponer
+    // `contabilizar` aquí.
     const participacion = filas.map((fila) => {
       const tipoCasilla = String(fila.tipo_casilla ?? '');
       const totalVotaron = Number(fila.total_votaron ?? 0);
       const listaNominal = Number(fila.lista_nominal ?? 0);
+      const votacionTotal = Number(fila.votacion_total ?? 0);
       return {
         id_delegacion: fila.id_delegacion,
         id_distrito: fila.id_distrito,
@@ -187,8 +229,8 @@ export class ActasGridService {
         caracter_cas: this.caracterCasilla(tipoCasilla),
         total_votaron: totalVotaron,
         lista_nominal: listaNominal,
-        participacion: formatearPorcentaje(totalVotaron, listaNominal),
-        votacion_total: Number(fila.votacion_total ?? 0),
+        participacion: porcentajeCuatroDecimales(votacionTotal, listaNominal),
+        votacion_total: votacionTotal,
       };
     });
 
